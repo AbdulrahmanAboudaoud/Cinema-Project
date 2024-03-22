@@ -24,11 +24,15 @@ public class User
                 connection.Open();
 
                 // Execute SQL query to fetch data from users table.
-                string query = $"SELECT role FROM users WHERE user_name = '{username}' AND password = '{password}'";
+                string query = "SELECT role FROM users WHERE user_name = @username AND password = @password";
 
                 // Create a SqlCommand object.
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    // Add parameters to the query to prevent SQL injection.
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@password", password);
+
                     // Execute the query and obtain a SqlDataReader
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -55,6 +59,48 @@ public class User
                 Console.WriteLine("Error executing SQL query: " + ex.Message);
                 // Login failed due to error.
                 return (false, "");
+            }
+        }
+    }
+
+    public static bool CreateUser(string username, string password, string name, string email, string phoneNumber, string connectionString)
+    {
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            try
+            {
+                // Open the connection.
+                connection.Open();
+
+                // Execute SQL query to insert new user data into users table.
+                string query = "INSERT INTO users (user_name, password, name, email, phone_number, role) " +
+                               "VALUES (@username, @password, @name, @email, @phoneNumber, 'user')";
+
+                // Create a SqlCommand object.
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Add parameters to the query to prevent SQL injection.
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@password", password);
+                    command.Parameters.AddWithValue("@name", name);
+                    command.Parameters.AddWithValue("@email", email);
+                    command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+
+                    // Execute the query.
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    // Check if the user was successfully created.
+                    if (rowsAffected > 0)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error executing SQL query: " + ex.Message);
+                // User creation failed due to error.
+                return false;
             }
         }
     }
