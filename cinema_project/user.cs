@@ -102,6 +102,67 @@ public class User
                 // User creation failed due to error.
                 return false;
             }
+            finally
+            {
+                // Close the connection in the finally block.
+                connection.Close();
+            }
         }
     }
+
+    public static bool ChangeAccount(string NewInfo, int choice, string UserName, string connectionString)
+    {
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+
+                string query = "";
+                string parameterName = "";
+
+                switch (choice)
+                {
+                    case 1:
+                        query = "UPDATE users SET email = @NewInfo WHERE user_name = @UserName";
+                        parameterName = "@NewInfo";
+                        break;
+                    case 2:
+                        query = "UPDATE users SET phone_number = @NewInfo WHERE user_name = @UserName";
+                        parameterName = "@NewInfo";
+                        break;
+                    case 3:
+                        query = "UPDATE users SET name = @NewInfo WHERE user_name = @UserName";
+                        parameterName = "@NewInfo";
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice.");
+                        return false;
+                }
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue(parameterName, NewInfo);
+                    command.Parameters.AddWithValue("@UserName", UserName);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error executing SQL query: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+
+
 }
