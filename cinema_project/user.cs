@@ -137,6 +137,10 @@ public class User
                         query = "UPDATE users SET name = @NewInfo WHERE user_name = @UserName";
                         parameterName = "@NewInfo";
                         break;
+                    case 4:
+                        query = "UPDATE users SET password = @NewInfo WHERE user_name = @UserName";
+                        parameterName = "@NewInfo";
+                        break;
                     default:
                         Console.WriteLine("Invalid choice.");
                         return false;
