@@ -7,14 +7,15 @@ public class User
     public string Password;
     public string Role;
 
-    public User(string username, string password)
+    public User(string username, string password, string role)
     {
         Username = username;
         Password = password;
+        Role = role;
     }
 
     // Method to attempt login
-    public static (bool, string) Login(string username, string password, string connectionString)
+    public static User Login(string username, string password, string connectionString)
     {
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
@@ -43,13 +44,14 @@ public class User
                             reader.Read();
                             string role = reader.GetString(0);
 
+
                             // Login successful.
-                            return (true, role);
+                            return new User(username, password, role);
                         }
                         else
                         {
                             // Login failed.
-                            return (false, "");
+                            return null;
                         }
                     }
                 }
@@ -58,7 +60,7 @@ public class User
             {
                 Console.WriteLine("Error executing SQL query: " + ex.Message);
                 // Login failed due to error.
-                return (false, "");
+                return null;
             }
         }
     }

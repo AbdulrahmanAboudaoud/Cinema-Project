@@ -8,12 +8,13 @@ class Program
         string connectionString = "Data Source=localhost;Initial Catalog=cinema_db;User ID=sa;Password=123456;";
         bool exitRequested = false;
         bool isLoggedIn = false; // New variable to check if user is logged in or not.
+        User loggedInUser = null;
 
         while (!exitRequested)
         {
             // Main menu interface.
 
-            if (!isLoggedIn) // CCheck if user is logged in.
+            if (!isLoggedIn) // Check if user is logged in.
             {
                 Console.WriteLine("Welcome to the Cinema Application!");
                 Console.WriteLine("1. Login");
@@ -43,16 +44,17 @@ class Program
                         string password = Console.ReadLine();
 
                         // Attempt to log in.
-                        (bool loginResult, string role) = User.Login(username, password, connectionString);
+                        loggedInUser = User.Login(username, password, connectionString);
+                        isLoggedIn = loggedInUser != null;
 
-                        if (loginResult)
+                        if (isLoggedIn)
                         {
                             // Check user role.
-                            if (role == "admin")
+                            if (loggedInUser.Role == "admin")
                             {
                                 Console.WriteLine("Login successful as ADMIN!");
                             }
-                            else if (role == "user")
+                            else if (loggedInUser.Role == "user")
                             {
                                 Console.WriteLine("Login successful as Customer!");
                             }
@@ -73,8 +75,7 @@ class Program
                         //Because the user is already logged in.
                         bool ChangeAccountResult;
                         string NewInfo;
-                        Console.WriteLine("\nEnter your username");
-                        string UserName = Console.ReadLine();
+                        string UserName = loggedInUser.Username;
                         Console.WriteLine("\nWhich info would you like to change?");
                         Console.WriteLine("1. Email\n2. Phone\n3. Name");
                         int choice = Convert.ToInt32(Console.ReadLine());
@@ -169,42 +170,4 @@ class Program
         }
     }
 }
-
-
-/*static void Main(string[] args)
-{
-    // Connection string for SQL Server
-    string connectionString = "Data Source=localhost;Initial Catalog=cinema_db;User ID=sa;Password=123456;";
-
-    // Asking user for username and password.
-    Console.WriteLine("Enter username:");
-    string username = Console.ReadLine();
-
-    Console.WriteLine("Enter password:");
-    string password = Console.ReadLine();
-
-    // Attempt to log in.
-    (bool loginResult, string role) = User.Login(username, password, connectionString);
-
-    if (loginResult)
-    {
-        // Check user role.
-        if (role == "admin")
-        {
-            Console.WriteLine("Login successful as ADMIN!");
-        }
-        else if (role == "user")
-        {
-            Console.WriteLine("Login successful as Customer!");
-        }
-        else
-        {
-            Console.WriteLine("Login successful!");
-        }
-    }
-    else
-    {
-        Console.WriteLine("Login failed. Invalid username or password.");
-    }
-}*/
 
