@@ -5,7 +5,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        string connectionString = "Data Source=ABDULRAHMAN;Initial Catalog=cinema_project;User ID=sa;Password=q1w2e3r4t5;";
+        string connectionString = "Data Source=localhost;Initial Catalog=cinema_db;User ID=sa;Password=123456;";
         bool exitRequested = false;
         bool isLoggedIn = false;
         User loggedInUser = null;
