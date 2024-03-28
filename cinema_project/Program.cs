@@ -17,15 +17,17 @@ class Program
                 Console.WriteLine("Welcome to the Cinema Application!");
                 Console.WriteLine("1. Login");
                 Console.WriteLine("2. Create an Account");
+                Console.WriteLine("3. Exit\n");
             }
             else
             {
                 Console.WriteLine("1. Change account information");
                 Console.WriteLine("2. Delete account");
                 Console.WriteLine("3. Logout");
+                Console.WriteLine("4. Exit\n");
             }
 
-            Console.WriteLine("4. Exit\n");
+            
 
             Console.Write("Select an option: ");
             string option = Console.ReadLine();
