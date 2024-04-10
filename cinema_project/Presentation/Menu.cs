@@ -9,7 +9,22 @@
         string input = Console.ReadLine();
         if (input == "1")
         {
-            UserLogin.Start();
+            User loggedInUser = UserLogin.Start();
+            if (loggedInUser != null)
+            {
+                if (loggedInUser.Role == "admin")
+                {
+                    AdminMenu.Start();
+                }
+                else
+                {
+                    UserMenu.Start(ref loggedInUser);
+                }
+            }
+            else
+            {
+                Start(); // Restart the menu if login failed
+            }
         }
         else if (input == "2")
         {

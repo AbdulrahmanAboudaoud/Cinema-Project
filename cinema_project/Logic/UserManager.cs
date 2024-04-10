@@ -176,4 +176,39 @@ public static class UserManager
             }
         }
     }
+
+    public static List<User> GetAllUsers()
+    {
+        List<User> users = new List<User>();
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = "SELECT user_name, role FROM users";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string username = reader.GetString(0);
+                            string role = reader.GetString(1);
+
+                            // Create user object and add it to the list
+                            users.Add(new User(username, "", role));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error executing SQL query: " + ex.Message);
+            }
+        }
+
+        return users;
+    }
 }

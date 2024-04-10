@@ -10,7 +10,8 @@ static class UserMenu
         {
             Console.WriteLine("1. Change account information");
             Console.WriteLine("2. Delete account");
-            Console.WriteLine("3. Logout\n");
+            Console.WriteLine("3. View movies");
+            Console.WriteLine("4. Logout\n");
 
             Console.Write("Select an option: ");
             string option = Console.ReadLine();
@@ -29,6 +30,9 @@ static class UserMenu
                     }
                     break;
                 case "3":
+                    ViewMovies();
+                    break;
+                case "4":
                     Logout(ref loggedInUser);
                     exitRequested = true;
                     break;
@@ -57,6 +61,19 @@ static class UserMenu
         {
             Console.WriteLine($"Failed to update information.\n");
         }
+    }
+
+    private static void ViewMovies()
+    {
+        MovieManager movieManager = new MovieManager();
+        List<Movie> movies = movieManager.GetAllMovies();
+
+        Console.WriteLine("\nAvailable Movies:");
+        foreach (var movie in movies)
+        {
+            Console.WriteLine($"Title: {movie.Title}, Year: {movie.Year}, Genre: {movie.Genre}");
+        }
+        Console.WriteLine();
     }
 
     private static void Logout(ref User loggedInUser)
