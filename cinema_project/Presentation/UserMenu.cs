@@ -1,6 +1,6 @@
 ﻿// UserMenu.cs
 
-static class UserMenu
+public static class UserMenu
 {
     public static void Start(ref User loggedInUser)
     {
@@ -11,8 +11,8 @@ static class UserMenu
             Console.WriteLine("1. Change account information");
             Console.WriteLine("2. Delete account");
             Console.WriteLine("3. View movies");
-            Console.WriteLine("4. Logout\n");
-
+            Console.WriteLine("4. Catering Menu Information");
+            Console.WriteLine("5. Logout\n");
             Console.Write("Select an option: ");
             string option = Console.ReadLine();
 
@@ -33,6 +33,9 @@ static class UserMenu
                     ViewMovies();
                     break;
                 case "4":
+                    CateringMenu.StartMenu(ref loggedInUser);
+                    break;
+                case "5":
                     Logout(ref loggedInUser);
                     exitRequested = true;
                     break;
