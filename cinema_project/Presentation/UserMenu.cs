@@ -12,7 +12,8 @@ public static class UserMenu
             Console.WriteLine("2. Delete account");
             Console.WriteLine("3. View movies");
             Console.WriteLine("4. Catering Menu Information");
-            Console.WriteLine("5. Logout\n");
+            Console.WriteLine("5. Display Auditoriums");
+            Console.WriteLine("6. Logout\n");
             Console.Write("Select an option: ");
             string option = Console.ReadLine();
 
@@ -36,6 +37,9 @@ public static class UserMenu
                     CateringMenu.StartMenu(ref loggedInUser);
                     break;
                 case "5":
+                    AuditoriumsAccess.ShowAllAuditoriums();
+                    break;
+                case "6":
                     Logout(ref loggedInUser);
                     exitRequested = true;
                     break;
