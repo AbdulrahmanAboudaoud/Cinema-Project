@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 public static class CateringMenu
 {
-    private static readonly string filePath = "C://Users//wikto//OneDrive//Documents//GitHub//Cinema-Project//cinema_project//DataSources//cateringmenu.json";
+    private static readonly string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources//cateringmenu.json";
     public static string Product { get; set; } 
     public static string Category { get; set; }
     public static string Size { get; set; }
@@ -57,6 +57,7 @@ public static class CateringMenu
     }
     public static void ViewDrinks()
     {
+        Console.WriteLine();
         int num = 0;
         List<dynamic> drinks = LoadMenuFromJson(filePath);
         foreach(dynamic item in drinks)
@@ -80,6 +81,7 @@ public static class CateringMenu
     }
     public static void ViewFood()
     {
+        Console.WriteLine();
         int num = 0;
         List<dynamic> drinks = LoadMenuFromJson(filePath);
         foreach(dynamic item in drinks)
