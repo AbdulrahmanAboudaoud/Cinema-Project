@@ -119,5 +119,11 @@
         "category": "Drink",
         "size": "Large",
         "price" : 5.49
+    },
+    {
+        "product": "Marlboro Gold",
+        "category": "Abduls Speciality",
+        "size": "20 stuks",
+        "price" : 9999
     }
 ]
