@@ -5,7 +5,7 @@ using System.Linq;
 
 public class MovieManager
 {
-    private const string MoviesFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
+    private const string MoviesFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
 
     public List<Movie> GetAllMovies()
     {
@@ -79,5 +79,25 @@ public class MovieManager
         {
             Console.WriteLine("Movie not found.");
         }
+    }
+
+    public bool RemoveMovie(string TitleToRemove)
+    {
+        List<Movie> movies = GetAllMovies();
+
+        var movieToRemove = movies.FirstOrDefault(m => m.Title.Equals(TitleToRemove, StringComparison.OrdinalIgnoreCase));
+        if (movieToRemove != null)
+        {
+            movies.Remove(movieToRemove);
+            WriteMoviesToCSV(movies);
+            Console.WriteLine("Movie removed successfully");
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("Movie not found.");
+            return false;
+        }
+
     }
 }

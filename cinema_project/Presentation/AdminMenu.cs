@@ -11,8 +11,9 @@
             Console.WriteLine("1. View Movies");
             Console.WriteLine("2. Add Movie");
             Console.WriteLine("3. Edit Movie");
-            Console.WriteLine("4. View All Users");
-            Console.WriteLine("5. Logout");
+            Console.WriteLine("4. Remove Movie");
+            Console.WriteLine("5. View All Users");
+            Console.WriteLine("6. Logout");
 
             string input = Console.ReadLine();
             switch (input)
@@ -27,9 +28,12 @@
                     EditMovie();
                     break;
                 case "4":
-                    ViewAllUsers();
+                    RemoveMovie();
                     break;
                 case "5":
+                    ViewAllUsers();
+                    break;
+                case "6":
                     Logout();
                     logoutRequested = true;
                     break;
@@ -104,5 +108,21 @@
     {
         Console.WriteLine("Logging out...");
         Console.WriteLine("You have been logged out.");
+    }
+
+    static private void RemoveMovie()
+    {
+        Console.WriteLine("Enter the title of the movie you want to remove:");
+        string titleToRemove = Console.ReadLine();
+
+        bool removed = movieManager.RemoveMovie(titleToRemove);
+        if (removed)
+        {
+            Console.WriteLine($"Movie '{titleToRemove}' removed successfully.");
+        }
+        else
+        {
+            Console.WriteLine($"Failed to remove movie '{titleToRemove}'. Movie not found.");
+        }
     }
 }
