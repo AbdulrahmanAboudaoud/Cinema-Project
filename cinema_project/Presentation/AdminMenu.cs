@@ -13,7 +13,8 @@
             Console.WriteLine("3. Edit Movie");
             Console.WriteLine("4. Remove Movie");
             Console.WriteLine("5. View All Users");
-            Console.WriteLine("6. Logout");
+            Console.WriteLine("6. Rules");
+            Console.WriteLine("7. Logout");
 
             string input = Console.ReadLine();
             switch (input)
@@ -34,6 +35,9 @@
                     ViewAllUsers();
                     break;
                 case "6":
+                    Rules();
+                    break;
+                case "7":
                     Logout();
                     logoutRequested = true;
                     break;
@@ -42,6 +46,54 @@
                     break;
             }
         }
+    }
+
+    static private void Rules()
+    {
+        Console.WriteLine("1. View rules");
+        Console.WriteLine("2. Edit rules");
+        Console.WriteLine("3. Add rule");
+        Console.WriteLine("4. Remove rule");
+        string choice = Console.ReadLine().Trim();
+        switch (choice)
+        {
+            case "1":
+                RulesManager.ViewAllRules();
+                break;
+            case "2":
+                EditRules();
+                break;
+            case "3":
+                AddRule();
+                break;
+            case "4":
+                RemoveRule();
+                break;
+            default:
+                Console.WriteLine("Invalid input");
+                break;
+        }
+    }
+
+    static private void EditRules()
+    {
+        Console.WriteLine("Which rule would you like to edit? (Insert rule number)");
+        int RuleNumber = Convert.ToInt32(Console.ReadLine());
+        RulesManager.EditRules(RuleNumber);
+    }
+
+    static private void AddRule()
+    {
+        Console.WriteLine("Enter new rule:");
+        string NewRule = Console.ReadLine();
+        RulesManager.AddRule(NewRule);
+    }
+
+    static private void RemoveRule()
+    {
+        Console.WriteLine("Which rule would you like to remove? (Insert rule number)");
+        int RuleNumber = Convert.ToInt32(Console.ReadLine());
+        RulesManager.RemoveRule(RuleNumber);    
     }
 
     static private void ViewMovies()

@@ -4,7 +4,8 @@
     {
         Console.WriteLine("1. Login");
         Console.WriteLine("2. Create an Account");
-        Console.WriteLine("3. Exit");
+        Console.WriteLine("3. View Cinema Rules");
+        Console.WriteLine("4. Exit");
 
         string input = Console.ReadLine();
         if (input == "1")
@@ -31,6 +32,11 @@
             UserCreation.Start();
         }
         else if (input == "3")
+        {
+            //Rules method call
+            RulesManager.ViewAllRules();
+        }
+        else if (input == "4")
         {
             Environment.Exit(0);
         }
