@@ -1,0 +1,123 @@
+[
+    
+    {
+        "product": "Popcorn",
+        "category": "Food",
+        "size": "Small",
+        "price" : 3.99
+    },
+    {
+        "product": "Popcorn",
+        "category": "Food",
+        "size": "Medium",
+        "price" : 5.99
+    },
+    {
+        "product": "Popcorn",
+        "category": "Food",
+        "size": "Large",
+        "price" : 6.49
+    },
+    {
+        "product": "Sweet Popcorn",
+        "category": "Food",
+        "size": "Small",
+        "price" : 3.99
+    },
+    {
+        "product": "Sweet Popcorn",
+        "category": "Food",
+        "size": "Medium",
+        "price" : 5.99
+    },
+    {
+        "product": "Sweet Popcorn",
+        "category": "Food",
+        "size": "Large",
+        "price" : 6.49
+    },
+    {
+        "product": "Tortillas",
+        "category": "Food",
+        "size": "Small",
+        "price" : 3.49
+    },
+    {
+        "product": "Tortillas",
+        "category": "Food",
+        "size": "Medium",
+        "price" : 5.49
+    },
+    {
+        "product": "Tortillas",
+        "category": "Food",
+        "size": "Large",
+        "price" : 5.99
+    },
+    {
+        "product": "Slammer Energy",
+        "category": "Drink",
+        "size": "250ml",
+        "price" :2.00
+    },
+    {
+        "product": "Monster Energy",
+        "category": "Drink",
+        "size": "500ml",
+        "price" :3.00        
+    },
+    {
+        "product": "Coca-Cola",
+        "category": "Drink",
+        "size": "Small",
+        "price" : 2.99
+    },
+    {
+        "product": "Coca-Cola",
+        "category": "Drink",
+        "size": "Medium",
+        "price" : 4.99
+    },
+    {
+        "product": "Coca-Cola",
+        "category": "Drink",
+        "size": "Large",
+        "price" : 5.49
+    },
+    {
+        "product": "Fanta",
+        "category": "Drink",
+        "size": "Small",
+        "price" : 2.99
+    },
+    {
+        "product": "Fanta",
+        "category": "Drink",
+        "size": "Medium",
+        "price" : 4.99
+    },
+    {
+        "product": "Fanta",
+        "category": "Drink",
+        "size": "Large",
+        "price" : 5.49
+    },
+    {
+        "product": "Sprite",
+        "category": "Drink",
+        "size": "Small",
+        "price" : 2.99
+    },
+    {
+        "product": "Sprite",
+        "category": "Drink",
+        "size": "Medium",
+        "price" : 4.99
+    },
+    {
+        "product": "Sprite",
+        "category": "Drink",
+        "size": "Large",
+        "price" : 5.49
+    }
+]
