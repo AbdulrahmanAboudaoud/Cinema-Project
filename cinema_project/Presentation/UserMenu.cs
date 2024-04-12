@@ -40,8 +40,9 @@ public static class UserMenu
                     AuditoriumsAccess.ShowAllAuditoriums();
                     break;
                 case "6":
-                    Logout(ref loggedInUser);
                     exitRequested = true;
+                    Logout(ref loggedInUser);
+                    //exitRequested = true;
                     break;
                 default:
                     Console.WriteLine("Invalid option. Please select again.");

@@ -13,6 +13,7 @@
         if (loggedInUser != null)
         {
             Console.WriteLine($"Welcome {loggedInUser.Username}!");
+            UserMenu.Start(ref loggedInUser);
             return loggedInUser; // Return the logged-in user
         }
         else
