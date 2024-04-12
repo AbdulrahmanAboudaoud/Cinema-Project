@@ -1,4 +1,6 @@
-﻿static class AdminMenu
+﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+static class AdminMenu
 {
     static private MovieManager movieManager = new MovieManager();
 
@@ -175,6 +177,78 @@
         else
         {
             Console.WriteLine($"Failed to remove movie '{titleToRemove}'. Movie not found.");
+        }
+    }
+////-------------------------------------------------------------------------------------------------------------------------> Nieuwe methods
+    /// <summary>
+    /// Moet not getest worden
+    /// </summary>
+    static private void ViewCateringItems()
+    {
+        string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources//cateringmenu.json";
+        List<dynamic> cateringmenu = null!;
+        try
+        {
+            string json = File.ReadAllText(filePath);
+            cateringmenu = JsonConvert.DeserializeObject<List<dynamic>>(json);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while reading the menu from JSON file: {ex.Message}");
+        }
+        Console.WriteLine();
+        int num = 0;
+        foreach(dynamic item in cateringmenu)
+        {
+            JObject itemObject = item as JObject;
+            if (itemObject != null)
+            {
+                string Product = itemObject["product"].ToString();
+                string Category = itemObject["category"].ToString();
+                string Size = itemObject["size"].ToString();
+                double Price = Convert.ToDouble(itemObject["price"]);
+                Console.WriteLine($"{num}. Product: {Product} Category: {Category} Size: {Size} Price (in euro's): {Price}"); 
+            }       
+        }
+    }
+    /// <summary>
+    /// Moet nog getest worden
+    /// </summary>
+    static private void AddCateringItems() 
+    {
+        string product = Console.ReadLine();
+        string category = Console.ReadLine();
+        string size = Console.ReadLine();
+        double price = Convert.ToDouble(Console.ReadLine());
+        string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources//cateringmenu.json";
+        List<Dictionary<string, object>> productList = ReadJsonFile(filePath);
+        Dictionary<string, object> newitem = new Dictionary<string, object> {
+            {"product", product},
+            {"category", category},
+            {"size", size},
+            {"price", price},
+        };
+        productList.Add(newitem);
+        string json = JsonConvert.SerializeObject(productList, Formatting.Indented);
+        WriteJsonToFile(json, filePath);
+        Console.WriteLine("New product added successfully.");
+    }
+
+    static List<Dictionary<string, object>> ReadJsonFile(string filePath)
+    {
+        using (StreamReader file = File.OpenText(filePath))
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            List<Dictionary<string, object>> itemlist = (List<Dictionary<string, object>>)serializer.Deserialize(file, typeof(List<Dictionary<string, object>>));
+            return itemlist;
+        }
+    }
+
+    static void WriteJsonToFile(string json, string filePath)
+    {
+        using (StreamWriter file = File.CreateText(filePath))
+        {
+            file.Write(json);
         }
     }
 }
