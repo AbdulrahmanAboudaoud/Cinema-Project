@@ -18,7 +18,7 @@ static class AdminMenu
             Console.WriteLine("6. Rules");
             Console.WriteLine("7. Logout");
 
-            string input = Console.ReadLine();
+            string input = Console.ReadLine()!;
             switch (input)
             {
                 case "1":
@@ -41,6 +41,7 @@ static class AdminMenu
                     break;
                 case "7":
                     Logout();
+                    Menu.Start();
                     logoutRequested = true;
                     break;
                 default:
@@ -185,7 +186,7 @@ static class AdminMenu
     /// </summary>
     static private void ViewCateringItems()
     {
-        string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources//cateringmenu.json";
+        string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
         List<dynamic> cateringmenu = null!;
         try
         {
@@ -220,7 +221,7 @@ static class AdminMenu
         string category = Console.ReadLine();
         string size = Console.ReadLine();
         double price = Convert.ToDouble(Console.ReadLine());
-        string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources//cateringmenu.json";
+        string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
         List<Dictionary<string, object>> productList = ReadJsonFile(filePath);
         Dictionary<string, object> newitem = new Dictionary<string, object> {
             {"product", product},
