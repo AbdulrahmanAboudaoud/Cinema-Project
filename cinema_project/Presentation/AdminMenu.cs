@@ -10,13 +10,57 @@ static class AdminMenu
 
         while (!logoutRequested)
         {
-            Console.WriteLine("1. View Movies");
+            Console.WriteLine();
+            Console.WriteLine("1. Movies");
+            Console.WriteLine("2. View All Users");
+            Console.WriteLine("3. Rules");
+            Console.WriteLine("4. Search And Filter Movies");
+            Console.WriteLine("5. Logout\n");
+
+            string input = Console.ReadLine()!;
+            switch (input)
+            {
+                case "1":
+                    MoviesInterface(); // Redirect to the movies interface
+                    break;
+                case "2":
+                    ViewAllUsers();
+                    break;
+                case "3":
+                    Rules();
+                    break;
+                case "4":
+                    SearchMovies();
+                    break;
+                case "5":
+                    Logout();
+                    Menu.Start();
+                    logoutRequested = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid input");
+                    break;
+            }
+        }
+    }
+
+    private static void SearchMovies()
+    {
+        SearchManager.SearchMovies();
+    }
+
+    static private void MoviesInterface()
+    {
+        bool exitRequested = false;
+
+        while (!exitRequested)
+        {
+            Console.WriteLine();
+            Console.WriteLine("1. View All Movies");
             Console.WriteLine("2. Add Movie");
             Console.WriteLine("3. Edit Movie");
             Console.WriteLine("4. Remove Movie");
-            Console.WriteLine("5. View All Users");
-            Console.WriteLine("6. Rules");
-            Console.WriteLine("7. Logout");
+            Console.WriteLine("5. Back to Main Menu\n");
 
             string input = Console.ReadLine()!;
             switch (input)
@@ -34,15 +78,8 @@ static class AdminMenu
                     RemoveMovie();
                     break;
                 case "5":
-                    ViewAllUsers();
-                    break;
-                case "6":
-                    Rules();
-                    break;
-                case "7":
-                    Logout();
-                    Menu.Start();
-                    logoutRequested = true;
+                    //AdminMenu.Start();
+                    exitRequested = true;
                     break;
                 default:
                     Console.WriteLine("Invalid input");

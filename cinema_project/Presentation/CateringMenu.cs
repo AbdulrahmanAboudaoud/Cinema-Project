@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 public static class CateringMenu
 {
-    private static readonly string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources//cateringmenu.json";
+    private static readonly string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
     public static string Product { get; set; } 
     public static string Category { get; set; }
     public static string Size { get; set; }
@@ -32,9 +32,10 @@ public static class CateringMenu
         bool browsemenu = false;
         while (!browsemenu)
         {
+            Console.WriteLine();
             Console.WriteLine("1. Browse Food");
             Console.WriteLine("2. Browse Drinks");
-            Console.WriteLine("3. Go back to user menu");
+            Console.WriteLine("3. Go back to user menu\n");
             string userinput = Console.ReadLine();
             switch (userinput)
             {

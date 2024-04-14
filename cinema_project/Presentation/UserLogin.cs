@@ -9,18 +9,6 @@
         string password = Console.ReadLine();
 
 
-        /*User loggedInUser = UserManager.Login(username, password);
-        if (loggedInUser != null)
-        {
-            Console.WriteLine($"Welcome {loggedInUser.Username}!");
-            UserMenu.Start(ref loggedInUser);
-            return loggedInUser; // Return the logged-in user
-        }
-        else
-        {
-            Console.WriteLine("Login failed. Invalid username or password.");
-            return null!; // Return null if login failed
-        }*/
 
         User loggedInUser = UserManager.Login(username, password);
         if (loggedInUser != null)

@@ -8,12 +8,14 @@ public static class UserMenu
 
         while (!exitRequested)
         {
-            Console.WriteLine("1. Change account information");
-            Console.WriteLine("2. Delete account");
-            Console.WriteLine("3. View movies");
+            Console.WriteLine();
+            Console.WriteLine("1. Change Account Information");
+            Console.WriteLine("2. Delete Account");
+            Console.WriteLine("3. View All Movies");
             Console.WriteLine("4. Catering Menu Information");
             Console.WriteLine("5. Display Auditoriums");
-            Console.WriteLine("6. Logout\n");
+            Console.WriteLine("6. Search And Filter Movies");
+            Console.WriteLine("7. Logout\n");
             Console.Write("Select an option: ");
             string option = Console.ReadLine();
 
@@ -40,6 +42,9 @@ public static class UserMenu
                     AuditoriumsAccess.ShowAllAuditoriums();
                     break;
                 case "6":
+                    SearchMovies();
+                    break;
+                case "7":
                     exitRequested = true;
                     Logout(ref loggedInUser);
                     //exitRequested = true;
@@ -49,6 +54,11 @@ public static class UserMenu
                     break;
             }
         }
+    }
+
+    private static void SearchMovies()
+    {
+        SearchManager.SearchMovies();
     }
 
     private static void UpdateAccount(User loggedInUser)

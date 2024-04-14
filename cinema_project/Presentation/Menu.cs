@@ -5,7 +5,7 @@
         Console.WriteLine("1. Login");
         Console.WriteLine("2. Create an Account");
         Console.WriteLine("3. View Cinema Rules");
-        Console.WriteLine("4. Exit");
+        Console.WriteLine("4. Exit\n");
 
         string input = Console.ReadLine();
         if (input == "1")
