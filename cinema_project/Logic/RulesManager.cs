@@ -1,6 +1,6 @@
 ﻿public static class RulesManager
 {
-    private const string RulesCSVFile = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\cinemarules.csv";
+    private const string RulesCSVFile = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cinemarules.csv";
     public static List<string> ReadRulesFromCSV(string RulesCSVFile)
     {
         List<string> rules = new List<string>();
@@ -65,6 +65,7 @@
     {
         List<string> Rules = new List<string>();
         Rules = ReadRulesFromCSV(RulesCSVFile);
+        Console.WriteLine("Insert the new version of rule:");
         string NewRule = Console.ReadLine();
         if (NewRule != null)
         {
