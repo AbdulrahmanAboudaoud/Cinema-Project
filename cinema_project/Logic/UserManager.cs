@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 public static class UserManager
 {
@@ -210,5 +211,19 @@ public static class UserManager
         }
 
         return users;
+    }
+
+    // Method to validate email format.
+    public static bool IsValidEmail(string email)
+    {
+        string pattern = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
+        return Regex.IsMatch(email, pattern);
+    }
+
+    // Method to validate phone number.
+    public static bool IsValidPhoneNumber(string phoneNumber)
+    {
+        string pattern = @"^\d{10}$";
+        return Regex.IsMatch(phoneNumber, pattern);
     }
 }

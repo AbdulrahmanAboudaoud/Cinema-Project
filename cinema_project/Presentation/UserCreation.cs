@@ -1,4 +1,4 @@
-static class UserCreation
+public static class UserCreation
 {
     public static void Start()
     {
@@ -12,11 +12,27 @@ static class UserCreation
         Console.WriteLine("Enter name:");
         string name = Console.ReadLine();
 
-        Console.WriteLine("Enter email:");
-        string email = Console.ReadLine();
+        string email;
+        do
+        {
+            Console.WriteLine("Enter email:");
+            email = Console.ReadLine();
+            if (!UserManager.IsValidEmail(email))
+            {
+                Console.WriteLine("Invalid email format. Please enter a valid email address.");
+            }
+        } while (!UserManager.IsValidEmail(email));
 
-        Console.WriteLine("Enter phone number:");
-        string phoneNumber = Console.ReadLine();
+        string phoneNumber;
+        do
+        {
+            Console.WriteLine("Enter phone number:");
+            phoneNumber = Console.ReadLine();
+            if (!UserManager.IsValidPhoneNumber(phoneNumber))
+            {
+                Console.WriteLine("Invalid phone number format. Please enter a valid phone number.");
+            }
+        } while (!UserManager.IsValidPhoneNumber(phoneNumber));
 
         bool creationResult = UserManager.CreateUser(newUsername, newPassword, name, email, phoneNumber);
 
