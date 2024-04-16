@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 static class AdminMenu
 {
     static private MovieManager movieManager = new MovieManager();
-
     static public void Start()
     {
         bool logoutRequested = false;
@@ -15,8 +14,8 @@ static class AdminMenu
             Console.WriteLine("2. View All Users");
             Console.WriteLine("3. Rules");
             Console.WriteLine("4. Search And Filter Movies");
-            Console.WriteLine("5. Logout\n");
-
+            Console.WriteLine("5. Edit Catering Menu");
+            Console.WriteLine("6. Logout\n");
             string input = Console.ReadLine()!;
             switch (input)
             {
@@ -33,6 +32,9 @@ static class AdminMenu
                     SearchMovies();
                     break;
                 case "5":
+                    cateringeditmenu();
+                    break;
+                case "6":
                     Logout();
                     Menu.Start();
                     logoutRequested = true;
@@ -217,76 +219,68 @@ static class AdminMenu
             Console.WriteLine($"Failed to remove movie '{titleToRemove}'. Movie not found.");
         }
     }
-////-------------------------------------------------------------------------------------------------------------------------> Nieuwe methods
-    /// <summary>
-    /// Moet not getest worden
-    /// </summary>
-    static private void ViewCateringItems()
+    private static void cateringeditmenu()
     {
-        string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
-        List<dynamic> cateringmenu = null!;
-        try
-        {
-            string json = File.ReadAllText(filePath);
-            cateringmenu = JsonConvert.DeserializeObject<List<dynamic>>(json);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred while reading the menu from JSON file: {ex.Message}");
-        }
-        Console.WriteLine();
-        int num = 0;
-        foreach(dynamic item in cateringmenu)
-        {
-            JObject itemObject = item as JObject;
-            if (itemObject != null)
+        Console.WriteLine("1. Add Items");
+        Console.WriteLine("2. View Items");
+        Console.WriteLine("3. Edit Items");
+        Console.WriteLine("4. Remove Items");
+        Console.WriteLine("5. Cancel");
+        bool exitmenu = false;
+        string? cateringchoice = Console.ReadLine();
+        while(!exitmenu)
+            switch ( cateringchoice )
             {
-                string Product = itemObject["product"].ToString();
-                string Category = itemObject["category"].ToString();
-                string Size = itemObject["size"].ToString();
-                double Price = Convert.ToDouble(itemObject["price"]);
-                Console.WriteLine($"{num}. Product: {Product} Category: {Category} Size: {Size} Price (in euro's): {Price}"); 
-            }       
-        }
-    }
-    /// <summary>
-    /// Moet nog getest worden
-    /// </summary>
-    static private void AddCateringItems() 
-    {
-        string product = Console.ReadLine();
-        string category = Console.ReadLine();
-        string size = Console.ReadLine();
-        double price = Convert.ToDouble(Console.ReadLine());
-        string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
-        List<Dictionary<string, object>> productList = ReadJsonFile(filePath);
-        Dictionary<string, object> newitem = new Dictionary<string, object> {
-            {"product", product},
-            {"category", category},
-            {"size", size},
-            {"price", price},
-        };
-        productList.Add(newitem);
-        string json = JsonConvert.SerializeObject(productList, Formatting.Indented);
-        WriteJsonToFile(json, filePath);
-        Console.WriteLine("New product added successfully.");
-    }
-
-    static List<Dictionary<string, object>> ReadJsonFile(string filePath)
-    {
-        using (StreamReader file = File.OpenText(filePath))
-        {
-            JsonSerializer serializer = new JsonSerializer();
-            List<Dictionary<string, object>> itemlist = (List<Dictionary<string, object>>)serializer.Deserialize(file, typeof(List<Dictionary<string, object>>));
-            return itemlist;
-        }
-    }
-
-    static void WriteJsonToFile(string json, string filePath)
-    {
-        using (StreamWriter file = File.CreateText(filePath))
-        {
-            file.Write(json);
-        }
+                case "1":
+                string productcatstring = null;
+                bool correctinput = false;
+                Console.WriteLine("Product name?");
+                string productname = Console.ReadLine();
+                Console.WriteLine("Food Category? (F or D)");
+                char productcat = Console.ReadKey().KeyChar;
+                Console.WriteLine("Size?");
+                string size = Console.ReadLine();
+                Console.WriteLine("Price?");
+                double price = Convert.ToDouble(Console.ReadLine());
+                while (!correctinput)
+                {
+                    if (productcat == 'f' || productcat == 'F')
+                    {
+                        productcatstring = "Food";
+                        correctinput = true;
+                    }
+                    else if (productcat == 'd' || productcat == 'D')
+                    {
+                        productcatstring = "Drink";
+                        correctinput = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input");
+                        productcat = Console.ReadKey().KeyChar;
+                    }
+                } 
+                Dictionary<string, object> newItem = new Dictionary<string, object>
+                {
+                    { "product", productname },
+                    { "category", productcatstring },
+                    { "size", size },
+                    { "price", price },
+                };
+                AdminCateringMenu.AddMenuItem(newItem);     
+                break;
+                case "2":
+                string filePath = "C:/Users/wikto/OneDrive/Documents/GitHub/Cinema-Project/cinema_project/DataSources/cateringmenu.json";
+                UserCateringMenu.ViewItems("all",filePath);
+                exitmenu = true;
+                break;
+                case "3":
+                break;
+                case "4":
+                break;
+                case "5":
+                exitmenu = true;
+                break;
+            }
     }
 }

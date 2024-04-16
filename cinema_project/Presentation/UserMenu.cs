@@ -9,6 +9,7 @@ public static class UserMenu
         while (!exitRequested)
         {
             Console.WriteLine();
+            TextArt.welcomescreen();
             Console.WriteLine("1. Change Account Information");
             Console.WriteLine("2. Delete Account");
             Console.WriteLine("3. View All Movies");
