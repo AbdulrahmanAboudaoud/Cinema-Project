@@ -268,7 +268,8 @@ static class AdminMenu
                     { "size", size },
                     { "price", price },
                 };
-                AdminCateringMenu.AddMenuItem(newItem);     
+                AdminCateringMenu.AddMenuItem(newItem);  
+                exitmenu = true;
                 break;
                 case "2":
                 UserCateringMenu.ViewItems("all",cateringfilePath);
