@@ -64,15 +64,15 @@ public static class AuditoriumsAccess
             Console.ForegroundColor = ConsoleColor.Gray;
             if (auditorium.name == "Auditorium 1")
             {
-                Console.WriteLine(new string(' ', 18) + "[ SCREEN ]");
+                Console.WriteLine(new string(' ', 24) + "[ SCREEN ]");
             }
             else if (auditorium.name == "Auditorium 3")
             {
-                Console.WriteLine(new string(' ', 58) + "[ SCREEN ]");
+                Console.WriteLine(new string(' ', 76) + "[ SCREEN ]");
             }
             else
             {
-                Console.WriteLine(new string(' ', 32) + "[ SCREEN ]");
+                Console.WriteLine(new string(' ', 42) + "[ SCREEN ]");
             }
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
