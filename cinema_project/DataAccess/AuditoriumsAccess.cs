@@ -21,7 +21,7 @@ public static class AuditoriumsAccess
                 {
                     if (seat.reserved == "unavailable")
                     {
-                        Console.Write("    ");
+                        Console.Write("     ");
                     }
                     else
                     {
@@ -35,7 +35,7 @@ public static class AuditoriumsAccess
                                 color = ConsoleColor.DarkYellow;
                                 break;
                             case "high":
-                                color = ConsoleColor.Red;
+                                color = ConsoleColor.DarkMagenta;
                                 break;
                             default:
                                 color = ConsoleColor.White;
@@ -43,10 +43,17 @@ public static class AuditoriumsAccess
                         }
                         Console.ForegroundColor = color;
                         Console.Write("[");
-                        Console.ForegroundColor = ConsoleColor.White;
+                        if (seat.reserved == "false")
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        }
+                        else if (seat.reserved == "true")
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                        }
                         Console.Write($"{seat.seat}");
                         Console.ForegroundColor = color;
-                        Console.Write("]");
+                        Console.Write("] ");
                     }
                 }
                 Console.ForegroundColor = ConsoleColor.White;
