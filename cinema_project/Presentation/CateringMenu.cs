@@ -7,12 +7,14 @@ using System.IO;
 public static class CateringMenu
 {
     private static readonly string filePath = "C:/Users/wikto/OneDrive/Documents/GitHub/Cinema-Project/cinema_project/DataSources/cateringmenu.json";
+    public static int Food_ID  { get; set; } 
     public static string Product { get; set; }
     public static string Category { get; set; }
     public static string Size { get; set; }
     public static double Price { get; set; }
     public static string Choice { get; set; }
     public static void StartMenu(ref User loggedInUser)
+    
     {
         bool browsemenu = false;
         while (!browsemenu)

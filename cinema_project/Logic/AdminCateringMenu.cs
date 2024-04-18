@@ -23,6 +23,41 @@ public static class AdminCateringMenu
         SaveMenuToJson(menu, cateringmenu);
         Console.WriteLine("Menu item added successfully!");
     }
+    public static void DeleteItemFromMenu(int item_id)
+    {
+        List<Dictionary<string, object>> menu = LoadMenuFromJson(cateringmenu);
+        bool found = false;
+        for (int i = 0; i < menu.Count; i++)
+        {
+            if (menu[i].ContainsKey("id") && Convert.ToInt64(menu[i]["id"]) == item_id)
+            {
+                menu.RemoveAt(i);
+                found = true;
+                break;
+            }
+        }
+        
+        if (found)
+        {
+            SaveMenuToJson(menu, cateringmenu);
+            Console.WriteLine("Menu item deleted successfully!");
+        }
+        else
+        {
+            Console.WriteLine("Invalid ID");
+        }
+    }
+    public static void SortItems()
+    {
+        int i = 1;
+        List<Dictionary<string, object>> menu = LoadMenuFromJson(cateringmenu);
+        foreach (var item in menu)
+        {
+            item["id"] = i;
+            i++;
+        }
+        SaveMenuToJson(menu, cateringmenu);
+    }
 
     public static void SaveMenuToJson(List<Dictionary<string, object>> menu, string file)
     {

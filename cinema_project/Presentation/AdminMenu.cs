@@ -223,11 +223,12 @@ static class AdminMenu
     {
         Console.WriteLine("1. Add Items");
         Console.WriteLine("2. View Items");
-        Console.WriteLine("3. Edit Items");
-        Console.WriteLine("4. Remove Items");
+        Console.WriteLine("3. Remove Items");
+        Console.WriteLine("4. Sort Items");
         Console.WriteLine("5. Cancel");
         bool exitmenu = false;
         string? cateringchoice = Console.ReadLine();
+        string cateringfilePath = "C:/Users/wikto/OneDrive/Documents/GitHub/Cinema-Project/cinema_project/DataSources/cateringmenu.json";
         while(!exitmenu)
             switch ( cateringchoice )
             {
@@ -270,16 +271,25 @@ static class AdminMenu
                 AdminCateringMenu.AddMenuItem(newItem);     
                 break;
                 case "2":
-                string filePath = "C:/Users/wikto/OneDrive/Documents/GitHub/Cinema-Project/cinema_project/DataSources/cateringmenu.json";
-                UserCateringMenu.ViewItems("all",filePath);
+                UserCateringMenu.ViewItems("all",cateringfilePath);
                 exitmenu = true;
                 break;
                 case "3":
+                UserCateringMenu.ViewItems("all", cateringfilePath);
+                Console.WriteLine("Which Item would you like to remove? (by ID)");
+                int idinput = Convert.ToInt32(Console.ReadLine());
+                AdminCateringMenu.DeleteItemFromMenu(idinput);
+                exitmenu = true;
                 break;
                 case "4":
+                AdminCateringMenu.SortItems();
+                exitmenu = true;
                 break;
                 case "5":
-                exitmenu = true;
+                exitmenu =true;
+                break;
+                default:
+                Console.WriteLine("Invalid Input");
                 break;
             }
     }
