@@ -57,9 +57,35 @@ public static class UserMenu
         }
     }
 
-    private static void SearchMovies()
+    /*private static void SearchMovies()
     {
         SearchManager.SearchMovies();
+    }*/
+
+    private static void SearchMovies()
+    {
+        Console.WriteLine("Choose search criteria:");
+        Console.WriteLine("1. Search by film");
+        Console.WriteLine("2. Search by year");
+        Console.WriteLine("3. Search by genre");
+
+        string searchOption = Console.ReadLine();
+
+        switch (searchOption)
+        {
+            case "1":
+                SearchManager.SearchByFilm();
+                break;
+            case "2":
+                SearchManager.SearchByYear();
+                break;
+            case "3":
+                SearchManager.SearchByGenre();
+                break;
+            default:
+                Console.WriteLine("Invalid option.");
+                break;
+        }
     }
 
     private static void UpdateAccount(User loggedInUser)

@@ -1,6 +1,6 @@
 ﻿static class SearchManager
 {
-    public static void SearchMovies()
+    /*public static void SearchMovies()
     {
         Console.WriteLine("Choose search criteria:");
         Console.WriteLine("1. Search by film");
@@ -24,9 +24,9 @@
                 Console.WriteLine("Invalid option.");
                 break;
         }
-    }
+    }*/
 
-    private static void SearchByFilm()
+    public static void SearchByFilm()
     {
         Console.WriteLine("Enter the title of the movie:");
         string title = Console.ReadLine();
@@ -50,7 +50,7 @@
         }
     }
 
-    private static void SearchByYear()
+    public static void SearchByYear()
     {
         Console.WriteLine("Enter the year:");
         if (int.TryParse(Console.ReadLine(), out int year))
@@ -79,7 +79,7 @@
         }
     }
 
-    private static void SearchByGenre()
+    public static void SearchByGenre()
     {
         Console.WriteLine("Enter the genre:");
         string genre = Console.ReadLine();

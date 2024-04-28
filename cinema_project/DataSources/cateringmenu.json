@@ -138,5 +138,19 @@
     "category": "Abduls Speciality",
     "size": "20 stuks",
     "price": 9999
+  },
+  {
+    "product": "Cheetos",
+    "category": "Food",
+    "size": "Medium",
+    "price": 40.0,
+    "id": 21
+  },
+  {
+    "id": 22,
+    "product": "wiktor",
+    "category": "Food",
+    "size": "Large",
+    "price": 30.0
   }
 ]

@@ -6,7 +6,7 @@ using System.IO;
 
 public static class CateringMenu
 {
-    private static readonly string filePath = "C:/Users/wikto/OneDrive/Documents/GitHub/Cinema-Project/cinema_project/DataSources/cateringmenu.json";
+    private static readonly string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
     public static int Food_ID  { get; set; } 
     public static string Product { get; set; }
     public static string Category { get; set; }

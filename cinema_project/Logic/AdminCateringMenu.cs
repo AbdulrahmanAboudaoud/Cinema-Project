@@ -2,7 +2,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 public static class AdminCateringMenu
 {
-    static private string cateringmenu = "C:/Users/wikto/OneDrive/Documents/GitHub/Cinema-Project/cinema_project/DataSources/cateringmenu.json";
+    static private string cateringmenu = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
 
     public static List<Dictionary<string, object>> LoadMenuFromJson(string file)
     {

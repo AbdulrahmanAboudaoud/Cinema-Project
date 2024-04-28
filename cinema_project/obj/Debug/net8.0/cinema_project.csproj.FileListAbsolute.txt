@@ -45,3 +45,4 @@ C:\Users\wikto\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\obj\Debug
 C:\Users\wikto\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\obj\Debug\net8.0\cinema_project.pdb
 C:\Users\wikto\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\obj\Debug\net8.0\cinema_project.genruntimeconfig.cache
 C:\Users\wikto\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\obj\Debug\net8.0\ref\cinema_project.dll
+C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\bin\Debug\net8.0\Newtonsoft.Json.dll

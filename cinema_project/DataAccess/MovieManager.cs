@@ -5,7 +5,7 @@ using System.Linq;
 
 public class MovieManager
 {
-    private const string MoviesFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
+    private const string MoviesFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
 
     public List<Movie> GetAllMovies()
     {

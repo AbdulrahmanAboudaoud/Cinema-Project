@@ -4,7 +4,7 @@ public static class AuditoriumsAccess
 {
     public static void ShowAllAuditoriums()
     {
-        string json = File.ReadAllText("C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json");
+        string json = File.ReadAllText("C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json");
 
         CinemaHalls cinemaHalls = JsonConvert.DeserializeObject<CinemaHalls>(json);
 

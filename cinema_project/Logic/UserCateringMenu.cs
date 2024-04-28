@@ -9,8 +9,10 @@ public static class UserCateringMenu
     {
         int num = 0;
         List<Dictionary<string, object>> items = LoadMenuFromJson(filePath);
+        AdminCateringMenu.SortItems();
         foreach (var item in items)
         {
+            AdminCateringMenu.SortItems();
             CateringMenu.Food_ID = Convert.ToInt32(item["id"]);
             CateringMenu.Product = (string)item["product"];
             CateringMenu.Category = (string)item["category"];

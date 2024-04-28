@@ -48,8 +48,30 @@ static class AdminMenu
 
     private static void SearchMovies()
     {
-        SearchManager.SearchMovies();
+        Console.WriteLine("Choose search criteria:");
+        Console.WriteLine("1. Search by film");
+        Console.WriteLine("2. Search by year");
+        Console.WriteLine("3. Search by genre");
+
+        string searchOption = Console.ReadLine();
+
+        switch (searchOption)
+        {
+            case "1":
+                SearchManager.SearchByFilm();
+                break;
+            case "2":
+                SearchManager.SearchByYear();
+                break;
+            case "3":
+                SearchManager.SearchByGenre();
+                break;
+            default:
+                Console.WriteLine("Invalid option.");
+                break;
+        }
     }
+
 
     static private void MoviesInterface()
     {
@@ -228,7 +250,7 @@ static class AdminMenu
         Console.WriteLine("5. Cancel");
         bool exitmenu = false;
         string? cateringchoice = Console.ReadLine();
-        string cateringfilePath = "C:/Users/wikto/OneDrive/Documents/GitHub/Cinema-Project/cinema_project/DataSources/cateringmenu.json";
+        string cateringfilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
         while(!exitmenu)
             switch ( cateringchoice )
             {
@@ -263,12 +285,14 @@ static class AdminMenu
                 } 
                 Dictionary<string, object> newItem = new Dictionary<string, object>
                 {
+                    {"id", 0 },
                     { "product", productname },
                     { "category", productcatstring },
                     { "size", size },
                     { "price", price },
                 };
-                AdminCateringMenu.AddMenuItem(newItem);  
+                AdminCateringMenu.AddMenuItem(newItem);
+                AdminCateringMenu.SortItems();
                 exitmenu = true;
                 break;
                 case "2":
