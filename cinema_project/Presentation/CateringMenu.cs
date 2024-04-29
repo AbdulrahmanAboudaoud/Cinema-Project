@@ -6,12 +6,7 @@ using System.IO;
 
 public static class CateringMenu
 {
-    private static readonly string filePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
-    public static int Food_ID  { get; set; } 
-    public static string Product { get; set; }
-    public static string Category { get; set; }
-    public static string Size { get; set; }
-    public static double Price { get; set; }
+
     public static string Choice { get; set; }
     public static void StartMenu(ref User loggedInUser)
     
@@ -27,11 +22,11 @@ public static class CateringMenu
             {
                 case "1":
                     Choice = "Food";
-                    UserCateringMenu.ViewItems(Choice, filePath);      
+                    CateringLogic.ViewItems(Choice, CateringAccess.cateringmenu);      
                     break;
                 case "2":
                     Choice = "Drink";
-                    UserCateringMenu.ViewItems(Choice, filePath);
+                    CateringLogic.ViewItems(Choice, CateringAccess.cateringmenu);
                     break;
                 case "3":
                     Console.Clear();

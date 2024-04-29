@@ -26,7 +26,7 @@ public static class UserMenu
                     UpdateAccount(loggedInUser);
                     break;
                 case "2":
-                    bool status = UserManager.DeleteAccount(loggedInUser.Username);
+                    bool status = UserLogic.DeleteAccount(loggedInUser.Username);
                     if(status)
                     {
                         Console.WriteLine("Account deleted successfully");
@@ -57,10 +57,6 @@ public static class UserMenu
         }
     }
 
-    /*private static void SearchMovies()
-    {
-        SearchManager.SearchMovies();
-    }*/
 
     private static void SearchMovies()
     {
@@ -74,13 +70,13 @@ public static class UserMenu
         switch (searchOption)
         {
             case "1":
-                SearchManager.SearchByFilm();
+                SearchLogic.SearchByFilm();
                 break;
             case "2":
-                SearchManager.SearchByYear();
+                SearchLogic.SearchByYear();
                 break;
             case "3":
-                SearchManager.SearchByGenre();
+                SearchLogic.SearchByGenre();
                 break;
             default:
                 Console.WriteLine("Invalid option.");
@@ -97,7 +93,7 @@ public static class UserMenu
         Console.WriteLine("Enter the new information:");
         string newInfo = Console.ReadLine();
 
-        bool result = UserManager.ChangeAccount(newInfo, choice, loggedInUser.Username);
+        bool result = UserLogic.ChangeAccount(newInfo, choice, loggedInUser.Username);
         if (result)
         {
             Console.WriteLine($"Your information has been updated successfully.\n");
@@ -110,8 +106,7 @@ public static class UserMenu
 
     private static void ViewMovies()
     {
-        MovieManager movieManager = new MovieManager();
-        List<Movie> movies = movieManager.GetAllMovies();
+        List<Movie> movies = MovieAccess.GetAllMovies();
 
         Console.WriteLine("\nAvailable Movies:");
         foreach (var movie in movies)

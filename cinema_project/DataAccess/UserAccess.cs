@@ -1,11 +1,23 @@
 ﻿using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 
-public static class UserManager
+public static class UserAccess
 {
     public static string connectionString = "Data Source=localhost;Initial Catalog=cinema_db;User ID=sa;Password=123456;";
 
-    public static User Login(string username, string password)
+    public static SqlConnection OpenConnection()
+    {
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+        return connection;
+    }
+
+    public static void CloseConnection(SqlConnection connection)
+    {
+        connection.Close();
+    }
+
+    /*public static User Login(string username, string password)
     {
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
@@ -225,5 +237,5 @@ public static class UserManager
     {
         string pattern = @"^\d{10}$";
         return Regex.IsMatch(phoneNumber, pattern);
-    }
+    }*/
 }

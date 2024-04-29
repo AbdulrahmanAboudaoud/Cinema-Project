@@ -29,12 +29,12 @@
         }
         else if (input == "2")
         {
-            UserCreation.Start();
+            UserLogic.Start();
         }
         else if (input == "3")
         {
             //Rules method call
-            RulesManager.ViewAllRules();
+            RulesLogic.ViewAllRules();
         }
         else if (input == "4")
         {

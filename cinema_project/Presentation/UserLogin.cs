@@ -10,7 +10,7 @@
 
 
 
-        User loggedInUser = UserManager.Login(username, password);
+        User loggedInUser = UserLogic.Login(username, password);
         if (loggedInUser != null)
         {
             Console.WriteLine($"Welcome {loggedInUser.Username}!");
