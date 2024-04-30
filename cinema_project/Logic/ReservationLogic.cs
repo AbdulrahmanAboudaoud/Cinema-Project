@@ -23,38 +23,134 @@ public static class ReservationLogic
         }
     }
 
+    public static Auditorium GetAuditoriumByName(string auditoriumName)
+    {
+        CinemaHalls cinemaHalls = AuditoriumsDataAccess.GetAllAuditoriums();
+
+        // Iterate over each auditorium in the list
+        foreach (var auditorium in cinemaHalls.auditoriums)
+        {
+            // Check if the auditorium name matches the specified name
+            if (auditorium.name == auditoriumName)
+            {
+                // Return the auditorium if found
+                return auditorium;
+            }
+        }
+
+        // If no matching auditorium is found, return null or throw an exception
+        return null; // or throw new Exception("Auditorium not found");
+    }
+
+
+    private static Auditorium GetAuditoriumForMovie(string movieTitle)
+    {
+        var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
+
+        foreach (var movieInfo in movieSchedule)
+        {
+            if (movieInfo["movieTitle"] == movieTitle)
+            {
+                string auditoriumName = movieInfo["auditorium"];
+                return GetAuditoriumByName(auditoriumName);
+            }
+        }
+
+        return null;
+    }
+
+    private static bool IsSeatAvailable(Auditorium auditorium, string seatNumber)
+    {
+        foreach (var row in auditorium.layout)
+        {
+            foreach (var seat in row)
+            {
+                if (seat.seat == seatNumber && seat.reserved == "false")
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static void ReserveSeat(Auditorium auditorium, string seatNumber)
+    {
+        foreach (var row in auditorium.layout)
+        {
+            foreach (var seat in row)
+            {
+                if (seat.seat == seatNumber)
+                {
+                    seat.reserved = "true";
+                    return;
+                }
+            }
+        }
+    }
+
+    private static void SaveReservationToCSV(string movieTitle, DateTime date, Auditorium auditorium, string seatNumber)
+    {
+        // Format reservation details
+        string reservationDetails = $"{movieTitle},{date:yyyy-MM-dd},{auditorium.name},{seatNumber}";
+
+        try
+        {
+            // Append reservation details to the CSV file
+            File.AppendAllText("C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\ReservationHistory.csv", reservationDetails + Environment.NewLine);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving reservation: {ex.Message}");
+        }
+    }
+
+
 
     public static void MakeReservation()
     {
+        // Prompt user to choose a date and display available movies for that date
         Console.Write("Enter date (yyyy-MM-dd): ");
         if (DateTime.TryParse(Console.ReadLine(), out DateTime selectedDate))
         {
             PrintMoviesForDay(selectedDate);
 
-            Console.Write("Enter the name of the movie to reserve: ");
-            string movieToReserve = Console.ReadLine();
+            // Prompt user to choose a movie
+            Console.Write("Enter the movie title you want to reserve: ");
+            string movieTitle = Console.ReadLine();
 
-            var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
-            var selectedMovie = movieSchedule.FirstOrDefault(movie => movie["movieTitle"].Equals(movieToReserve, StringComparison.OrdinalIgnoreCase) && DateTime.TryParseExact(movie["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime) && displayTime.Date == selectedDate.Date);
+            // Get auditorium for the selected movie
+            Auditorium auditorium = GetAuditoriumForMovie(movieTitle);
 
-            if (selectedMovie != null)
+            if (auditorium != null)
             {
-                string auditoriumName = selectedMovie["auditorium"];
-                var cinemaHalls = AuditoriumsDataAccess.GetAllAuditoriums(); // Implement a method to retrieve cinema halls
-                var auditorium = cinemaHalls.auditoriums.FirstOrDefault(a => a.name.Equals(auditoriumName, StringComparison.OrdinalIgnoreCase));
-                if (auditorium != null)
+                // Display auditorium layout
+                AuditoriumsPresentation.DisplayAuditoriums(new CinemaHalls { auditoriums = new Auditorium[] { auditorium } });
+
+                // Allow user to choose a seat
+                Console.Write("Enter seat number to reserve: ");
+                string seatNumber = Console.ReadLine();
+
+                // Check if the seat is available
+                if (IsSeatAvailable(auditorium, seatNumber))
                 {
-                    Console.WriteLine($"\nAuditorium for {movieToReserve}:");
-                    AuditoriumsPresentation.DisplayAuditoriums(new CinemaHalls { auditoriums = new Auditorium[] { auditorium } });
+                    // Reserve the seat
+                    ReserveSeat(auditorium, seatNumber);
+
+                    // Save reservation to CSV file
+                    SaveReservationToCSV(movieTitle, selectedDate, auditorium, seatNumber);
+
+                    Console.WriteLine("Reservation successful!");
                 }
                 else
                 {
-                    Console.WriteLine("Auditorium not found for the selected movie.");
+                    Console.WriteLine("Seat is not available.");
                 }
             }
             else
             {
-                Console.WriteLine("Movie not found for the selected date.");
+                Console.WriteLine("Movie not found.");
             }
         }
         else
@@ -62,5 +158,6 @@ public static class ReservationLogic
             Console.WriteLine("Invalid date format.");
         }
     }
+    
 
 }

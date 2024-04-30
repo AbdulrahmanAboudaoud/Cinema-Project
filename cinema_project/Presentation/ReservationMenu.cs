@@ -1,6 +1,6 @@
 ﻿public static class ReservationMenu
 {
-    public static void Start()
+    public static void Start(ref User loggedInUser)
     {
         bool logoutRequested = false;
 
@@ -18,6 +18,7 @@
                     break;
                 case "2":
                     //ViewReservationHistory();
+                    ReservationHistory.ViewReservationHistory(ref loggedInUser);
                     break;
                 case "3":
                     Console.Clear();
