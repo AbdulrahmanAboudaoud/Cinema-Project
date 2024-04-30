@@ -1,6 +1,4 @@
-﻿// UserMenu.cs
-
-public static class UserMenu
+﻿public static class UserMenu
 {
     public static void Start(ref User loggedInUser)
     {
@@ -40,7 +38,7 @@ public static class UserMenu
                     CateringMenu.StartMenu(ref loggedInUser);
                     break;
                 case "5":
-                    AuditoriumsAccess.ShowAllAuditoriums();
+                    AuditoriumsLogic.ShowAllAuditoriums();
                     break;
                 case "6":
                     SearchMovies();
