@@ -1,5 +1,6 @@
 ﻿public class MoviesLogic
 {
+
     public void AddMovie(Movie movie)
     {
         List<Movie> movies = MovieAccess.GetAllMovies();
@@ -57,6 +58,10 @@
             {
                 MovieAccess.WriteMoviesToCSV(movies);
                 MovieAccess.CreateLayoutFile(movie.Title, displayDate, auditorium);
+                
+                string FileName = $"{movie.Title}-{displayDate:yyyyMMdd-HHmm}-{auditorium}.json";
+                MovieScheduleAccess.WriteToMovieSchedule(FileName, movie.Title, displayDate, auditorium);
+
                 Console.WriteLine("Time, date, and auditorium added successfully for the movie.");
             }
             catch (Exception ex)
@@ -71,3 +76,5 @@
     }
 
 }
+
+

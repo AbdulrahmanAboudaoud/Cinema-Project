@@ -14,7 +14,8 @@
             Console.WriteLine("4. Catering Menu Information");
             Console.WriteLine("5. Display Auditoriums");
             Console.WriteLine("6. Search And Filter Movies");
-            Console.WriteLine("7. Logout\n");
+            Console.WriteLine("7. Reservation");
+            Console.WriteLine("8. Logout\n");
             Console.Write("Select an option: ");
             string option = Console.ReadLine();
 
@@ -44,6 +45,9 @@
                     SearchMovies();
                     break;
                 case "7":
+                    ReservationMenu.Start();
+                    break;
+                case "8":
                     exitRequested = true;
                     Logout(ref loggedInUser);
                     //exitRequested = true;
