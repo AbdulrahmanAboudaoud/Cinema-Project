@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -5,7 +6,10 @@ using System.Linq;
 
 public static class MovieAccess
 {
-    private const string MoviesFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
+    private const string MoviesFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
+    private const string CinemaHallsFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
+    private const string DataSourcesFolder = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources";
+
 
     public static List<Movie> GetAllMovies()
     {
@@ -40,14 +44,16 @@ public static class MovieAccess
     {
         try
         {
-            using (var writer = new StreamWriter(MoviesFilePath))
+            using (var writer = new StreamWriter(MoviesFilePath, false))
             {
                 foreach (var movie in movies)
                 {
-                    writer.WriteLine($"{movie.Title},{movie.Year},{movie.Genre}");
+                    string displayDate = movie.DisplayDate != default(DateTime) ? movie.DisplayDate.ToString("yyyy-MM-dd HH:mm") : "";
+
+                    writer.WriteLine($"{movie.Title},{movie.Year},{movie.Genre},{displayDate},{movie.Auditorium}");
                 }
             }
-            Console.WriteLine("Movies written to file successfully.");
+            //Console.WriteLine("Movies written to file successfully.");
         }
         catch (Exception ex)
         {
@@ -56,4 +62,35 @@ public static class MovieAccess
     }
 
 
+    public static void CreateLayoutFile(string movieName, DateTime displayDate, string auditoriumName)
+    {
+        string fileName = Path.Combine(DataSourcesFolder, $"{movieName}-{displayDate:yyyyMMdd-HHmm}-{auditoriumName}.json");
+
+        if (!File.Exists(fileName))
+        {
+            using (FileStream fs = File.Create(fileName)) { }
+        }
+
+        string cinemaHallsJson = File.ReadAllText(CinemaHallsFilePath);
+        CinemaHalls cinemaHalls = JsonConvert.DeserializeObject<CinemaHalls>(cinemaHallsJson);
+
+        var auditorium = cinemaHalls.auditoriums.FirstOrDefault(a => a.name.Equals(auditoriumName, StringComparison.OrdinalIgnoreCase));
+        if (auditorium != null)
+        {
+            CinemaHalls selectedAuditorium = new CinemaHalls
+            {
+                auditoriums = new[] { auditorium }
+            };
+
+            string selectedAuditoriumJson = JsonConvert.SerializeObject(selectedAuditorium, Formatting.Indented);
+
+            File.WriteAllText(fileName, selectedAuditoriumJson);
+
+            //Console.WriteLine($"Layout for {auditoriumName} copied successfully to {fileName}.");
+        }
+        else
+        {
+            Console.WriteLine("Auditorium not found.");
+        }
+    }
 }

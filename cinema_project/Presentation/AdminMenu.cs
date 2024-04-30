@@ -84,7 +84,8 @@ static class AdminMenu
             Console.WriteLine("2. Add Movie");
             Console.WriteLine("3. Edit Movie");
             Console.WriteLine("4. Remove Movie");
-            Console.WriteLine("5. Back to Main Menu\n");
+            Console.WriteLine("5. Add Time and Auditorium to a Movie");
+            Console.WriteLine("6. Back to Main Menu\n");
 
             string input = Console.ReadLine()!;
             switch (input)
@@ -102,6 +103,9 @@ static class AdminMenu
                     AdminLogic.RemoveMovie();
                     break;
                 case "5":
+                    AdminLogic.AddTimeAndAuditoriumToMovie();
+                    break;
+                case "6":
                     //AdminMenu.Start();
                     exitRequested = true;
                     break;
@@ -111,6 +115,7 @@ static class AdminMenu
             }
         }
     }
+
 
     static private void Rules()
     {

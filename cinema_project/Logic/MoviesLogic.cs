@@ -43,6 +43,31 @@
             Console.WriteLine("Movie not found.");
             return false;
         }
-
     }
+
+    public static void AddTimeAndAuditorium(string movieTitle, DateTime displayDate, string auditorium)
+    {
+        List<Movie> movies = MovieAccess.GetAllMovies();
+        var movie = movies.FirstOrDefault(m => m.Title.Equals(movieTitle, StringComparison.OrdinalIgnoreCase));
+        if (movie != null)
+        {
+            movie.DisplayDate = displayDate;
+            movie.Auditorium = auditorium;
+            try
+            {
+                MovieAccess.WriteMoviesToCSV(movies);
+                MovieAccess.CreateLayoutFile(movie.Title, displayDate, auditorium);
+                Console.WriteLine("Time, date, and auditorium added successfully for the movie.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Movie not found.");
+        }
+    }
+
 }

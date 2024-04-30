@@ -98,4 +98,23 @@
         }
         Console.WriteLine();
     }
+
+    public static void AddTimeAndAuditoriumToMovie()
+    {
+        Console.WriteLine("Enter movie title:");
+        string title = Console.ReadLine();
+
+        Console.WriteLine("Enter display date (yyyy-MM-dd HH:mm):");
+        DateTime displayDate;
+        while (!DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd HH:mm", null, System.Globalization.DateTimeStyles.None, out displayDate))
+        {
+            Console.WriteLine("Invalid date format. Please enter in the format: yyyy-MM-dd HH:mm");
+        }
+
+        Console.WriteLine("Enter auditorium:");
+        string auditorium = Console.ReadLine();
+
+        MoviesLogic.AddTimeAndAuditorium(title, displayDate, auditorium);
+    }
+
 }
