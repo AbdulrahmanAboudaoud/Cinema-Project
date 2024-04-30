@@ -45,7 +45,7 @@
                     SearchMovies();
                     break;
                 case "7":
-                    ReservationMenu.Start();
+                    ReservationMenu.Start(ref loggedInUser);
                     break;
                 case "8":
                     exitRequested = true;
