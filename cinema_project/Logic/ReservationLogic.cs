@@ -23,6 +23,7 @@ public static class ReservationLogic
         }
     }
 
+
     public static void MakeReservation()
     {
         Console.Write("Enter date (yyyy-MM-dd): ");
@@ -30,11 +31,36 @@ public static class ReservationLogic
         {
             PrintMoviesForDay(selectedDate);
 
+            Console.Write("Enter the name of the movie to reserve: ");
+            string movieToReserve = Console.ReadLine();
 
+            var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
+            var selectedMovie = movieSchedule.FirstOrDefault(movie => movie["movieTitle"].Equals(movieToReserve, StringComparison.OrdinalIgnoreCase) && DateTime.TryParseExact(movie["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime) && displayTime.Date == selectedDate.Date);
+
+            if (selectedMovie != null)
+            {
+                string auditoriumName = selectedMovie["auditorium"];
+                var cinemaHalls = AuditoriumsDataAccess.GetAllAuditoriums(); // Implement a method to retrieve cinema halls
+                var auditorium = cinemaHalls.auditoriums.FirstOrDefault(a => a.name.Equals(auditoriumName, StringComparison.OrdinalIgnoreCase));
+                if (auditorium != null)
+                {
+                    Console.WriteLine($"\nAuditorium for {movieToReserve}:");
+                    AuditoriumsPresentation.DisplayAuditoriums(new CinemaHalls { auditoriums = new Auditorium[] { auditorium } });
+                }
+                else
+                {
+                    Console.WriteLine("Auditorium not found for the selected movie.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Movie not found for the selected date.");
+            }
         }
         else
         {
             Console.WriteLine("Invalid date format.");
         }
     }
+
 }
