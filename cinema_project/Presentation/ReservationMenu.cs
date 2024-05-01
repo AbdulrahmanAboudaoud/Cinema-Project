@@ -14,7 +14,7 @@
             switch (input)
             {
                 case "1":
-                    ReservationLogic.MakeReservation();
+                    ReservationLogic.MakeReservation(loggedInUser.Username);
                     break;
                 case "2":
                     ReservationHistory.ViewReservationHistory(loggedInUser.Username);
