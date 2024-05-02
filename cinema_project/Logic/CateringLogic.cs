@@ -143,20 +143,23 @@
         bool found = false;
         for (int i = 0; i < menu.Count; i++)
         {
-            if (menu[i].ContainsKey(char_))
+            if ((int)(long)menu[i]["id"] == id_)
             {
-                if (newValue is string || newValue is int)
+                if (menu[i].ContainsKey(char_))
                 {
-                    menu[i][char_] = newValue;
-                    CateringAccess.SaveMenuToJson(menu, CateringAccess.cateringmenu);
-                    Console.WriteLine($"Successfully changed the {char_} to {newValue}");
+                    if (newValue is string || newValue is int)
+                    {
+                        menu[i][char_] = newValue;
+                        CateringAccess.SaveMenuToJson(menu, CateringAccess.cateringmenu);
+                        Console.WriteLine($"Successfully changed the {char_} to {newValue}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Wrong input (invalid data type)");
+                    }
+                    found = true;
+                    break;
                 }
-                else
-                {
-                    Console.WriteLine("Wrong input (invalid data type)");
-                }
-                found = true;
-                break;
             }
         }
         if (!found)
