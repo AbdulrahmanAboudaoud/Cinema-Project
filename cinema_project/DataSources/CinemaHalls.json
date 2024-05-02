@@ -27,7 +27,7 @@
           },
           {
             "seat": "A5",
-            "reserved": true,
+            "reserved": false,
             "PriceRange": "low"
           },
           {
@@ -37,7 +37,7 @@
           },
           {
             "seat": "A7",
-            "reserved": true,
+            "reserved": false,
             "PriceRange": "low"
           },
           {
@@ -75,7 +75,7 @@
           },
           {
             "seat": "B3",
-            "reserved": true,
+            "reserved": false,
             "PriceRange": "low"
           },
           {
@@ -100,7 +100,7 @@
           },
           {
             "seat": "B8",
-            "reserved": true,
+            "reserved": false,
             "PriceRange": "low"
           },
           {

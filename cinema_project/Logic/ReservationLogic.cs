@@ -2,9 +2,10 @@
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 
+
 public static class ReservationLogic
 {
-    private static string jsonFolderPath = @"C:\CodingProjects\C#\Cinema\Cinema-Project\cinema_project\DataSources";
+    private static string jsonFolderPath = @"C:\Users\abdul\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
 
     public static void PrintMoviesForDay(DateTime date)
     {
@@ -27,54 +28,28 @@ public static class ReservationLogic
         }
     }
 
-
-
-    
-    public static Auditorium GetAuditoriumByName(string auditoriumName)
+    private static JArray GetMovieSchedule()
     {
-        CinemaHalls cinemaHalls = AuditoriumsDataAccess.GetAllAuditoriums();
-
-        // Iterate over each auditorium in the list
-        foreach (var auditorium in cinemaHalls.auditoriums)
+        try
         {
-            // Check if the auditorium name matches the specified name
-            if (auditorium.name == auditoriumName)
-            {
-                // Return the auditorium if found
-                return auditorium;
-            }
+            string jsonContent = File.ReadAllText(Path.Combine(jsonFolderPath, "movieSchedule.json"));
+            return JsonConvert.DeserializeObject<JArray>(jsonContent);
         }
-
-        // If no matching auditorium is found, return null or throw an exception
-        return null; 
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error reading movie schedule: {ex.Message}");
+            return null;
+        }
     }
 
-
-
-
-    private static Auditorium GetAuditoriumForMovie(string movieTitle)
+    private static bool IsSeatAvailable(JObject auditoriumData, string seatNumber)
     {
-        var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
-
-        foreach (var movieInfo in movieSchedule)
-        {
-            if (movieInfo["movieTitle"] == movieTitle)
-            {
-                string auditoriumName = movieInfo["auditorium"];
-                return GetAuditoriumByName(auditoriumName);
-            }
-        }
-
-        return null;
-    }
-//-----------> Moet gefixt worden
-    private static bool IsSeatAvailable(Auditorium auditorium, string seatNumber)
-    {
-        foreach (var row in auditorium.layout)
+        var auditorium = auditoriumData["auditoriums"][0];
+        foreach (var row in auditorium["layout"])
         {
             foreach (var seat in row)
             {
-                if (seat.seat == seatNumber && seat.reserved == "false")
+                if (seat["seat"].ToString() == seatNumber && seat["reserved"].ToString() == "false")
                 {
                     return true;
                 }
@@ -82,202 +57,145 @@ public static class ReservationLogic
         }
         return false;
     }
-//-----------> Moet gefixt worden 
-    private static void ReserveSeat(Auditorium auditorium, string seatNumber)
+
+    private static void ReserveSeatAndUpdateFile(JObject auditoriumData, string seatNumber, string fileName)
     {
-        foreach (var row in auditorium.layout)
+        var auditorium = auditoriumData["auditoriums"][0];
+        foreach (var row in auditorium["layout"])
         {
             foreach (var seat in row)
             {
-                if (seat.seat == seatNumber)
+                if (seat["seat"].ToString() == seatNumber)
                 {
-                    seat.reserved = "true";
+                    seat["reserved"] = "true";
+
+                    // Serialize the updated JSON data
+                    string updatedJson = JsonConvert.SerializeObject(auditoriumData, Formatting.Indented);
+
+                    // Write the updated JSON data back to the file
+                    try
+                    {
+                        File.WriteAllText(fileName, updatedJson);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error updating JSON file: {ex.Message}");
+                    }
+
                     return;
                 }
             }
         }
     }
 
-
-
-
     private static void SaveReservationToCSV(string username, string movieTitle, DateTime date, string auditoriumName, string seatNumber)
     {
-        // Get movie schedule
-        var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
-
-        // Find the movie schedule entry for the given movie title
-        var movieInfo = movieSchedule.FirstOrDefault(m => m["movieTitle"].ToString() == movieTitle);
-
-        if (movieInfo != null)
+        var movieInfo = MovieScheduleAccess.GetMovieSchedule().FirstOrDefault(m => m["movieTitle"].ToString() == movieTitle);
+        if (movieInfo != null && DateTime.TryParseExact(movieInfo["displayTime"].ToString(), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime movieDisplayTime))
         {
-            // Get the display time from the movie schedule
-            if (DateTime.TryParseExact(movieInfo["displayTime"].ToString(), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime movieDisplayTime))
+            string reservationDetails = $"{username},{movieTitle},{movieDisplayTime:yyyy-MM-dd HH:mm},{auditoriumName},{seatNumber}";
+            try
             {
-                // Format reservation details
-                string reservationDetails = $"{username},{movieTitle},{movieDisplayTime:yyyy-MM-dd HH:mm},{auditoriumName},{seatNumber}";
-
-                try
-                {
-                    // Append reservation details to the CSV file
-                    File.AppendAllText("C:\\CodingProjects\\C#\\Cinema\\Cinema-Project\\cinema_project\\DataSources\\ReservationHistory.csv", reservationDetails + Environment.NewLine);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error saving reservation: {ex.Message}");
-                }
-
-                // Update the reserved status of the seat in the JSON file
-                UpdateSeatStatusInJson(movieTitle, date, auditoriumName, seatNumber);
+                File.AppendAllText(Path.Combine(jsonFolderPath, "ReservationHistory.csv"), reservationDetails + Environment.NewLine);
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine($"Error parsing display time for movie: {movieTitle}");
+                Console.WriteLine($"Error saving reservation: {ex.Message}");
             }
         }
         else
         {
-            Console.WriteLine($"Movie not found in schedule: {movieTitle}");
+            Console.WriteLine($"Movie not found in schedule or error parsing display time for movie: {movieTitle}");
         }
     }
 
-
-
-
-    public static void UpdateSeatStatusInJson(string movieTitle, DateTime displayDate, string auditorium, string seatNumber)
+    public static void MakeReservation(string username)
     {
-        // Ensure displayDate includes the correct time information
-        displayDate = displayDate.Date.Add(displayDate.TimeOfDay);
-
-        // Get movie schedule
-        var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
-
-        // Find the movie schedule entry for the given movie title
-        var movieInfo = movieSchedule.FirstOrDefault(m => m["movieTitle"].ToString() == movieTitle);
-
-        if (movieInfo != null)
+        Console.Write("Enter date (yyyy-MM-dd): ");
+        if (DateTime.TryParse(Console.ReadLine(), out DateTime selectedDate))
         {
-            // Get the display time from the movie schedule
-            if (DateTime.TryParseExact(movieInfo["displayTime"].ToString(), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime movieDisplayTime))
+            PrintMoviesForDay(selectedDate);
+
+            Console.Write("Enter the movie title you want to reserve: ");
+            string movieTitle = Console.ReadLine();
+
+            var movieSchedule = GetMovieSchedule();
+            var movieInfo = movieSchedule.FirstOrDefault(m => m["movieTitle"].ToString() == movieTitle);
+
+            if (movieInfo != null)
             {
-                // Use the display time to construct the file name
-                string fileName = $"{movieTitle}-{movieDisplayTime:yyyyMMdd-HHmm}-{auditorium}.json";
-                string filePath = Path.Combine(@"C:\CodingProjects\C#\Cinema\Cinema-Project\cinema_project\DataSources", fileName);
+                string auditoriumFileName = movieInfo["filename"].ToString();
+                DisplayAuditoriumFromFile(auditoriumFileName); // Display auditorium layout
 
-                try
+                var auditoriumData = GetAuditoriumData(auditoriumFileName);
+
+                if (auditoriumData != null)
                 {
-                    if (File.Exists(filePath))
+                    bool reservationSuccessful = false;
+                    while (!reservationSuccessful)
                     {
-                        // Read JSON content from file
-                        string jsonContent = File.ReadAllText(filePath);
+                        Console.Write("Enter seat number(s) to reserve (separated by commas): ");
+                        string[] seatNumbers = Console.ReadLine().Split(',');
 
-                        // Parse JSON content
-                        JObject jsonObject = JObject.Parse(jsonContent);
-
-                        // Find the auditorium in the JSON
-                        JToken auditoriumToken = jsonObject["auditoriums"].FirstOrDefault(a => a["name"].ToString() == auditorium);
-                        if (auditoriumToken != null)
+                        bool allSeatsAvailable = true;
+                        foreach (string seatNumber in seatNumbers)
                         {
-                            // Find the seat in the auditorium
-                            JToken seatToken = auditoriumToken["layout"].SelectMany(row => row)
-                                .FirstOrDefault(seat => seat["seat"].ToString() == seatNumber);
-
-                            if (seatToken != null)
+                            if (!IsSeatAvailable(auditoriumData, seatNumber.Trim()))
                             {
-                                // Update the reserved status to true
-                                seatToken["reserved"] = "true";
-
-                                // Write the updated JSON content back to the file
-                                File.WriteAllText(filePath, jsonObject.ToString());
-
-                                Console.WriteLine($"Seat {seatNumber} status updated in {fileName}.");
+                                Console.WriteLine($"Seat {seatNumber} is not available.");
+                                allSeatsAvailable = false;
+                                break;
                             }
-                            else
+                        }
+
+                        if (allSeatsAvailable)
+                        {
+                            foreach (string seatNumber in seatNumbers)
                             {
-                                Console.WriteLine($"Seat {seatNumber} not found in {auditorium}.");
+                                ReserveSeatAndUpdateFile(auditoriumData, seatNumber.Trim(), Path.Combine(jsonFolderPath, auditoriumFileName));
+                                SaveReservationToCSV(username, movieTitle, selectedDate, movieInfo["auditorium"].ToString(), seatNumber.Trim());
                             }
+                            Console.WriteLine("Reservation successful!");
+                            reservationSuccessful = true;
                         }
                         else
                         {
-                            Console.WriteLine($"Auditorium {auditorium} not found in {fileName}.");
+                            Console.WriteLine("Please choose different seat(s).");
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine($"File not found: {filePath}");
-                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine($"Error updating seat status: {ex.Message}");
+                    Console.WriteLine("Error retrieving auditorium data.");
                 }
             }
             else
             {
-                Console.WriteLine($"Error parsing display time for movie: {movieTitle}");
+                Console.WriteLine("Movie not found in schedule.");
             }
         }
         else
         {
-            Console.WriteLine($"Movie not found in schedule: {movieTitle}");
+            Console.WriteLine("Invalid date format.");
         }
     }
 
+    private static JObject GetAuditoriumData(string fileName)
+    {
+        try
+        {
+            string jsonContent = File.ReadAllText(Path.Combine(jsonFolderPath, fileName));
+            return JsonConvert.DeserializeObject<JObject>(jsonContent);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error reading auditorium data: {ex.Message}");
+            return null;
+        }
+    }
 
-
-
-     public static void MakeReservation(string username)
-     {
-         // Prompt user to choose a date and display available movies for that date
-         Console.Write("Enter date (yyyy-MM-dd): ");
-         if (DateTime.TryParse(Console.ReadLine(), out DateTime selectedDate))
-         {
-             PrintMoviesForDay(selectedDate);
-
-             // Prompt user to choose a movie
-             Console.Write("Enter the movie title you want to reserve: ");
-             string movieTitle = Console.ReadLine();
-
-             // Get auditorium for the selected movie
-             Auditorium auditorium = GetAuditoriumForMovie(movieTitle);
-
-             if (auditorium != null)
-             {
-                // Display auditorium layout
-                //AuditoriumsPresentation.DisplayAuditoriums(new CinemaHalls { auditoriums = new Auditorium[] { auditorium } });
-                AuditoriumsPresentation.DisplayAuditorium(auditorium);
-
-                // Allow user to choose a seat
-                Console.Write("Enter seat number to reserve: ");
-                 string seatNumber = Console.ReadLine();
-
-                 // Check if the seat is available
-                 if (IsSeatAvailable(auditorium, seatNumber))
-                 {
-                     // Reserve the seat
-                     ReserveSeat(auditorium, seatNumber);
-
-                     // Save reservation to CSV file
-                     SaveReservationToCSV(username, movieTitle, selectedDate, auditorium.name, seatNumber);
-
-                     Console.WriteLine("Reservation successful!");
-                 }
-                 else
-                 {
-                     Console.WriteLine("Seat is not available.");
-                 }
-             }
-             else
-             {
-                 Console.WriteLine("Movie not found.");
-             }
-         }
-         else
-         {
-             Console.WriteLine("Invalid date format.");
-         }
-     }
-
-
-
+    private static void DisplayAuditoriumFromFile(string fileName)
+    {
+        AuditoriumsPresentation.DisplayAuditoriumFromFile(Path.Combine(jsonFolderPath, fileName));
+    }
 }
