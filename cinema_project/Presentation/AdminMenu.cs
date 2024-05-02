@@ -144,23 +144,19 @@ static class AdminMenu
         }
     }
 
-    
-
-
-
-
     private static void cateringeditmenu()
     {
         Console.WriteLine("1. Add Items");
         Console.WriteLine("2. View Items");
         Console.WriteLine("3. Remove Items");
         Console.WriteLine("4. Sort Items");
-        Console.WriteLine("5. Cancel");
+        Console.WriteLine("5. Edit Items");
+        Console.WriteLine("6. Cancel");
         bool exitmenu = false;
         string? cateringchoice = Console.ReadLine();
 
         while(!exitmenu)
-            switch ( cateringchoice )
+            switch (cateringchoice)
             {
                 case "1":
                     CateringLogic.AddCateringItem();
@@ -179,7 +175,49 @@ static class AdminMenu
                     exitmenu = true;
                     break;
                 case "5":
-                    exitmenu =true;
+                    CateringLogic.ViewItems("all", CateringAccess.cateringmenu);
+                    Console.WriteLine();
+                    Console.WriteLine("Which Item would you like to edit? (by ID)");
+                    int idinput = Convert.ToInt32(Console.ReadLine());
+                    int? foundId = CateringLogic.IDFound(idinput);
+                    if (foundId.HasValue)
+                    {
+                        Console.WriteLine("Which item would you like to edit?");
+                        Console.WriteLine("Name (N)");
+                        Console.WriteLine("Size (S)");
+                        Console.WriteLine("Price (P)");
+                        string cateringchoicen = Console.ReadLine().ToUpper();
+                        string arg = "";
+                        switch (cateringchoicen)
+                        {
+                            case "N":
+                                arg = "product";
+                                Console.WriteLine("What would you like to change the name to?");
+                                string newname = Console.ReadLine();
+                                CateringLogic.EditItem(idinput, arg, newname);
+                                break;
+                            case "S":
+                                arg = "size";
+                                Console.WriteLine("What would you like to change the size to?");
+                                string newsize = Console.ReadLine();
+                                CateringLogic.EditItem(idinput, arg, newsize);
+                                break;
+                            case "P":
+                                arg = "price";
+                                Console.WriteLine("What would you like to change the price to?");
+                                double newprice = Convert.ToDouble(Console.ReadLine());
+                                CateringLogic.EditItem(idinput, arg, newprice);
+                                break;
+                            default:
+                                Console.WriteLine("Invalid Input");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Couldn't find the ID, please try again");
+                    }
+                    exitmenu = true;
                     break;
                 default:
                     Console.WriteLine("Invalid Input");

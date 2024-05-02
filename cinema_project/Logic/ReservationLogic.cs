@@ -4,7 +4,7 @@ using System.Globalization;
 
 public static class ReservationLogic
 {
-    private static string jsonFolderPath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources";
+    private static string jsonFolderPath = @"C:\CodingProjects\C#\Cinema\Cinema-Project\cinema_project\DataSources";
 
     public static void PrintMoviesForDay(DateTime date)
     {
@@ -67,7 +67,7 @@ public static class ReservationLogic
 
         return null;
     }
-
+//-----------> Moet gefixt worden
     private static bool IsSeatAvailable(Auditorium auditorium, string seatNumber)
     {
         foreach (var row in auditorium.layout)
@@ -80,10 +80,9 @@ public static class ReservationLogic
                 }
             }
         }
-
         return false;
     }
-
+//-----------> Moet gefixt worden 
     private static void ReserveSeat(Auditorium auditorium, string seatNumber)
     {
         foreach (var row in auditorium.layout)
@@ -121,7 +120,7 @@ public static class ReservationLogic
                 try
                 {
                     // Append reservation details to the CSV file
-                    File.AppendAllText("C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\ReservationHistory.csv", reservationDetails + Environment.NewLine);
+                    File.AppendAllText("C:\\CodingProjects\\C#\\Cinema\\Cinema-Project\\cinema_project\\DataSources\\ReservationHistory.csv", reservationDetails + Environment.NewLine);
                 }
                 catch (Exception ex)
                 {
@@ -163,7 +162,7 @@ public static class ReservationLogic
             {
                 // Use the display time to construct the file name
                 string fileName = $"{movieTitle}-{movieDisplayTime:yyyyMMdd-HHmm}-{auditorium}.json";
-                string filePath = Path.Combine(@"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources", fileName);
+                string filePath = Path.Combine(@"C:\CodingProjects\C#\Cinema\Cinema-Project\cinema_project\DataSources", fileName);
 
                 try
                 {

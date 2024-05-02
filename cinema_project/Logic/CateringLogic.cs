@@ -123,4 +123,45 @@
         int idinput = Convert.ToInt32(Console.ReadLine());
         DeleteItemFromMenu(idinput);
     }
+
+    public static int? IDFound(int id_)
+    {
+        CateringLogic.SortItems();
+        List<Dictionary<string, object>> menu = CateringAccess.LoadMenuFromJson(CateringAccess.cateringmenu);
+        for (int i = 0; i < menu.Count; i++)
+        {
+            if (menu[i].ContainsKey("id") && Convert.ToInt64(menu[i]["id"]) == id_)
+            {
+                return id_;
+            }
+        }
+        return null;
+    }
+    public static void EditItem(int id_, string char_, object newValue)
+    {
+        List<Dictionary<string, object>> menu = CateringAccess.LoadMenuFromJson(CateringAccess.cateringmenu);
+        bool found = false;
+        for (int i = 0; i < menu.Count; i++)
+        {
+            if (menu[i].ContainsKey(char_))
+            {
+                if (newValue is string || newValue is int)
+                {
+                    menu[i][char_] = newValue;
+                    CateringAccess.SaveMenuToJson(menu, CateringAccess.cateringmenu);
+                    Console.WriteLine($"Successfully changed the {char_} to {newValue}");
+                }
+                else
+                {
+                    Console.WriteLine("Wrong input (invalid data type)");
+                }
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            Console.WriteLine($"Item with {char_} not found");
+        }
+    }
 }
