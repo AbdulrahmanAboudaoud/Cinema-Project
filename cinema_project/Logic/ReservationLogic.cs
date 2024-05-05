@@ -5,7 +5,8 @@ using System.Globalization;
 
 public static class ReservationLogic
 {
-    private static string jsonFolderPath = @"C:\Users\abdul\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
+    //private static string jsonFolderPath = @"C:\Users\abdul\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
+    private static string jsonFolderPath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
 
     public static void PrintMoviesForDay(DateTime date)
     {
@@ -198,4 +199,178 @@ public static class ReservationLogic
     {
         AuditoriumsPresentation.DisplayAuditoriumFromFile(Path.Combine(jsonFolderPath, fileName));
     }
+
+    public static void CancelReservation(string username)
+    {
+        // Load reservation history for the user
+        List<Reservation> userReservations = ReservationHistory.LoadUserReservationsFromCSV(username);
+
+        if (userReservations.Count > 0)
+        {
+            Console.WriteLine("Select a reservation to cancel:");
+            for (int i = 0; i < userReservations.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {userReservations[i].MovieTitle} - {userReservations[i].Date} - {userReservations[i].Auditorium} - {userReservations[i].SeatNumber}");
+            }
+
+            Console.Write("Enter the number of the reservation to cancel: ");
+            if (int.TryParse(Console.ReadLine(), out int selection) && selection > 0 && selection <= userReservations.Count)
+            {
+                Reservation reservationToCancel = userReservations[selection - 1];
+                // Remove the reservation from the CSV file
+                RemoveReservationFromCSV(username, reservationToCancel);
+
+                // Update auditorium layout file if necessary
+                UpdateAuditoriumLayoutFile(reservationToCancel.MovieTitle, reservationToCancel.Date, reservationToCancel.Auditorium, reservationToCancel.SeatNumber, false);
+
+                Console.WriteLine("Reservation canceled successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No reservations found for this user.");
+        }
+    }
+
+
+    public static void EditReservation(string username)
+    {
+        // Load reservation history for the user
+        List<Reservation> userReservations = ReservationHistory.LoadUserReservationsFromCSV(username);
+
+        if (userReservations.Count > 0)
+        {
+            Console.WriteLine("Select a reservation to edit:");
+            for (int i = 0; i < userReservations.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {userReservations[i].MovieTitle} - {userReservations[i].Date} - {userReservations[i].Auditorium} - {userReservations[i].SeatNumber}");
+            }
+
+            Console.Write("Enter the number of the reservation to edit: ");
+            if (int.TryParse(Console.ReadLine(), out int selection) && selection > 0 && selection <= userReservations.Count)
+            {
+                Reservation reservationToEdit = userReservations[selection - 1];
+                // Remove the original reservation from the CSV file
+                RemoveReservationFromCSV(username, reservationToEdit);
+
+                // Prompt the user to choose a new seat
+                Console.Write("Enter new seat number: ");
+                string newSeatNumber = Console.ReadLine();
+
+                // Update reservation details
+                string oldSeatNumber = reservationToEdit.SeatNumber; // Store the old seat number
+                reservationToEdit.SeatNumber = newSeatNumber;
+
+                // Add the edited reservation back to the CSV file
+                SaveReservationToCSV(username, reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, reservationToEdit.SeatNumber); // Provide the reservation date
+
+                // Update auditorium layout file if necessary
+                UpdateAuditoriumLayoutFile(reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, oldSeatNumber, reservationToEdit.SeatNumber, true);
+
+                Console.WriteLine("Reservation edited successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No reservations found for this user.");
+        }
+    }
+
+
+
+
+    // Helper method to remove a reservation from the CSV file
+    private static void RemoveReservationFromCSV(string username, Reservation reservationToRemove)
+    {
+        // Read all lines from the CSV file
+        string[] lines = File.ReadAllLines(Path.Combine(jsonFolderPath, "ReservationHistory.csv"));
+
+        // Remove the line corresponding to the reservation to cancel
+        string reservationDetails = $"{username},{reservationToRemove.MovieTitle},{reservationToRemove.Date:yyyy-MM-dd HH:mm},{reservationToRemove.Auditorium},{reservationToRemove.SeatNumber}";
+        var newLines = lines.Where(line => line != reservationDetails).ToArray();
+
+        // Write the updated lines back to the CSV file
+        File.WriteAllLines(Path.Combine(jsonFolderPath, "ReservationHistory.csv"), newLines);
+    }
+
+    // Helper method to update the auditorium layout file
+    private static void UpdateAuditoriumLayoutFile(string movieTitle, DateTime displayDate, string auditorium, string seatNumber, bool reserved)
+    {
+        try
+        {
+            string fileName = $"{movieTitle}-{displayDate:yyyyMMdd-HHmm}-{auditorium}.json";
+            string filePath = Path.Combine(jsonFolderPath, fileName);
+
+            string jsonContent = File.ReadAllText(filePath);
+            var auditoriumData = JsonConvert.DeserializeObject<JObject>(jsonContent);
+
+            var seatToUpdate = auditoriumData["auditoriums"][0]["layout"]
+                .SelectMany(row => row)
+                .FirstOrDefault(seat => seat["seat"].ToString() == seatNumber);
+
+            if (seatToUpdate != null)
+            {
+                seatToUpdate["reserved"] = reserved.ToString().ToLower();
+                File.WriteAllText(filePath, JsonConvert.SerializeObject(auditoriumData));
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating auditorium layout file: {ex.Message}");
+        }
+    }
+
+    private static void UpdateAuditoriumLayoutFile(string movieTitle, DateTime displayDate, string auditoriumName, string oldSeatNumber, string newSeatNumber, bool reserved)
+    {
+        try
+        {
+            string fileName = $"{movieTitle}-{displayDate:yyyyMMdd-HHmm}-{auditoriumName}.json";
+            string filePath = Path.Combine(jsonFolderPath, fileName);
+
+            string jsonContent = File.ReadAllText(filePath);
+            var auditoriumData = JsonConvert.DeserializeObject<JObject>(jsonContent);
+
+            // Find and update the old seat
+            var oldSeatToUpdate = auditoriumData["auditoriums"][0]["layout"]
+                .SelectMany(row => row)
+                .FirstOrDefault(seat => seat["seat"].ToString() == oldSeatNumber);
+
+            if (oldSeatToUpdate != null)
+            {
+                oldSeatToUpdate["reserved"] = "false"; // Mark the old seat as not reserved
+            }
+
+            // Find and update the new seat
+            var newSeatToUpdate = auditoriumData["auditoriums"][0]["layout"]
+                .SelectMany(row => row)
+                .FirstOrDefault(seat => seat["seat"].ToString() == newSeatNumber);
+
+            if (newSeatToUpdate != null)
+            {
+                newSeatToUpdate["reserved"] = "true"; // Mark the new seat as reserved
+            }
+
+            // Serialize the updated JSON data
+            string updatedJson = JsonConvert.SerializeObject(auditoriumData, Formatting.Indented);
+
+            // Write the updated JSON data back to the file
+            File.WriteAllText(filePath, updatedJson);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating auditorium layout file: {ex.Message}");
+        }
+    }
+
+
+
+
 }

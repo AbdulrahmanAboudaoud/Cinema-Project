@@ -9,7 +9,9 @@
             Console.WriteLine();
             Console.WriteLine("1. Make reservation");
             Console.WriteLine("2. View reservation history");
-            Console.WriteLine("3. Go back to user menu");
+            Console.WriteLine("3. Cancel reservation");
+            Console.WriteLine("4. Edit reservation");
+            Console.WriteLine("5. Go back to user menu");
             string input = Console.ReadLine()!;
             switch (input)
             {
@@ -20,6 +22,12 @@
                     ReservationHistory.ViewReservationHistory(loggedInUser.Username);
                     break;
                 case "3":
+                    ReservationLogic.CancelReservation(loggedInUser.Username);
+                    break;
+                case "4":
+                    ReservationLogic.EditReservation(loggedInUser.Username);
+                    break;
+                case "5":
                     Console.Clear();
                     logoutRequested = true;
                     break;
