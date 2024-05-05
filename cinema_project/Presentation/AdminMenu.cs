@@ -14,7 +14,7 @@ static class AdminMenu
             Console.WriteLine("3. Rules");
             Console.WriteLine("4. Search And Filter Movies");
             Console.WriteLine("5. Edit Catering Menu");
-            Console.WriteLine("6. Logout\n");
+            Console.WriteLine("6. Logout \n");
             string input = Console.ReadLine()!;
             switch (input)
             {
