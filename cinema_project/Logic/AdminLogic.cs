@@ -35,17 +35,59 @@
         Console.WriteLine("Enter the title of the movie you want to edit:");
         string titleToEdit = Console.ReadLine();
 
-        Console.WriteLine("Enter the new title of the movie:");
-        string newTitle = Console.ReadLine();
+        List<Movie> movies = MovieAccess.GetAllMovies();
+        var movieToEdit = movies.FirstOrDefault(m => m.Title.Equals(titleToEdit, StringComparison.OrdinalIgnoreCase));
 
-        Console.WriteLine("Enter the new year of release:");
-        int newYear = int.Parse(Console.ReadLine());
+        if (movieToEdit != null)
+        {
+            Console.WriteLine("What aspect of the movie would you like to edit?");
+            Console.WriteLine("1. Title");
+            Console.WriteLine("2. Year");
+            Console.WriteLine("3. Genre");
 
-        Console.WriteLine("Enter the new genre of the movie:");
-        string newGenre = Console.ReadLine();
+            if (int.TryParse(Console.ReadLine(), out int choice))
+            {
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine("Enter the new title of the movie:");
+                        string newTitle = Console.ReadLine();
+                        movieToEdit.Title = newTitle;
+                        break;
+                    case 2:
+                        Console.WriteLine("Enter the new year of release:");
+                        if (int.TryParse(Console.ReadLine(), out int newYear))
+                        {
+                            movieToEdit.Year = newYear;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid year format. Please enter a valid year.");
+                            return;
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine("Enter the new genre of the movie:");
+                        string newGenre = Console.ReadLine();
+                        movieToEdit.Genre = newGenre;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice.");
+                        return;
+                }
 
-        Movie updatedMovie = new Movie(newTitle, newYear, newGenre);
-        movieManager.EditMovie(titleToEdit, updatedMovie);
+                MovieAccess.WriteMoviesToCSV(movies);
+                Console.WriteLine("Movie edited successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Movie not found.");
+        }
     }
 
     public static void AddMovie()
