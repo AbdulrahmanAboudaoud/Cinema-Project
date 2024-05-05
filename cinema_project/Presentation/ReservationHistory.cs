@@ -28,7 +28,7 @@ public static class ReservationHistory
 
 
 
-    private static List<Reservation> LoadUserReservationsFromCSV(string username)
+    public static List<Reservation> LoadUserReservationsFromCSV(string username)
     {
         List<Reservation> userReservations = new List<Reservation>();
 
