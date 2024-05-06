@@ -139,7 +139,7 @@
         Console.WriteLine("\nAvailable Movies:");
         foreach (var movie in movies)
         {
-            Console.WriteLine($"Title: {movie.Title}, Year: {movie.Year}, Genre: {movie.Genre}");
+            Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
         }
         Console.WriteLine();
     }

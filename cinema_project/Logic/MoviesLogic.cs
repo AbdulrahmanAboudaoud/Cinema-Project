@@ -12,7 +12,7 @@
     public void EditMovie(string titleToEdit, Movie updatedMovie)
     {
         List<Movie> movies = MovieAccess.GetAllMovies();
-        var movieToEdit = movies.FirstOrDefault(m => m.Title.Equals(titleToEdit, StringComparison.OrdinalIgnoreCase));
+        var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(titleToEdit, StringComparison.OrdinalIgnoreCase));
         if (movieToEdit != null)
         {
             Console.WriteLine("What would you like to edit?");
@@ -26,7 +26,7 @@
                 {
                     case 1:
                         Console.WriteLine("Enter the new title of the movie:");
-                        updatedMovie.Title = Console.ReadLine();
+                        updatedMovie.movieTitle = Console.ReadLine();
                         break;
                     case 2:
                         Console.WriteLine("Enter the new year of release:");
@@ -49,7 +49,7 @@
                         return;
                 }
 
-                movieToEdit.Title = updatedMovie.Title;
+                movieToEdit.movieTitle = updatedMovie.movieTitle;
                 movieToEdit.Year = updatedMovie.Year;
                 movieToEdit.Genre = updatedMovie.Genre;
                 MovieAccess.WriteMoviesToCSV(movies);
@@ -71,7 +71,7 @@
     {
         List<Movie> movies = MovieAccess.GetAllMovies();
 
-        var movieToRemove = movies.FirstOrDefault(m => m.Title.Equals(TitleToRemove, StringComparison.OrdinalIgnoreCase));
+        var movieToRemove = movies.FirstOrDefault(m => m.movieTitle.Equals(TitleToRemove, StringComparison.OrdinalIgnoreCase));
         if (movieToRemove != null)
         {
             movies.Remove(movieToRemove);
@@ -89,20 +89,32 @@
     public static void AddTimeAndAuditorium(string movieTitle, DateTime displayDate, string auditorium)
     {
         List<Movie> movies = MovieAccess.GetAllMovies();
-        var movie = movies.FirstOrDefault(m => m.Title.Equals(movieTitle, StringComparison.OrdinalIgnoreCase));
+        var movie = movies.FirstOrDefault(m => m.movieTitle.Equals(movieTitle, StringComparison.OrdinalIgnoreCase));
         if (movie != null)
         {
-            movie.DisplayDate = displayDate;
-            movie.Auditorium = auditorium;
+            movie.displayTime = displayDate;
+            movie.auditorium = auditorium;
+            movie.movieTitle = movieTitle;
+
+            // Ask admin for seat prices
+            Console.WriteLine("Enter low seat price:");
+            movie.LowPrice = decimal.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter medium seat price:");
+            movie.MediumPrice = decimal.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter high seat price:");
+            movie.HighPrice = decimal.Parse(Console.ReadLine());
+
             try
             {
                 MovieAccess.WriteMoviesToCSV(movies);
-                MovieAccess.CreateLayoutFile(movie.Title, displayDate, auditorium);
-                
-                string FileName = $"{movie.Title}-{displayDate:yyyyMMdd-HHmm}-{auditorium}.json";
-                MovieScheduleAccess.WriteToMovieSchedule(FileName, movie.Title, displayDate, auditorium);
+                MovieAccess.CreateLayoutFile(movie.movieTitle, displayDate, auditorium);
 
-                Console.WriteLine("Time, date, and auditorium added successfully for the movie.");
+                string FileName = $"{movie.movieTitle}-{displayDate:yyyyMMdd-HHmm}-{auditorium}.json";
+                MovieScheduleAccess.WriteToMovieSchedule(FileName, movie.movieTitle, displayDate, auditorium, movie.LowPrice, movie.MediumPrice, movie.HighPrice);
+
+                Console.WriteLine("Time, date, auditorium, and seat prices added successfully for the movie.");
             }
             catch (Exception ex)
             {
@@ -114,7 +126,6 @@
             Console.WriteLine("Movie not found.");
         }
     }
-
 }
 
 

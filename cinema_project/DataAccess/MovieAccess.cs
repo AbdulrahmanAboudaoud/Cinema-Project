@@ -6,9 +6,9 @@ using System.Linq;
 
 public static class MovieAccess
 {
-    private const string MoviesFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
-    private const string CinemaHallsFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
-    private const string DataSourcesFolder = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources";
+    private const string MoviesFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
+    private const string CinemaHallsFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
+    private const string DataSourcesFolder = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources";
 
 
     public static List<Movie> GetAllMovies()
@@ -48,9 +48,9 @@ public static class MovieAccess
             {
                 foreach (var movie in movies)
                 {
-                    string displayDate = movie.DisplayDate != default(DateTime) ? movie.DisplayDate.ToString("yyyy-MM-dd HH:mm") : "";
+                    string displayDate = movie.displayTime != default(DateTime) ? movie.displayTime.ToString("yyyy-MM-dd HH:mm") : "";
 
-                    writer.WriteLine($"{movie.Title},{movie.Year},{movie.Genre},{displayDate},{movie.Auditorium}");
+                    writer.WriteLine($"{movie.movieTitle},{movie.Year},{movie.Genre},{displayDate},{movie.auditorium}");
                 }
             }
             //Console.WriteLine("Movies written to file successfully.");

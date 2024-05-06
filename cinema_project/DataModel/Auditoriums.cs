@@ -16,3 +16,16 @@ public class CinemaHalls
     public Auditorium[] auditoriums { get; set; }
 }
 
+public class SeatPrices
+{
+    public decimal Low { get; set; }
+    public decimal Medium { get; set; }
+    public decimal High { get; set; }
+
+    public SeatPrices(decimal low, decimal medium, decimal high)
+    {
+        Low = low;
+        Medium = medium;
+        High = high;
+    }
+}

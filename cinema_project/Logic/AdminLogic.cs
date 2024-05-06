@@ -62,7 +62,7 @@ public static class AdminLogic
         Console.WriteLine("\nAvailable Movies:");
         foreach (var movie in movies)
         {
-            Console.WriteLine($"Title: {movie.Title}, Year: {movie.Year}, Genre: {movie.Genre}");
+            Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
         }
         Console.WriteLine();
     }
@@ -74,7 +74,7 @@ public static class AdminLogic
         string titleToEdit = Console.ReadLine();
 
         List<Movie> movies = MovieAccess.GetAllMovies();
-        var movieToEdit = movies.FirstOrDefault(m => m.Title.Equals(titleToEdit, StringComparison.OrdinalIgnoreCase));
+        var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(titleToEdit, StringComparison.OrdinalIgnoreCase));
 
         if (movieToEdit != null)
         {
@@ -90,7 +90,7 @@ public static class AdminLogic
                     case 1:
                         Console.WriteLine("Enter the new title of the movie:");
                         string newTitle = Console.ReadLine();
-                        movieToEdit.Title = newTitle;
+                        movieToEdit.movieTitle = newTitle;
                         break;
                     case 2:
                         Console.WriteLine("Enter the new year of release:");
@@ -199,9 +199,22 @@ public static class AdminLogic
 
         Console.WriteLine("Enter display date (yyyy-MM-dd HH:mm):");
         DateTime displayDate;
-        while (!DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd HH:mm", null, System.Globalization.DateTimeStyles.None, out displayDate))
+        while (true)
         {
-            Console.WriteLine("Invalid date format. Please enter in the format: yyyy-MM-dd HH:mm");
+            string input = Console.ReadLine();
+            if (!DateTime.TryParseExact(input, "yyyy-MM-dd HH:mm", null, System.Globalization.DateTimeStyles.None, out displayDate))
+            {
+                Console.WriteLine("Invalid date format. Please enter in the format: yyyy-MM-dd HH:mm");
+                continue;
+            }
+
+            if (displayDate <= DateTime.Now)
+            {
+                Console.WriteLine("You cannot enter a date in the past or today. Please enter a future date.");
+                continue;
+            }
+
+            break;
         }
 
         Console.WriteLine("Enter auditorium:");
@@ -209,5 +222,6 @@ public static class AdminLogic
 
         MoviesLogic.AddTimeAndAuditorium(title, displayDate, auditorium);
     }
+
 
 }

@@ -9,7 +9,6 @@ public static class AuditoriumsPresentation
             Console.WriteLine($"Auditorium: {auditorium.name}");
             Console.WriteLine("");
 
-            // Print the layout upside down
             for (int i = auditorium.layout.Length - 1; i >= 0; i--)
             {
                 var row = auditorium.layout[i];
@@ -86,12 +85,11 @@ public static class AuditoriumsPresentation
 
             if (cinemaHalls != null && cinemaHalls.auditoriums != null && cinemaHalls.auditoriums.Length > 0)
             {
-                var auditorium = cinemaHalls.auditoriums[0]; // Assuming there is only one auditorium in the JSON file
+                var auditorium = cinemaHalls.auditoriums[0];
 
                 Console.WriteLine($"Auditorium: {auditorium.name}");
                 Console.WriteLine("");
 
-                // Print the layout upside down
                 for (int i = auditorium.layout.Length - 1; i >= 0; i--)
                 {
                     var row = auditorium.layout[i];
@@ -154,6 +152,7 @@ public static class AuditoriumsPresentation
                 }
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine();
+                PrintSeatPrices(fileName);
             }
             else
             {
@@ -166,4 +165,35 @@ public static class AuditoriumsPresentation
         }
     }
 
+    public static void PrintSeatPrices(string fileName)
+    {
+        try
+        {
+            string filenameOnly = Path.GetFileName(fileName);
+
+            string json = File.ReadAllText("C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json");
+            var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(json);
+
+            var movie = movieSchedule.FirstOrDefault(m => m.filename == filenameOnly);
+            if (movie != null)
+            {
+                Console.WriteLine($"Seat Prices for {movie.movieTitle} in {movie.auditorium}:");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"[]: ${movie.LowPrice}");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine($"[]: ${movie.MediumPrice}");
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine($"[]: ${movie.HighPrice}");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.WriteLine("No entry found for the specified filename.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error reading MovieSchedule.json file: " + ex.Message);
+        }
+    }
 }
