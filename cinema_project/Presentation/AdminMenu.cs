@@ -14,7 +14,8 @@ static class AdminMenu
             Console.WriteLine("3. Rules");
             Console.WriteLine("4. Search And Filter Movies");
             Console.WriteLine("5. Edit Catering Menu");
-            Console.WriteLine("6. Logout\n");
+            Console.WriteLine("6. View all reservations");
+            Console.WriteLine("7. Logout\n");
             string input = Console.ReadLine()!;
             switch (input)
             {
@@ -34,6 +35,9 @@ static class AdminMenu
                     cateringeditmenu();
                     break;
                 case "6":
+                    AdminLogic.DisplayAllReservations();
+                    break;
+                case "7":
                     Console.WriteLine("Logging out...");
                     Console.WriteLine("You have been logged out.");
                     Menu.Start();
