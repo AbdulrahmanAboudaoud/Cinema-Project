@@ -62,27 +62,36 @@
 
     private static void SearchMovies()
     {
-        Console.WriteLine("Choose search criteria:");
-        Console.WriteLine("1. Search by film");
-        Console.WriteLine("2. Search by year");
-        Console.WriteLine("3. Search by genre");
+        bool exitRequested = false;
 
-        string searchOption = Console.ReadLine();
-
-        switch (searchOption)
+        while (!exitRequested)
         {
-            case "1":
-                SearchLogic.SearchByFilm();
-                break;
-            case "2":
-                SearchLogic.SearchByYear();
-                break;
-            case "3":
-                SearchLogic.SearchByGenre();
-                break;
-            default:
-                Console.WriteLine("Invalid option.");
-                break;
+            Console.WriteLine("Choose search criteria:");
+            Console.WriteLine("1. Search by film");
+            Console.WriteLine("2. Search by year");
+            Console.WriteLine("3. Search by genre");
+            Console.WriteLine("4. Back to menu\n");
+
+            string searchOption = Console.ReadLine();
+
+            switch (searchOption)
+            {
+                case "1":
+                    SearchLogic.SearchByFilm();
+                    break;
+                case "2":
+                    SearchLogic.SearchByYear();
+                    break;
+                case "3":
+                    SearchLogic.SearchByGenre();
+                    break;
+                case "4":
+                    exitRequested = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option.");
+                    break;
+            }
         }
     }
 

@@ -48,27 +48,36 @@ static class AdminMenu
 
     private static void SearchMovies()
     {
-        Console.WriteLine("Choose search criteria:");
-        Console.WriteLine("1. Search by film");
-        Console.WriteLine("2. Search by year");
-        Console.WriteLine("3. Search by genre");
+        bool exitRequested = false;
 
-        string searchOption = Console.ReadLine();
-
-        switch (searchOption)
+        while (!exitRequested)
         {
-            case "1":
-                SearchLogic.SearchByFilm();
-                break;
-            case "2":
-                SearchLogic.SearchByYear();
-                break;
-            case "3":
-                SearchLogic.SearchByGenre();
-                break;
-            default:
-                Console.WriteLine("Invalid option.");
-                break;
+            Console.WriteLine("Choose search criteria:");
+            Console.WriteLine("1. Search by film");
+            Console.WriteLine("2. Search by year");
+            Console.WriteLine("3. Search by genre");
+            Console.WriteLine("4. Back to Main Menu\n");
+
+            string searchOption = Console.ReadLine();
+
+            switch (searchOption)
+            {
+                case "1":
+                    SearchLogic.SearchByFilm();
+                    break;
+                case "2":
+                    SearchLogic.SearchByYear();
+                    break;
+                case "3":
+                    SearchLogic.SearchByGenre();
+                    break;
+                case "4":
+                    exitRequested = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option.");
+                    break;
+            }
         }
     }
 
@@ -119,28 +128,37 @@ static class AdminMenu
 
     static private void Rules()
     {
-        Console.WriteLine("1. View rules");
-        Console.WriteLine("2. Edit rules");
-        Console.WriteLine("3. Add rule");
-        Console.WriteLine("4. Remove rule");
-        string choice = Console.ReadLine().Trim();
-        switch (choice)
+        bool exitRequested = false;
+
+        while (!exitRequested)
         {
-            case "1":
-                RulesLogic.ViewAllRules();
-                break;
-            case "2":
-                AdminLogic.EditRules();
-                break;
-            case "3":
-                AdminLogic.AddRule();
-                break;
-            case "4":
-                AdminLogic.RemoveRule();
-                break;
-            default:
-                Console.WriteLine("Invalid input");
-                break;
+            Console.WriteLine("1. View rules");
+            Console.WriteLine("2. Edit rules");
+            Console.WriteLine("3. Add rule");
+            Console.WriteLine("4. Remove rule");
+            Console.WriteLine("5. Back to Main Menu\n");
+            string choice = Console.ReadLine().Trim();
+            switch (choice)
+            {
+                case "1":
+                    RulesLogic.ViewAllRules();
+                    break;
+                case "2":
+                    AdminLogic.EditRules();
+                    break;
+                case "3":
+                    AdminLogic.AddRule();
+                    break;
+                case "4":
+                    AdminLogic.RemoveRule();
+                    break;
+                case "5":
+                    exitRequested = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid input");
+                    break;
+            }
         }
     }
 
@@ -151,7 +169,7 @@ static class AdminMenu
         Console.WriteLine("3. Remove Items");
         Console.WriteLine("4. Sort Items");
         Console.WriteLine("5. Edit Items");
-        Console.WriteLine("6. Cancel");
+        Console.WriteLine("6. Back to main menu\n");
         bool exitmenu = false;
         string? cateringchoice = Console.ReadLine();
 
@@ -217,6 +235,9 @@ static class AdminMenu
                     {
                         Console.WriteLine("Couldn't find the ID, please try again");
                     }
+                    exitmenu = true;
+                    break;
+                case "6":
                     exitmenu = true;
                     break;
                 default:

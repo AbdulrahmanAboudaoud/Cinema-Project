@@ -92,14 +92,17 @@
     }
 
 
-
     public static void AddMovie()
     {
         Console.WriteLine("Enter the title of the movie:");
         string title = Console.ReadLine();
 
         Console.WriteLine("Enter the year of release:");
-        int year = int.Parse(Console.ReadLine());
+        if (!int.TryParse(Console.ReadLine(), out int year))
+        {
+            Console.WriteLine("Invalid input for year. Please enter a valid integer.");
+            return;
+        }
 
         Console.WriteLine("Enter the genre of the movie:");
         string genre = Console.ReadLine();
@@ -112,7 +115,11 @@
     public static void EditRules()
     {
         Console.WriteLine("Which rule would you like to edit? (Insert rule number)");
-        int RuleNumber = Convert.ToInt32(Console.ReadLine());
+        if (!int.TryParse(Console.ReadLine(), out int RuleNumber))
+        {
+            Console.WriteLine("Invalid input for rule number. Please enter a valid integer.");
+            return;
+        }
         RulesLogic.EditRules(RuleNumber);
     }
 
@@ -126,7 +133,11 @@
     public static void RemoveRule()
     {
         Console.WriteLine("Which rule would you like to remove? (Insert rule number)");
-        int RuleNumber = Convert.ToInt32(Console.ReadLine());
+        if (!int.TryParse(Console.ReadLine(), out int RuleNumber))
+        {
+            Console.WriteLine("Invalid input for rule number. Please enter a valid integer.");
+            return;
+        }
         RulesLogic.RemoveRule(RuleNumber);
     }
 
