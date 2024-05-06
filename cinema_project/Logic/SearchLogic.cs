@@ -10,14 +10,14 @@
 
         List<Movie> movies = MovieAccess.GetAllMovies();
 
-        var filteredMovies = movies.Where(movie => movie.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+        var filteredMovies = movies.Where(movie => movie.movieTitle.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
 
         if (filteredMovies.Count > 0)
         {
             Console.WriteLine("\nSearch Results:");
             foreach (var movie in filteredMovies)
             {
-                Console.WriteLine($"Title: {movie.Title}, Year: {movie.Year}, Genre: {movie.Genre}");
+                Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
             }
         }
         else
@@ -40,7 +40,7 @@
                 Console.WriteLine("\nSearch Results:");
                 foreach (var movie in filteredMovies)
                 {
-                    Console.WriteLine($"Title: {movie.Title}, Year: {movie.Year}, Genre: {movie.Genre}");
+                    Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
                 }
             }
             else
@@ -69,7 +69,7 @@
             Console.WriteLine("\nSearch Results:");
             foreach (var movie in filteredMovies)
             {
-                Console.WriteLine($"Title: {movie.Title}, Year: {movie.Year}, Genre: {movie.Genre}");
+                Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
             }
         }
         else

@@ -5,7 +5,7 @@ using System.IO;
 
 public static class MovieScheduleAccess
 {
-    static public string MovieScheduleFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
+    static public string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
     public static List<Dictionary<string, string>> GetMovieSchedule()
     {
         List<Dictionary<string, string>> movieSchedule = new List<Dictionary<string, string>>();
@@ -27,26 +27,26 @@ public static class MovieScheduleAccess
         return movieSchedule;
     }
 
-    public static void WriteToMovieSchedule(string filename, string movieTitle, DateTime displayTime, string auditorium)
+    public static void WriteToMovieSchedule(string filename, string movieTitle, DateTime displayTime, string auditorium, decimal lowPrice, decimal mediumPrice, decimal highPrice)
     {
         try
         {
-            // Eerst de filmplanning ophalen uit het JSON-bestand
-            List<Dictionary<string, string>> movieSchedule = GetMovieSchedule();
+            // Read the existing data
+            string json = File.ReadAllText(MovieScheduleFilePath);
+            var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
 
-            // Een nieuwe dictionary maken voor de nieuwe film
-            Dictionary<string, string> newMovie = new Dictionary<string, string>
+            // Add the new movie entry
+            movieSchedule.Add(new Movie(movieTitle)
             {
-                { "filename", filename },
-                { "movieTitle", movieTitle },
-                { "displayTime", displayTime.ToString("yyyy-MM-ddTHH:mm:ss") }, // DisplayTime omzetten naar string formaat
-                { "auditorium", auditorium }
-            };
+                filename = filename,
+                displayTime = displayTime,
+                auditorium = auditorium,
+                LowPrice = lowPrice,
+                MediumPrice = mediumPrice,
+                HighPrice = highPrice
+            });
 
-            // De nieuwe film toevoegen aan de filmplanning
-            movieSchedule.Add(newMovie);
-
-            // De bijgewerkte filmplanning opslaan in het JSON-bestand
+            // Write back to the file
             string updatedJson = JsonConvert.SerializeObject(movieSchedule, Formatting.Indented);
             File.WriteAllText(MovieScheduleFilePath, updatedJson);
 
@@ -57,5 +57,4 @@ public static class MovieScheduleAccess
             Console.WriteLine("Error writing to movie schedule: " + ex.Message);
         }
     }
-
 }
