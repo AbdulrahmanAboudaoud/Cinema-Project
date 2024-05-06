@@ -199,9 +199,22 @@ public static class AdminLogic
 
         Console.WriteLine("Enter display date (yyyy-MM-dd HH:mm):");
         DateTime displayDate;
-        while (!DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd HH:mm", null, System.Globalization.DateTimeStyles.None, out displayDate))
+        while (true)
         {
-            Console.WriteLine("Invalid date format. Please enter in the format: yyyy-MM-dd HH:mm");
+            string input = Console.ReadLine();
+            if (!DateTime.TryParseExact(input, "yyyy-MM-dd HH:mm", null, System.Globalization.DateTimeStyles.None, out displayDate))
+            {
+                Console.WriteLine("Invalid date format. Please enter in the format: yyyy-MM-dd HH:mm");
+                continue;
+            }
+
+            if (displayDate <= DateTime.Now)
+            {
+                Console.WriteLine("You cannot enter a date in the past or today. Please enter a future date.");
+                continue;
+            }
+
+            break;
         }
 
         Console.WriteLine("Enter auditorium:");
@@ -209,5 +222,6 @@ public static class AdminLogic
 
         MoviesLogic.AddTimeAndAuditorium(title, displayDate, auditorium);
     }
+
 
 }
