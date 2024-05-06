@@ -3,28 +3,31 @@
     public static void Start(ref User loggedInUser)
     {
         bool exitRequested = false;
-
+        Console.Clear();
         while (!exitRequested)
         {
             Console.WriteLine();
-            TextArt.welcomescreen();
-            Console.WriteLine("1. Change Account Information");
-            Console.WriteLine("2. Delete Account");
-            Console.WriteLine("3. View All Movies");
-            Console.WriteLine("4. Catering Menu Information");
-            Console.WriteLine("5. Display Auditoriums");
-            Console.WriteLine("6. Search And Filter Movies");
-            Console.WriteLine("7. Reservation");
-            Console.WriteLine("8. Logout\n");
-            Console.Write("Select an option: ");
-            string option = Console.ReadLine();
+            CenterText.printart(TextArt.welcomescreen());
+            CenterText.print("=================================", "Cyan");
+            CenterText.print("|| 1. Change Account Info      ||", "Cyan");
+            CenterText.print("|| 2. Delete Account           ||", "Cyan");
+            CenterText.print("|| 3. View All Movies          ||", "Cyan");
+            CenterText.print("|| 4. Catering Menu Info       ||", "Cyan");
+            CenterText.print("|| 5. Display Auditoriums      ||", "Cyan");
+            CenterText.print("|| 6. Search And Filter Movies ||", "Cyan");
+            CenterText.print("|| 7. Reservation              ||", "Cyan");
+            CenterText.print("|| 8. Logout                   ||", "Cyan");
+            CenterText.print("=================================", "Cyan");
+            char option = Console.ReadKey().KeyChar;
 
             switch (option)
             {
-                case "1":
+                case '1':
+                    Console.Clear();
                     UpdateAccount(loggedInUser);
                     break;
-                case "2":
+                case '2':
+                    Console.Clear();
                     bool status = UserLogic.DeleteAccount(loggedInUser.Username);
                     if(status)
                     {
@@ -32,22 +35,28 @@
                         Menu.Start();
                     }
                     break;
-                case "3":
+                case '3':
+                    Console.Clear();
                     ViewMovies();
                     break;
-                case "4":
+                case '4':
+                    Console.Clear();
                     CateringMenu.StartMenu(ref loggedInUser);
                     break;
-                case "5":
+                case '5':
+                    Console.Clear();
                     AuditoriumsLogic.ShowAllAuditoriums();
                     break;
-                case "6":
+                case '6':
+                    Console.Clear();
                     SearchMovies();
                     break;
-                case "7":
+                case '7':
+                    Console.Clear();
                     ReservationMenu.Start(ref loggedInUser);
                     break;
-                case "8":
+                case '8':
+                    Console.Clear();
                     exitRequested = true;
                     Logout(ref loggedInUser);
                     //exitRequested = true;
@@ -66,11 +75,13 @@
 
         while (!exitRequested)
         {
-            Console.WriteLine("Choose search criteria:");
-            Console.WriteLine("1. Search by film");
-            Console.WriteLine("2. Search by year");
-            Console.WriteLine("3. Search by genre");
-            Console.WriteLine("4. Back to menu\n");
+            CenterText.print(" ============================================", "Cyan");
+            CenterText.print(" ||              Choose search criteria:      ||", "Cyan");
+            CenterText.print(" || 1. Search by film                         ||", "Cyan");
+            CenterText.print(" || 2. Search by year                         ||", "Cyan");
+            CenterText.print(" || 3. Search by genre                        ||", "Cyan");
+            CenterText.print(" || 4. Back to menu                           ||", "Cyan");
+            CenterText.print(" ============================================", "Cyan");
 
             string searchOption = Console.ReadLine();
 
@@ -97,8 +108,14 @@
 
     private static void UpdateAccount(User loggedInUser)
     {
-        Console.WriteLine("\nWhich info would you like to change?");
-        Console.WriteLine("1. Email\n2. Phone\n3. Name\n4. Password");
+        Console.Clear();
+        CenterText.print(" ============================================", "Cyan");
+        CenterText.print(" ||  Which info would you like to change?  ||", "Cyan");
+        CenterText.print(" || 1. Email                               ||", "Cyan");
+        CenterText.print(" || 2. Phone                               ||", "Cyan");
+        CenterText.print(" || 3. Name                                ||", "Cyan");
+        CenterText.print(" || 4. Password                            ||", "Cyan");
+        CenterText.print(" ============================================", "Cyan");
         int choice = Convert.ToInt32(Console.ReadLine());
 
         Console.WriteLine("Enter the new information:");

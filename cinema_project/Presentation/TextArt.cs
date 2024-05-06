@@ -1,8 +1,8 @@
 public static class TextArt
 {
-    public static void popcorn()
+    public static string popcorn()
     {
-        Console.WriteLine(@"
+        return @"
                   ██████████  ████          
             ██████░░░░██░░░░██    ██        
           ██░░██  ██░░    ██      ██        
@@ -33,11 +33,11 @@ public static class TextArt
     ██  ██  ██  ██▒▒▒▒▒▒▒▒▒▒██  ██░░████    
           ██      ██████████      ██        
         
-");
+";
     }
-    public static void welcomescreen()
+    public static string welcomescreen()
     {
-        Console.WriteLine(@"
+        return @"
 
  _    _      _                        _____    ______ _                   _ _     
 | |  | |    | |                      |_   _|   | ___ (_)                 | (_)    
@@ -47,11 +47,11 @@ public static class TextArt
  \/  \/ \___|_|\___\___/|_| |_| |_|\___\_/\___/\____/|_|\___/| .__/ \___/|_|_|___/
                                                              | |                  
                                                              |_|                  
-        ");
+        ";
     }
-    public static void seat()
+    public static string seat()
     {
-        Console.WriteLine(@"
+        return @"
             __________
      _ ,-'""          ""`-. _
     f Y      *     *       Y Y
@@ -73,6 +73,6 @@ public static class TextArt
    |                          |
    |                          |
    `--------------------------'        
-        ");   
+        ";   
     } 
 }

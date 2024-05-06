@@ -2,6 +2,7 @@
 {
     public static User Start()
     {
+        Console.Clear();
         Console.WriteLine("Welcome to the login page");
         Console.WriteLine("Please enter your username");
         string username = Console.ReadLine();
