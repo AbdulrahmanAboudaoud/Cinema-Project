@@ -126,7 +126,22 @@
         CenterText.print(" || 4. Password                            ||", "Cyan");
         CenterText.print(" ||                                        ||", "Cyan");
         CenterText.print(" ============================================", "Cyan");
-        int choice = Convert.ToInt32(Console.ReadLine());
+        
+        int choice;
+        bool isValidChoice = false;
+        do
+        {
+            Console.WriteLine("Enter your choice (1-4):");
+            string choiceInput = Console.ReadLine();
+            if (!int.TryParse(choiceInput, out choice) || choice < 1 || choice > 4)
+            {
+                Console.WriteLine("Invalid input. Please enter a number between 1 and 4.");
+            }
+            else
+            {
+                isValidChoice = true;
+            }
+        } while (!isValidChoice);
 
         Console.WriteLine("Enter the new information:");
         string newInfo = Console.ReadLine();
