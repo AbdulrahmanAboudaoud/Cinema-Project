@@ -9,6 +9,7 @@
             Console.WriteLine();
             CenterText.printart(TextArt.welcomescreen());
             CenterText.print("=================================", "Cyan");
+            CenterText.print("||                             ||", "Cyan");
             CenterText.print("|| 1. Change Account Info      ||", "Cyan");
             CenterText.print("|| 2. Delete Account           ||", "Cyan");
             CenterText.print("|| 3. View All Movies          ||", "Cyan");
@@ -17,6 +18,7 @@
             CenterText.print("|| 6. Search And Filter Movies ||", "Cyan");
             CenterText.print("|| 7. Reservation              ||", "Cyan");
             CenterText.print("|| 8. Logout                   ||", "Cyan");
+            CenterText.print("||                             ||", "Cyan");
             CenterText.print("=================================", "Cyan");
             char option = Console.ReadKey().KeyChar;
 
@@ -75,28 +77,34 @@
 
         while (!exitRequested)
         {
-            CenterText.print(" ============================================", "Cyan");
+            CenterText.print(" ===============================================", "Cyan");
             CenterText.print(" ||              Choose search criteria:      ||", "Cyan");
+            CenterText.print(" ||                                           ||", "Cyan");
             CenterText.print(" || 1. Search by film                         ||", "Cyan");
             CenterText.print(" || 2. Search by year                         ||", "Cyan");
             CenterText.print(" || 3. Search by genre                        ||", "Cyan");
             CenterText.print(" || 4. Back to menu                           ||", "Cyan");
-            CenterText.print(" ============================================", "Cyan");
+            CenterText.print(" ||                                           ||", "Cyan");
+            CenterText.print(" ===============================================", "Cyan");
 
-            string searchOption = Console.ReadLine();
+            char searchOption= Console.ReadKey().KeyChar;
 
             switch (searchOption)
             {
-                case "1":
+                case '1':
+                    Console.Clear();    
                     SearchLogic.SearchByFilm();
                     break;
-                case "2":
+                case '2':
+                    Console.Clear(); 
                     SearchLogic.SearchByYear();
                     break;
-                case "3":
+                case '3':
+                    Console.Clear(); 
                     SearchLogic.SearchByGenre();
                     break;
-                case "4":
+                case '4':
+                    Console.Clear(); 
                     exitRequested = true;
                     break;
                 default:
@@ -110,11 +118,13 @@
     {
         Console.Clear();
         CenterText.print(" ============================================", "Cyan");
+        CenterText.print(" ||                                        ||", "Cyan");
         CenterText.print(" ||  Which info would you like to change?  ||", "Cyan");
         CenterText.print(" || 1. Email                               ||", "Cyan");
         CenterText.print(" || 2. Phone                               ||", "Cyan");
         CenterText.print(" || 3. Name                                ||", "Cyan");
         CenterText.print(" || 4. Password                            ||", "Cyan");
+        CenterText.print(" ||                                        ||", "Cyan");
         CenterText.print(" ============================================", "Cyan");
         int choice = Convert.ToInt32(Console.ReadLine());
 

@@ -8,9 +8,6 @@
         string username = Console.ReadLine();
         Console.WriteLine("Please enter your password");
         string password = Console.ReadLine();
-
-
-
         User loggedInUser = UserLogic.Login(username, password);
         if (loggedInUser != null)
         {

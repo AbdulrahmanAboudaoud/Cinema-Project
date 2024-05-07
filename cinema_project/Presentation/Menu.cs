@@ -2,13 +2,16 @@
 {
     static public void Start()
     {
-        Console.WriteLine("1. Login");
-        Console.WriteLine("2. Create an Account");
-        Console.WriteLine("3. View Cinema Rules");
-        Console.WriteLine("4. Exit\n");
-
-        string input = Console.ReadLine();
-        if (input == "1")
+        CenterText.print("=================================", "Cyan");
+        CenterText.print("||                             ||", "Cyan");
+        CenterText.print("|| 1. Login                    ||", "Cyan");
+        CenterText.print("|| 2. Create an Account        ||", "Cyan");
+        CenterText.print("|| 3. View Cinema Rules        ||", "Cyan");
+        CenterText.print("|| 4. Exit                     ||", "Cyan");
+        CenterText.print("||                             ||", "Cyan");
+        CenterText.print("=================================", "Cyan");
+        char input = Console.ReadKey().KeyChar;
+        if (input == '1')
         {
             User loggedInUser = UserLogin.Start();
             if (loggedInUser != null)
@@ -27,16 +30,16 @@
                 Start(); // Restart the menu if login failed
             }
         }
-        else if (input == "2")
+        else if (input == '2')
         {
             UserLogic.Start();
         }
-        else if (input == "3")
+        else if (input == '3')
         {
             //Rules method call
             RulesLogic.ViewAllRules();
         }
-        else if (input == "4")
+        else if (input == '4')
         {
             Environment.Exit(0);
         }

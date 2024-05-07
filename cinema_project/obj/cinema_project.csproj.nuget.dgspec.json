@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\cinema_project.csproj": {}
+    "C:\\CodingProjects\\C#\\Cinema\\Cinema-Project\\cinema_project\\cinema_project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\cinema_project.csproj": {
+    "C:\\CodingProjects\\C#\\Cinema\\Cinema-Project\\cinema_project\\cinema_project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\cinema_project.csproj",
+        "projectUniqueName": "C:\\CodingProjects\\C#\\Cinema\\Cinema-Project\\cinema_project\\cinema_project.csproj",
         "projectName": "cinema_project",
-        "projectPath": "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\cinema_project.csproj",
-        "packagesPath": "C:\\Users\\Joseph\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\obj\\",
+        "projectPath": "C:\\CodingProjects\\C#\\Cinema\\Cinema-Project\\cinema_project\\cinema_project.csproj",
+        "packagesPath": "C:\\Users\\wikto\\.nuget\\packages\\",
+        "outputPath": "C:\\CodingProjects\\C#\\Cinema\\Cinema-Project\\cinema_project\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Joseph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wikto\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

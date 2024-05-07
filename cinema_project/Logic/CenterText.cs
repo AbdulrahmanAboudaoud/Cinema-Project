@@ -26,6 +26,7 @@ public static class CenterText
         int spaces = (screenWidth - stringWidth) / 2;
         Console.WriteLine(new string(' ', Math.Max(0, spaces)) + text);
     }
+
     public static void printart(string art)
     {
         int screenWidth = Console.WindowWidth;

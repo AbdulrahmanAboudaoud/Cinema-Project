@@ -14,21 +14,33 @@ public static class CateringMenu
         bool browsemenu = false;
         while (!browsemenu)
         {
-            Console.WriteLine("1. Browse Food");
-            Console.WriteLine("2. Browse Drinks");
-            Console.WriteLine("3. Go back to user menu");
-            string userinput = Console.ReadLine();
+            CenterText.print("=================================", "Cyan");
+            CenterText.print("||                             ||", "Cyan");
+            CenterText.print("|| 1. Browse Food              ||", "Cyan");
+            CenterText.print("|| 2. Browse Drinks            ||", "Cyan");
+            CenterText.print("|| 3. Go back to user menu     ||", "Cyan");
+            CenterText.print("||                             ||", "Cyan");
+            CenterText.print("=================================", "Cyan");
+            char userinput = Console.ReadKey().KeyChar;
             switch (userinput)
             {
-                case "1":
+                case '1':
                     Choice = "Food";
-                    CateringLogic.ViewItems(Choice, CateringAccess.cateringmenu);      
-                    break;
-                case "2":
-                    Choice = "Drink";
+                    Console.Clear();
                     CateringLogic.ViewItems(Choice, CateringAccess.cateringmenu);
+                    Console.WriteLine("Press any key to continue..");
+                    Console.ReadKey();
+                    Console.Clear();  
                     break;
-                case "3":
+                case '2':
+                    Choice = "Drink";
+                    Console.Clear();
+                    CateringLogic.ViewItems(Choice, CateringAccess.cateringmenu);
+                    Console.WriteLine("Press any key to continue..");
+                    Console.ReadKey();
+                    Console.Clear();  
+                    break;
+                case '3':
                     Console.Clear();
                     browsemenu = true;
                     break;
