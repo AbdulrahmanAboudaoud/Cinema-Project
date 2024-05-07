@@ -2,6 +2,8 @@
 {
     static public void Start()
     {
+        Console.WriteLine(TextArt.loginprint());
+        Console.WriteLine();
         CenterText.print("=================================", "Cyan");
         CenterText.print("||                             ||", "Cyan");
         CenterText.print("|| 1. Login                    ||", "Cyan");
