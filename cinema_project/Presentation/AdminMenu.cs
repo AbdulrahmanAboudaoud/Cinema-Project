@@ -9,37 +9,51 @@ static class AdminMenu
         while (!logoutRequested)
         {
             Console.WriteLine();
-            Console.WriteLine("1. Movies");
-            Console.WriteLine("2. View All Users");
-            Console.WriteLine("3. Rules");
-            Console.WriteLine("4. Search And Filter Movies");
-            Console.WriteLine("5. Edit Catering Menu");
-            Console.WriteLine("6. View all reservations");
-            Console.WriteLine("7. Logout\n");
-            string input = Console.ReadLine()!;
+            CenterText.print(" =================================", "Cyan");
+            CenterText.print(" ||                             ||", "Cyan");
+            CenterText.print(" || 1. Movies                   ||", "Cyan");
+            CenterText.print(" || 2. View All Users           ||", "Cyan");
+            CenterText.print(" || 3. Rules                    ||", "Cyan");
+            CenterText.print(" || 4. Search And Filter Movies ||", "Cyan");
+            CenterText.print(" || 5. Edit Catering Menu       ||", "Cyan");
+            CenterText.print(" || 6. View all reservations    ||", "Cyan");
+            CenterText.print(" || 7. Logout                   ||", "Cyan");
+            CenterText.print(" ||                             ||", "Cyan");
+            CenterText.print(" =================================", "Cyan");            
+            char input = Console.ReadKey().KeyChar;
             switch (input)
             {
-                case "1":
+                case '1':
+                    Console.Clear();
                     MoviesInterface(); 
                     break;
-                case "2":
+                case '2':
+                    Console.Clear();
                     AdminLogic.ViewAllUsers();
                     break;
-                case "3":
+                case '3':
+                    Console.Clear();
                     Rules();
                     break;
-                case "4":
+                case '4':
+                    Console.Clear();
                     SearchMovies();
                     break;
-                case "5":
+                case '5':
+                    Console.Clear();
                     cateringeditmenu();
                     break;
-                case "6":
+                case '6':
+                    Console.Clear();
                     AdminLogic.DisplayAllReservations();
                     break;
-                case "7":
+                case '7':
+                    Console.Clear();
                     Console.WriteLine("Logging out...");
                     Console.WriteLine("You have been logged out.");
+                    Console.WriteLine("Press any key to continue..");
+                    Console.ReadKey();
+                    Console.Clear();
                     Menu.Start();
                     logoutRequested = true;
                     break;
@@ -56,29 +70,38 @@ static class AdminMenu
 
         while (!exitRequested)
         {
-            Console.WriteLine("Choose search criteria:");
-            Console.WriteLine("1. Search by film");
-            Console.WriteLine("2. Search by year");
-            Console.WriteLine("3. Search by genre");
-            Console.WriteLine("4. Back to Main Menu\n");
+            CenterText.print(" ==================================", "Cyan");
+            CenterText.print(" ||    Choose search criteria:   ||", "Cyan");
+            CenterText.print(" ||                              ||", "Cyan");
+            CenterText.print(" || 1. Search by film            ||", "Cyan");
+            CenterText.print(" || 2. Search by year            ||", "Cyan");
+            CenterText.print(" || 3. Search by genre           ||", "Cyan");
+            CenterText.print(" || 4. Back to Main Menu         ||", "Cyan");
+            CenterText.print(" ||                              ||", "Cyan");
+            CenterText.print(" ==================================", "Cyan");
 
-            string searchOption = Console.ReadLine();
+            char searchOption = Console.ReadKey().KeyChar;
 
             switch (searchOption)
             {
-                case "1":
+                case '1':
+                    Console.Clear();
                     SearchLogic.SearchByFilm();
                     break;
-                case "2":
+                case '2':
+                    Console.Clear();
                     SearchLogic.SearchByYear();
                     break;
-                case "3":
+                case '3':
+                    Console.Clear();
                     SearchLogic.SearchByGenre();
                     break;
-                case "4":
+                case '4':
+                    Console.Clear();
                     exitRequested = true;
                     break;
                 default:
+                    Console.Clear();
                     Console.WriteLine("Invalid option.");
                     break;
             }
@@ -93,36 +116,48 @@ static class AdminMenu
         while (!exitRequested)
         {
             Console.WriteLine();
-            Console.WriteLine("1. View All Movies");
-            Console.WriteLine("2. Add Movie");
-            Console.WriteLine("3. Edit Movie");
-            Console.WriteLine("4. Remove Movie");
-            Console.WriteLine("5. Add Time and Auditorium to a Movie");
-            Console.WriteLine("6. Back to Main Menu\n");
+            CenterText.print(" =============================================", "Cyan");
+            CenterText.print(" ||         Movie Management                ||", "Cyan");
+            CenterText.print(" ||                                         ||", "Cyan");
+            CenterText.print(" || 1. View All Movies                      ||", "Cyan");
+            CenterText.print(" || 2. Add Movie                            ||", "Cyan");
+            CenterText.print(" || 3. Edit Movie                           ||", "Cyan");
+            CenterText.print(" || 4. Remove Movie                         ||", "Cyan");
+            CenterText.print(" || 5. Add Time and Auditorium to a Movie   ||", "Cyan");
+            CenterText.print(" || 6. Back to Main Menu                    ||", "Cyan");
+            CenterText.print(" ||                                         ||", "Cyan");
+            CenterText.print(" =============================================", "Cyan");
 
-            string input = Console.ReadLine()!;
+            char input = Console.ReadKey().KeyChar;
             switch (input)
             {
-                case "1":
+                case '1':
+                    Console.Clear();
                     AdminLogic.ViewMovies();
                     break;
-                case "2":
+                case '2':
+                    Console.Clear();
                     AdminLogic.AddMovie();
                     break;
-                case "3":
+                case '3':
+                    Console.Clear();
                     AdminLogic.EditMovie();
                     break;
-                case "4":
+                case '4':
+                    Console.Clear();
                     AdminLogic.RemoveMovie();
                     break;
-                case "5":
+                case '5':
+                    Console.Clear();
                     AdminLogic.AddTimeAndAuditoriumToMovie();
                     break;
-                case "6":
+                case '6':
+                    Console.Clear();
                     //AdminMenu.Start();
                     exitRequested = true;
                     break;
                 default:
+                    Console.Clear();
                     Console.WriteLine("Invalid input");
                     break;
             }
@@ -136,30 +171,41 @@ static class AdminMenu
 
         while (!exitRequested)
         {
-            Console.WriteLine("1. View rules");
-            Console.WriteLine("2. Edit rules");
-            Console.WriteLine("3. Add rule");
-            Console.WriteLine("4. Remove rule");
-            Console.WriteLine("5. Back to Main Menu\n");
-            string choice = Console.ReadLine().Trim();
+            CenterText.print(" ==================================", "Cyan");
+            CenterText.print(" ||        Rule Management       ||", "Cyan");
+            CenterText.print(" ||                              ||", "Cyan");
+            CenterText.print(" || 1. View rules                ||", "Cyan");
+            CenterText.print(" || 2. Edit rules                ||", "Cyan");
+            CenterText.print(" || 3. Add rule                  ||", "Cyan");
+            CenterText.print(" || 4. Remove rule               ||", "Cyan");
+            CenterText.print(" || 5. Back to Main Menu         ||", "Cyan");
+            CenterText.print(" ||                              ||", "Cyan");
+            CenterText.print(" ==================================", "Cyan");
+            char choice = Console.ReadKey().KeyChar;
             switch (choice)
             {
-                case "1":
+                case '1':
+                    Console.Clear();
                     RulesLogic.ViewAllRules();
                     break;
-                case "2":
+                case '2':
+                    Console.Clear();
                     AdminLogic.EditRules();
                     break;
-                case "3":
+                case '3':
+                    Console.Clear();
                     AdminLogic.AddRule();
                     break;
-                case "4":
+                case '4':
+                    Console.Clear();
                     AdminLogic.RemoveRule();
                     break;
-                case "5":
+                case '5':
+                    Console.Clear();
                     exitRequested = true;
                     break;
                 default:
+                    Console.Clear();
                     Console.WriteLine("Invalid input");
                     break;
             }
@@ -168,35 +214,41 @@ static class AdminMenu
 
     private static void cateringeditmenu()
     {
-        Console.WriteLine("1. Add Items");
-        Console.WriteLine("2. View Items");
-        Console.WriteLine("3. Remove Items");
-        Console.WriteLine("4. Sort Items");
-        Console.WriteLine("5. Edit Items");
-        Console.WriteLine("6. Back to main menu\n");
+        CenterText.print(" ===========================================", "Cyan");
+        CenterText.print(" ||         CateringMenu Management       ||", "Cyan");
+        CenterText.print(" ||                                       ||", "Cyan");
+        CenterText.print(" || 1. Add Items                          ||", "Cyan");
+        CenterText.print(" || 2. View Items                         ||", "Cyan");
+        CenterText.print(" || 3. Remove Items                       ||", "Cyan");
+        CenterText.print(" || 4. Sort Items                         ||", "Cyan");
+        CenterText.print(" || 5. Edit Items                         ||", "Cyan");
+        CenterText.print(" || 6. Back to main menu                  ||", "Cyan");
+        CenterText.print(" ||                                       ||", "Cyan");
+        CenterText.print(" ===========================================", "Cyan");
+
         bool exitmenu = false;
-        string? cateringchoice = Console.ReadLine();
+        char cateringchoice = Console.ReadKey().KeyChar;
 
         while(!exitmenu)
             switch (cateringchoice)
             {
-                case "1":
+                case '1':
                     CateringLogic.AddCateringItem();
                     exitmenu = true;
                     break;
-                case "2":
+                case '2':
                     CateringLogic.ViewItems("all", CateringAccess.cateringmenu);
                     exitmenu = true;
                     break;
-                case "3":
+                case '3':
                     CateringLogic.RemoveItem();
                     exitmenu = true;
                     break;
-                case "4":
+                case '4':
                     CateringLogic.SortItems();
                     exitmenu = true;
                     break;
-                case "5":
+                case '5':
                     CateringLogic.ViewItems("all", CateringAccess.cateringmenu);
                     Console.WriteLine();
                     Console.WriteLine("Which Item would you like to edit? (by ID)");
@@ -241,7 +293,8 @@ static class AdminMenu
                     }
                     exitmenu = true;
                     break;
-                case "6":
+                case '6':
+                    Console.Clear();
                     exitmenu = true;
                     break;
                 default:

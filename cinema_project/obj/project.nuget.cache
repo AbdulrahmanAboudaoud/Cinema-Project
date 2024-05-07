@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JWl6o9+460Ah/ihKHSM+XOEWGNF+bmKF4/txhOwslpggln697VBEaCXFGVQFSxxvRcnLABml9221k8sxNP6ukw==",
+  "dgSpecHash": "bO1beLzvLp+onp2YwENp6/u/42xJ56CibkYofxj7y1a4DK6vQh4q2M75/yefb3y/8U4dPsseJKqnDD57JdVWyA==",
   "success": true,
-  "projectFilePath": "C:\\CodingProjects\\C#\\Cinema\\Cinema-Project\\cinema_project\\cinema_project.csproj",
+  "projectFilePath": "C:\\Users\\wikto\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\cinema_project.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\wikto\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\wikto\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",

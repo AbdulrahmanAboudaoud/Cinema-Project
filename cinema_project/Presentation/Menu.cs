@@ -2,7 +2,7 @@
 {
     static public void Start()
     {
-        Console.WriteLine(TextArt.loginprint());
+        CenterText.printart(TextArt.loginprint());
         Console.WriteLine();
         CenterText.print("=================================", "Cyan");
         CenterText.print("||                             ||", "Cyan");
