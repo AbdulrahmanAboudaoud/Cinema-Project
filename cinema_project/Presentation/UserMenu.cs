@@ -150,6 +150,10 @@
         if (result)
         {
             Console.WriteLine($"Your information has been updated successfully.\n");
+            Console.WriteLine();
+            Console.WriteLine("Press any key to contitnue..");
+            Console.ReadKey();
+            Console.Clear();
         }
         else
         {
@@ -167,6 +171,9 @@
             Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
         }
         Console.WriteLine();
+        Console.WriteLine("Press any key to continue..");
+        Console.ReadKey();
+        Console.Clear();
     }
 
     private static void Logout(ref User loggedInUser)
