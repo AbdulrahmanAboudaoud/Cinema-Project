@@ -3,39 +3,11 @@
 public static class AdminLogic
 {
     static private MoviesLogic movieManager = new MoviesLogic();
-    private const string ReservationHistoryFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\ReservationHistory.csv";
-
-
 
     public static void DisplayAllReservations()
     {
-        try
-        {
-            using (var reader = new StreamReader(ReservationHistoryFilePath))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-
-                    string username = values[0];
-                    string movieTitle = values[1];
-                    DateTime date = DateTime.Parse(values[2]);
-                    string auditorium = values[3];
-                    string seatNumber = values[4];
-
-                    Console.WriteLine($"Username: {username}, Movie: {movieTitle}, Date: {date}, Auditorium: {auditorium}, Seat: {seatNumber}");
-                }
-            }
-        }
-        catch (FileNotFoundException)
-        {
-            Console.WriteLine("Reservation history file not found.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error reading reservation history: {ex.Message}");
-        }
+        List<Reservation> userReservations = ReservationAccess.LoadAllReservations();
+        ReservationHistory.DisplayReservationHistory("", userReservations);
     }
 
 

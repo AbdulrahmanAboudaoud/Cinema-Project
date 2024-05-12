@@ -5,8 +5,17 @@ using System.Globalization;
 
 public static class ReservationLogic
 {
-    //private static string jsonFolderPath = @"C:\Users\abdul\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
-    private static string jsonFolderPath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
+
+    public static void ViewReservationHistory(string username)
+    {
+        List<Reservation> userReservations = ReservationAccess.LoadReservationHistory(username);
+        ReservationHistory.DisplayReservationHistory(username, userReservations);
+    }
+
+
+
+    private static string jsonFolderPath = @"C:\Users\abdul\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
+    //private static string jsonFolderPath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
 
     public static void PrintMoviesForDay(DateTime date)
     {
@@ -203,7 +212,7 @@ public static class ReservationLogic
     public static void CancelReservation(string username)
     {
         // Load reservation history for the user
-        List<Reservation> userReservations = ReservationHistory.LoadUserReservationsFromCSV(username);
+        List<Reservation> userReservations = ReservationAccess.LoadReservationHistory(username);
 
         if (userReservations.Count > 0)
         {
@@ -240,7 +249,7 @@ public static class ReservationLogic
     public static void EditReservation(string username)
     {
         // Load reservation history for the user
-        List<Reservation> userReservations = ReservationHistory.LoadUserReservationsFromCSV(username);
+        List<Reservation> userReservations = ReservationAccess.LoadReservationHistory(username);
 
         if (userReservations.Count > 0)
         {
