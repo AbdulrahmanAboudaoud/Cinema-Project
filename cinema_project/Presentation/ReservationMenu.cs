@@ -25,7 +25,7 @@
                     break;
                 case '2':
                     Console.Clear();
-                    ReservationHistory.ViewReservationHistory(loggedInUser.Username);
+                    ReservationLogic.ViewReservationHistory(loggedInUser.Username);
                     break;
                 case '3':
                     Console.Clear();
