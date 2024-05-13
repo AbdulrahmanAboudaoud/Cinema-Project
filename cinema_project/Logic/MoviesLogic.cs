@@ -9,7 +9,55 @@
         Console.WriteLine("Movie added successfully.");
     }
 
-    public void EditMovie(string titleToEdit, Movie updatedMovie)
+    public static void EditTitleMovie(string oldTitle, string newTitle)
+    {
+        List<Movie> movies = MovieAccess.GetAllMovies();
+        var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(oldTitle, StringComparison.OrdinalIgnoreCase));
+        if (movieToEdit != null)
+        {
+            movieToEdit.movieTitle = newTitle;
+            MovieAccess.WriteMoviesToCSV(movies);
+            Console.WriteLine("Title edited successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Movie not found.");
+        }
+    }
+
+    public static void EditYearMovie(string title, int newYear)
+    {
+        List<Movie> movies = MovieAccess.GetAllMovies();
+        var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(title, StringComparison.OrdinalIgnoreCase));
+        if (movieToEdit != null)
+        {
+            movieToEdit.Year = newYear;
+            MovieAccess.WriteMoviesToCSV(movies);
+            Console.WriteLine("Year edited successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Movie not found.");
+        }
+    }
+
+    public static void EditGenreMovie(string title, string newGenre)
+    {
+        List<Movie> movies = MovieAccess.GetAllMovies();
+        var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(title, StringComparison.OrdinalIgnoreCase));
+        if (movieToEdit != null)
+        {
+            movieToEdit.Genre = newGenre;
+            MovieAccess.WriteMoviesToCSV(movies);
+            Console.WriteLine("Genre edited successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Movie not found.");
+        }
+    }
+
+    /*public void EditMovie(string titleToEdit, Movie updatedMovie)
     {
         List<Movie> movies = MovieAccess.GetAllMovies();
         var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(titleToEdit, StringComparison.OrdinalIgnoreCase));
@@ -64,7 +112,7 @@
         {
             Console.WriteLine("Movie not found.");
         }
-    }
+    }*/
 
 
     public bool RemoveMovie(string TitleToRemove)
