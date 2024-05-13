@@ -14,7 +14,7 @@ public static class ReservationLogic
 
 
 
-    private static string jsonFolderPath = @"C:\Users\abdul\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
+    private static string jsonFolderPath = @"C:\Users\Gebruiker\OneDrive - Hogeschool Rotterdam\Github\Cinema-Project\cinema_project\DataSources";
     //private static string jsonFolderPath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
 
     public static void PrintMoviesForDay(DateTime date)
@@ -35,20 +35,6 @@ public static class ReservationLogic
             {
                 Console.WriteLine($"Error parsing display time for movie: {movieInfo["movieTitle"]}");
             }
-        }
-    }
-
-    private static JArray GetMovieSchedule()
-    {
-        try
-        {
-            string jsonContent = File.ReadAllText(Path.Combine(jsonFolderPath, "movieSchedule.json"));
-            return JsonConvert.DeserializeObject<JArray>(jsonContent);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error reading movie schedule: {ex.Message}");
-            return null;
         }
     }
 
@@ -98,27 +84,6 @@ public static class ReservationLogic
         }
     }
 
-    private static void SaveReservationToCSV(string username, string movieTitle, DateTime date, string auditoriumName, string seatNumber)
-    {
-        var movieInfo = MovieScheduleAccess.GetMovieSchedule().FirstOrDefault(m => m["movieTitle"].ToString() == movieTitle);
-        if (movieInfo != null && DateTime.TryParseExact(movieInfo["displayTime"].ToString(), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime movieDisplayTime))
-        {
-            string reservationDetails = $"{username},{movieTitle},{movieDisplayTime:yyyy-MM-dd HH:mm},{auditoriumName},{seatNumber}";
-            try
-            {
-                File.AppendAllText(Path.Combine(jsonFolderPath, "ReservationHistory.csv"), reservationDetails + Environment.NewLine);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving reservation: {ex.Message}");
-            }
-        }
-        else
-        {
-            Console.WriteLine($"Movie not found in schedule or error parsing display time for movie: {movieTitle}");
-        }
-    }
-
     public static void MakeReservation(string username)
     {
         Console.Write("Enter date (yyyy-MM-dd): ");
@@ -129,7 +94,7 @@ public static class ReservationLogic
             Console.Write("Enter the movie title you want to reserve: ");
             string movieTitle = Console.ReadLine();
 
-            var movieSchedule = GetMovieSchedule();
+            var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
             var movieInfo = movieSchedule.FirstOrDefault(m => m["movieTitle"].ToString() == movieTitle);
 
             if (movieInfo != null)
@@ -163,7 +128,7 @@ public static class ReservationLogic
                             foreach (string seatNumber in seatNumbers)
                             {
                                 ReserveSeatAndUpdateFile(auditoriumData, seatNumber.Trim(), Path.Combine(jsonFolderPath, auditoriumFileName));
-                                SaveReservationToCSV(username, movieTitle, selectedDate, movieInfo["auditorium"].ToString(), seatNumber.Trim());
+                                ReservationAccess.SaveReservationToCSV(username, movieTitle, selectedDate, movieInfo["auditorium"].ToString(), seatNumber.Trim());
                             }
                             Console.WriteLine("Reservation successful!");
                             reservationSuccessful = true;
@@ -227,7 +192,7 @@ public static class ReservationLogic
             {
                 Reservation reservationToCancel = userReservations[selection - 1];
                 // Remove the reservation from the CSV file
-                RemoveReservationFromCSV(username, reservationToCancel);
+                ReservationAccess.RemoveReservationFromCSV(username, reservationToCancel);
 
                 // Update auditorium layout file if necessary
                 UpdateAuditoriumLayoutFile(reservationToCancel.MovieTitle, reservationToCancel.Date, reservationToCancel.Auditorium, reservationToCancel.SeatNumber, false);
@@ -264,7 +229,7 @@ public static class ReservationLogic
             {
                 Reservation reservationToEdit = userReservations[selection - 1];
                 // Remove the original reservation from the CSV file
-                RemoveReservationFromCSV(username, reservationToEdit);
+                ReservationAccess.RemoveReservationFromCSV(username, reservationToEdit);
 
                 // Prompt the user to choose a new seat
                 Console.Write("Enter new seat number: ");
@@ -275,7 +240,7 @@ public static class ReservationLogic
                 reservationToEdit.SeatNumber = newSeatNumber;
 
                 // Add the edited reservation back to the CSV file
-                SaveReservationToCSV(username, reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, reservationToEdit.SeatNumber); // Provide the reservation date
+                ReservationAccess.SaveReservationToCSV(username, reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, reservationToEdit.SeatNumber); // Provide the reservation date
 
                 // Update auditorium layout file if necessary
                 UpdateAuditoriumLayoutFile(reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, oldSeatNumber, reservationToEdit.SeatNumber, true);
@@ -295,20 +260,6 @@ public static class ReservationLogic
 
 
 
-
-    // Helper method to remove a reservation from the CSV file
-    private static void RemoveReservationFromCSV(string username, Reservation reservationToRemove)
-    {
-        // Read all lines from the CSV file
-        string[] lines = File.ReadAllLines(Path.Combine(jsonFolderPath, "ReservationHistory.csv"));
-
-        // Remove the line corresponding to the reservation to cancel
-        string reservationDetails = $"{username},{reservationToRemove.MovieTitle},{reservationToRemove.Date:yyyy-MM-dd HH:mm},{reservationToRemove.Auditorium},{reservationToRemove.SeatNumber}";
-        var newLines = lines.Where(line => line != reservationDetails).ToArray();
-
-        // Write the updated lines back to the CSV file
-        File.WriteAllLines(Path.Combine(jsonFolderPath, "ReservationHistory.csv"), newLines);
-    }
 
     // Helper method to update the auditorium layout file
     private static void UpdateAuditoriumLayoutFile(string movieTitle, DateTime displayDate, string auditorium, string seatNumber, bool reserved)
