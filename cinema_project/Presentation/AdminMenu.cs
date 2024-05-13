@@ -141,7 +141,7 @@ static class AdminMenu
                     break;
                 case '3':
                     Console.Clear();
-                    AdminLogic.EditMovie();
+                    EditMovieMenu();
                     break;
                 case '4':
                     Console.Clear();
@@ -301,5 +301,59 @@ static class AdminMenu
                     Console.WriteLine("Invalid Input");
                     break;
             }
+    }
+
+    static private void EditMovieMenu()
+    {
+        Console.WriteLine("Enter the title of the movie you want to edit:\n");
+        string titleToEdit = Console.ReadLine();
+
+        CenterText.print(" ===========================================", "Cyan");
+        CenterText.print(" ||     What would you like to edit?      ||", "Cyan");
+        CenterText.print(" ||                                       ||", "Cyan");
+        CenterText.print(" || 1. Movie Title                        ||", "Cyan");
+        CenterText.print(" || 2. Movie Year                         ||", "Cyan");
+        CenterText.print(" || 3. Movie Genre                        ||", "Cyan");
+        CenterText.print(" || 4. Back to movies menu                ||", "Cyan");
+        CenterText.print(" ||                                       ||", "Cyan");
+        CenterText.print(" ===========================================", "Cyan");
+
+        if (int.TryParse(Console.ReadLine(), out int choice))
+        {
+            switch (choice)
+            {
+                case 1:
+                    Console.WriteLine("Enter the new title of the movie:");
+                    string newTitle = Console.ReadLine();
+                    MoviesLogic.EditTitleMovie(titleToEdit, newTitle);
+                    break;
+                case 2:
+                    Console.WriteLine("Enter the new year of release:");
+                    if (int.TryParse(Console.ReadLine(), out int newYear))
+                    {
+                        MoviesLogic.EditYearMovie(titleToEdit, newYear);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid year format. Please enter a valid year.");
+                    }
+                    break;
+                case 3:
+                    Console.WriteLine("Enter the new genre of the movie:");
+                    string newGenre = Console.ReadLine();
+                    MoviesLogic.EditGenreMovie(titleToEdit, newGenre);
+                    break;
+                case 4:
+                    MoviesInterface();
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice.");
+        }
     }
 }
