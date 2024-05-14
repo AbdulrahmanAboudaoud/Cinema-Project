@@ -154,7 +154,7 @@ public static class AdminLogic
 
     public static void ViewAllUsers()
     {
-        List<User> users = UserLogic.GetAllUsers();
+        List<User> users = UserAccess.GetAllUsers();
 
         Console.WriteLine("\nAll Users:");
         foreach (var user in users)
