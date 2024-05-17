@@ -77,6 +77,8 @@
 
         while (!exitRequested)
         {
+            ViewMovies();
+            Console.WriteLine();
             CenterText.print(" ===============================================", "Cyan");
             CenterText.print(" ||              Choose search criteria:      ||", "Cyan");
             CenterText.print(" ||                                           ||", "Cyan");
@@ -89,18 +91,19 @@
 
             char searchOption= Console.ReadKey().KeyChar;
 
+
             switch (searchOption)
             {
                 case '1':
-                    Console.Clear();    
+                    Console.WriteLine();
                     SearchLogic.SearchByFilm();
                     break;
                 case '2':
-                    Console.Clear(); 
+                    Console.WriteLine();
                     SearchLogic.SearchByYear();
                     break;
                 case '3':
-                    Console.Clear(); 
+                    Console.WriteLine();
                     SearchLogic.SearchByGenre();
                     break;
                 case '4':
@@ -161,7 +164,7 @@
         }
     }
 
-    private static void ViewMovies()
+    public static void ViewMovies()
     {
         List<Movie> movies = MovieAccess.GetAllMovies();
 
@@ -171,9 +174,9 @@
             Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
         }
         Console.WriteLine();
-        Console.WriteLine("Press any key to continue..");
+        /*Console.WriteLine("Press any key to continue..");
         Console.ReadKey();
-        Console.Clear();
+        Console.Clear();*/
     }
 
     private static void Logout(ref User loggedInUser)
