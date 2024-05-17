@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 public static class UserAccess
 {
-    private static string connectionString = "Data Source=Laptop-van-luca;Initial Catalog=cinema_db;User ID=sa;Password=12345;";
+    private static string connectionString = "Data Source=localhost;Initial Catalog=cinema_db;User ID=sa;Password=123456;";
 
     public static SqlConnection OpenConnection()
     {
@@ -164,4 +164,24 @@ public static class UserAccess
             }
         }
     }
+
+    public static bool RemoveUser(string username)
+    {
+        using (SqlConnection connection = OpenConnection())
+        {
+            string query = "DELETE FROM users WHERE user_name = @username";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@username", username);
+
+                int rowsAffected = command.ExecuteNonQuery();
+                if (rowsAffected > 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
+    }
+
 }
