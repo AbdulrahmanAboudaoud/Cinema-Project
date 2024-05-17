@@ -305,6 +305,8 @@ static class AdminMenu
 
     static private void EditMovieMenu()
     {
+        AdminLogic.ViewMovies();
+        Console.WriteLine();
         Console.WriteLine("Enter the title of the movie you want to edit:\n");
         string titleToEdit = Console.ReadLine();
 

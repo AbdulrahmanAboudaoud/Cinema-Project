@@ -13,6 +13,8 @@ public static class AdminLogic
 
     public static void RemoveMovie()
     {
+        ViewMovies();
+        Console.WriteLine();
         Console.WriteLine("Enter the title of the movie you want to remove:");
         string titleToRemove = Console.ReadLine();
 
@@ -40,8 +42,11 @@ public static class AdminLogic
     }
 
 
-    public static void EditMovie()
+   /* public static void EditMovie()
     {
+        ViewMovies();
+        Console.WriteLine();
+
         Console.WriteLine("Enter the title of the movie you want to edit:");
         string titleToEdit = Console.ReadLine();
 
@@ -98,7 +103,7 @@ public static class AdminLogic
         {
             Console.WriteLine("Movie not found.");
         }
-    }
+    }*/
 
 
     public static void AddMovie()
@@ -123,6 +128,8 @@ public static class AdminLogic
 
     public static void EditRules()
     {
+        RulesLogic.ViewAllRules();
+        Console.WriteLine();
         Console.WriteLine("Which rule would you like to edit? (Insert rule number)");
         if (!int.TryParse(Console.ReadLine(), out int RuleNumber))
         {
@@ -141,6 +148,8 @@ public static class AdminLogic
 
     public static void RemoveRule()
     {
+        RulesLogic.ViewAllRules();
+        Console.WriteLine();
         Console.WriteLine("Which rule would you like to remove? (Insert rule number)");
         if (!int.TryParse(Console.ReadLine(), out int RuleNumber))
         {
@@ -166,6 +175,9 @@ public static class AdminLogic
 
     public static void AddTimeAndAuditoriumToMovie()
     {
+        ViewMovies();
+        Console.WriteLine();
+
         Console.WriteLine("Enter movie title:");
         string title = Console.ReadLine();
 

@@ -33,16 +33,27 @@ public static class ReservationLogic
         }
     }
 
+
     private static bool IsSeatAvailable(JObject auditoriumData, string seatNumber)
     {
-        var auditorium = auditoriumData["auditoriums"][0];
-        foreach (var row in auditorium["layout"])
+        if (auditoriumData != null && auditoriumData["auditoriums"] != null)
         {
-            foreach (var seat in row)
+            var auditoriums = auditoriumData["auditoriums"];
+            if (auditoriums.HasValues)
             {
-                if (seat["seat"].ToString() == seatNumber && seat["reserved"].ToString() == "false")
+                var auditorium = auditoriums[0];
+                if (auditorium["layout"] != null)
                 {
-                    return true;
+                    foreach (var row in auditorium["layout"])
+                    {
+                        foreach (var seat in row)
+                        {
+                            if (seat["seat"]?.ToString() == seatNumber && seat["reserved"]?.ToString() == "false")
+                            {
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -51,6 +62,7 @@ public static class ReservationLogic
 
     public static void MakeReservation(string username)
     {
+        MovieScheduleAccess.PrintMoviesWithAuditoriumAndDates();
         Console.Write("Enter date (yyyy-MM-dd): ");
         if (DateTime.TryParse(Console.ReadLine(), out DateTime selectedDate))
         {
@@ -178,10 +190,12 @@ public static class ReservationLogic
                 Reservation reservationToEdit = userReservations[selection - 1];
                 ReservationAccess.RemoveReservationFromCSV(username, reservationToEdit);
 
+                ReservationAccess.DisplayAuditoriumForReservationEdit(reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium);
+
                 Console.Write("Enter new seat number: ");
                 string newSeatNumber = Console.ReadLine();
 
-                string oldSeatNumber = reservationToEdit.SeatNumber; 
+                string oldSeatNumber = reservationToEdit.SeatNumber;
                 reservationToEdit.SeatNumber = newSeatNumber;
 
                 ReservationAccess.SaveReservationToCSV(username, reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, reservationToEdit.SeatNumber); // Provide the reservation date
@@ -200,4 +214,6 @@ public static class ReservationLogic
             Console.WriteLine("No reservations found for this user.");
         }
     }
+
+
 }
