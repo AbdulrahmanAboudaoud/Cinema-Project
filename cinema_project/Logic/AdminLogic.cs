@@ -207,5 +207,22 @@ public static class AdminLogic
         MoviesLogic.AddTimeAndAuditorium(title, displayDate, auditorium);
     }
 
+    public static void RemoveUser()
+    {
+        Console.WriteLine("Enter the username of the user you want to remove:");
+        string usernameToRemove = Console.ReadLine();
+
+        bool removed = UserAccess.RemoveUser(usernameToRemove);
+        if (removed)
+        {
+            Console.WriteLine($"User '{usernameToRemove}' removed successfully.");
+        }
+        else
+        {
+            Console.WriteLine($"Failed to remove user '{usernameToRemove}'. User not found.");
+        }
+    }
+
+
 
 }
