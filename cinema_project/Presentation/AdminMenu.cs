@@ -18,7 +18,8 @@ static class AdminMenu
             CenterText.print(" || 5. Edit Catering Menu       ||", "Cyan");
             CenterText.print(" || 6. View all reservations    ||", "Cyan");
             CenterText.print(" || 7. Remove user              ||", "Cyan");
-            CenterText.print(" || 8. Logout                   ||", "Cyan");
+            CenterText.print(" || 8. Edit user account        ||", "Cyan");
+            CenterText.print(" || 9. Logout                   ||", "Cyan");
             CenterText.print(" ||                             ||", "Cyan");
             CenterText.print(" =================================", "Cyan");            
             char input = Console.ReadKey().KeyChar;
@@ -53,7 +54,12 @@ static class AdminMenu
                     AdminLogic.ViewAllUsers();
                     AdminLogic.RemoveUser();
                     break;
-                case '8':
+                case '8': 
+                    Console.Clear();
+                    AdminLogic.ViewAllUserData();
+                    AdminLogic.EditUserAccount();
+                    break;
+                case '9':
                     Console.Clear();
                     Console.WriteLine("Logging out...");
                     Console.WriteLine("You have been logged out.");

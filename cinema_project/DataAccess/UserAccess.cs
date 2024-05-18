@@ -165,6 +165,39 @@ public static class UserAccess
         }
     }
 
+    public static List<UserData> GetAllUserData()
+    {
+        List<UserData> users = new List<UserData>();
+
+        using (SqlConnection connection = OpenConnection())
+        {
+            string query = "SELECT user_name, password, name, email, phone_number FROM users";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        UserData user = new UserData
+                        {
+                            UserName = reader["user_name"].ToString(),
+                            Password = reader["password"].ToString(),
+                            Name = reader["name"].ToString(),
+                            Email = reader["email"].ToString(),
+                            PhoneNumber = reader["phone_number"].ToString()
+                        };
+                        users.Add(user);
+                    }
+                }
+            }
+        }
+
+        return users;
+    }
+
+
+
     public static bool RemoveUser(string username)
     {
         using (SqlConnection connection = OpenConnection())
@@ -183,5 +216,33 @@ public static class UserAccess
             }
         }
     }
+
+    public static void UpdateUser(string currentUsername, string newUsername, string newPassword, string newName, string newEmail, string newPhoneNumber)
+    {
+        using (SqlConnection connection = OpenConnection())
+        {
+            string query = @"
+            UPDATE users
+            SET user_name = @newUsername,
+                password = @newPassword,
+                name = @newName,
+                email = @newEmail,
+                phone_number = @newPhoneNumber
+            WHERE user_name = @currentUsername";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@currentUsername", currentUsername);
+                command.Parameters.AddWithValue("@newUsername", newUsername);
+                command.Parameters.AddWithValue("@newPassword", newPassword);
+                command.Parameters.AddWithValue("@newName", newName);
+                command.Parameters.AddWithValue("@newEmail", newEmail);
+                command.Parameters.AddWithValue("@newPhoneNumber", newPhoneNumber);
+
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
 
 }
