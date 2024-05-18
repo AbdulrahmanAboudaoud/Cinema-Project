@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 static class AdminMenu
 {
-    static public void Start(ref User loggedInUser)
+    static public void Start()
     {
         bool logoutRequested = false;
 
@@ -19,13 +19,13 @@ static class AdminMenu
             CenterText.print(" || 6. View all reservations    ||", "Cyan");
             CenterText.print(" || 7. Logout                   ||", "Cyan");
             CenterText.print(" ||                             ||", "Cyan");
-            CenterText.print(" =================================", "Cyan");
+            CenterText.print(" =================================", "Cyan");            
             char input = Console.ReadKey().KeyChar;
             switch (input)
             {
                 case '1':
                     Console.Clear();
-                    MoviesInterface();
+                    MoviesInterface(); 
                     break;
                 case '2':
                     Console.Clear();
@@ -37,7 +37,7 @@ static class AdminMenu
                     break;
                 case '4':
                     Console.Clear();
-                    SearchMovies(ref loggedInUser);
+                    SearchMovies();
                     break;
                 case '5':
                     Console.Clear();
@@ -64,7 +64,7 @@ static class AdminMenu
         }
     }
 
-    private static void SearchMovies(ref User loggedInUser)
+    private static void SearchMovies()
     {
         bool exitRequested = false;
 
@@ -86,7 +86,7 @@ static class AdminMenu
             {
                 case '1':
                     Console.Clear();
-                    SearchLogic.SearchByFilm(ref loggedInUser);
+                    SearchLogic.SearchByFilm();
                     break;
                 case '2':
                     Console.Clear();
@@ -229,7 +229,7 @@ static class AdminMenu
         bool exitmenu = false;
         char cateringchoice = Console.ReadKey().KeyChar;
 
-        while (!exitmenu)
+        while(!exitmenu)
             switch (cateringchoice)
             {
                 case '1':

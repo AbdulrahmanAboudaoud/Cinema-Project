@@ -8,13 +8,13 @@
         {
             Console.WriteLine();
             CenterText.print("=================================", "Cyan");
-            CenterText.print("                             ", "Cyan");
-            CenterText.print(" 1. Make reservation         ", "Cyan");
-            CenterText.print(" 2. View reservation history ", "Cyan");
-            CenterText.print(" 3. Cancel reservation       ", "Cyan");
-            CenterText.print(" 4. Edit reservation         ", "Cyan");
-            CenterText.print(" 5. Go back to user menu     ", "Cyan");
-            CenterText.print("                             ", "Cyan");
+            CenterText.print("||                             ||", "Cyan");           
+            CenterText.print("|| 1. Make reservation         ||", "Cyan");
+            CenterText.print("|| 2. View reservation history ||", "Cyan");
+            CenterText.print("|| 3. Cancel reservation       ||", "Cyan");
+            CenterText.print("|| 4. Edit reservation         ||", "Cyan");
+            CenterText.print("|| 5. Go back to user menu     ||", "Cyan");
+            CenterText.print("||                             ||", "Cyan"); 
             CenterText.print("=================================", "Cyan");
             char input = Console.ReadKey().KeyChar;
             switch (input)
