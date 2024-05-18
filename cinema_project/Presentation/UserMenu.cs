@@ -31,7 +31,7 @@
                 case '2':
                     Console.Clear();
                     bool status = UserLogic.DeleteAccount(loggedInUser.Username);
-                    if(status)
+                    if (status)
                     {
                         Console.WriteLine("Account deleted successfully");
                         Menu.Start();
@@ -51,7 +51,7 @@
                     break;
                 case '6':
                     Console.Clear();
-                    SearchMovies();
+                    SearchMovies(ref loggedInUser);
                     break;
                 case '7':
                     Console.Clear();
@@ -71,14 +71,12 @@
     }
 
 
-    private static void SearchMovies()
+    private static void SearchMovies(ref User loggedInUser)
     {
         bool exitRequested = false;
 
         while (!exitRequested)
         {
-            ViewMovies();
-            Console.WriteLine();
             CenterText.print(" ===============================================", "Cyan");
             CenterText.print(" ||              Choose search criteria:      ||", "Cyan");
             CenterText.print(" ||                                           ||", "Cyan");
@@ -89,25 +87,24 @@
             CenterText.print(" ||                                           ||", "Cyan");
             CenterText.print(" ===============================================", "Cyan");
 
-            char searchOption= Console.ReadKey().KeyChar;
-
+            char searchOption = Console.ReadKey().KeyChar;
 
             switch (searchOption)
             {
                 case '1':
-                    Console.WriteLine();
-                    SearchLogic.SearchByFilm();
+                    Console.Clear();
+                    SearchLogic.SearchByFilm(ref loggedInUser);
                     break;
                 case '2':
-                    Console.WriteLine();
+                    Console.Clear();
                     SearchLogic.SearchByYear();
                     break;
                 case '3':
-                    Console.WriteLine();
+                    Console.Clear();
                     SearchLogic.SearchByGenre();
                     break;
                 case '4':
-                    Console.Clear(); 
+                    Console.Clear();
                     exitRequested = true;
                     break;
                 default:
@@ -129,7 +126,7 @@
         CenterText.print(" || 4. Password                            ||", "Cyan");
         CenterText.print(" ||                                        ||", "Cyan");
         CenterText.print(" ============================================", "Cyan");
-        
+
         int choice;
         bool isValidChoice = false;
         do
@@ -164,7 +161,7 @@
         }
     }
 
-    public static void ViewMovies()
+    private static void ViewMovies()
     {
         List<Movie> movies = MovieAccess.GetAllMovies();
 
@@ -174,9 +171,9 @@
             Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
         }
         Console.WriteLine();
-        /*Console.WriteLine("Press any key to continue..");
+        Console.WriteLine("Press any key to continue..");
         Console.ReadKey();
-        Console.Clear();*/
+        Console.Clear();
     }
 
     private static void Logout(ref User loggedInUser)

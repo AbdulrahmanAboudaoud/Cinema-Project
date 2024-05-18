@@ -171,7 +171,7 @@ public static class AuditoriumsPresentation
         {
             string filenameOnly = Path.GetFileName(fileName);
 
-            string json = File.ReadAllText("C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json");
+            string json = File.ReadAllText("C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json");
             var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(json);
 
             var movie = movieSchedule.FirstOrDefault(m => m.filename == filenameOnly);

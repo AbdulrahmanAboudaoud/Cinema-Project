@@ -4,10 +4,8 @@ using System.IO;
 
 public static class ReservationAccess
 {
-    /*private const string reservationFilePath = @"C:\Users\Gebruiker\OneDrive - Hogeschool Rotterdam\Github\Cinema-Project\cinema_project\DataSources\ReservationHistory.csv";
-    private static string jsonFolderPath = @"C:\Users\Gebruiker\OneDrive - Hogeschool Rotterdam\Github\Cinema-Project\cinema_project\DataSources";*/
-    private const string reservationFilePath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\ReservationHistory.csv";
-    private static string jsonFolderPath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
+    private const string reservationFilePath = @"C:\Users\Gebruiker\OneDrive - Hogeschool Rotterdam\Github\Cinema-Project\cinema_project\DataSources\ReservationHistory.csv";
+    private static string jsonFolderPath = @"C:\Users\Gebruiker\OneDrive - Hogeschool Rotterdam\Github\Cinema-Project\cinema_project\DataSources";
 
     public static List<Reservation> LoadReservationHistory(string username)
     {
@@ -57,17 +55,17 @@ public static class ReservationAccess
             foreach (string line in lines)
             {
                 string[] parts = line.Split(',');
-                    DateTime date;
-                    if (DateTime.TryParseExact(parts[2], "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
-                    {
-                        userReservations.Add(new Reservation(
-                        username: parts[0],
-                        movieTitle: parts[1],
-                        date: date,
-                        auditorium: parts[3],
-                        seatNumber: parts[4]
-                        ));
-                    }  
+                DateTime date;
+                if (DateTime.TryParseExact(parts[2], "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+                {
+                    userReservations.Add(new Reservation(
+                    username: parts[0],
+                    movieTitle: parts[1],
+                    date: date,
+                    auditorium: parts[3],
+                    seatNumber: parts[4]
+                    ));
+                }
             }
         }
         catch (Exception ex)
@@ -80,24 +78,17 @@ public static class ReservationAccess
 
     public static void SaveReservationToCSV(string username, string movieTitle, DateTime date, string auditoriumName, string seatNumber)
     {
-        var movieInfo = MovieScheduleAccess.GetMovieSchedule().FirstOrDefault(m => m["movieTitle"].ToString() == movieTitle);
-        if (movieInfo != null && DateTime.TryParseExact(movieInfo["displayTime"].ToString(), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime movieDisplayTime))
+        string reservationDetails = $"{username},{movieTitle},{date:yyyy-MM-dd HH:mm},{auditoriumName},{seatNumber}";
+        try
         {
-            string reservationDetails = $"{username},{movieTitle},{movieDisplayTime:yyyy-MM-dd HH:mm},{auditoriumName},{seatNumber}";
-            try
-            {
-                File.AppendAllText(Path.Combine(jsonFolderPath, "ReservationHistory.csv"), reservationDetails + Environment.NewLine);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving reservation: {ex.Message}");
-            }
+            File.AppendAllText(Path.Combine(jsonFolderPath, "ReservationHistory.csv"), reservationDetails + Environment.NewLine);
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine($"Movie not found in schedule or error parsing display time for movie: {movieTitle}");
+            Console.WriteLine($"Error saving reservation: {ex.Message}");
         }
     }
+
 
     public static void RemoveReservationFromCSV(string username, Reservation reservationToRemove)
     {
@@ -107,20 +98,5 @@ public static class ReservationAccess
         var newLines = lines.Where(line => line != reservationDetails).ToArray();
 
         File.WriteAllLines(Path.Combine(jsonFolderPath, "ReservationHistory.csv"), newLines);
-    }
-
-    public static void DisplayAuditoriumForReservationEdit(string movieTitle, DateTime date, string auditoriumName)
-    {
-        string formattedDate = date.ToString("yyyyMMdd-HHmm");
-        string fileName = $"{movieTitle}-{formattedDate}-{auditoriumName}.json";
-        string fullPath = Path.Combine(MovieAccess.DataSourcesFolder, fileName);
-        if (File.Exists(fullPath))
-        {
-            AuditoriumsPresentation.DisplayAuditoriumFromFile(fullPath);
-        }
-        else
-        {
-            Console.WriteLine($"Error reading auditorium data: Could not find file '{fullPath}'.");
-        }
     }
 }

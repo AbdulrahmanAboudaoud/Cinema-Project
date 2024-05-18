@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 static class AdminMenu
 {
-    static public void Start()
+    static public void Start(ref User loggedInUser)
     {
         bool logoutRequested = false;
 
@@ -17,17 +17,15 @@ static class AdminMenu
             CenterText.print(" || 4. Search And Filter Movies ||", "Cyan");
             CenterText.print(" || 5. Edit Catering Menu       ||", "Cyan");
             CenterText.print(" || 6. View all reservations    ||", "Cyan");
-            CenterText.print(" || 7. Remove user              ||", "Cyan");
-            CenterText.print(" || 8. Edit user account        ||", "Cyan");
-            CenterText.print(" || 9. Logout                   ||", "Cyan");
+            CenterText.print(" || 7. Logout                   ||", "Cyan");
             CenterText.print(" ||                             ||", "Cyan");
-            CenterText.print(" =================================", "Cyan");            
+            CenterText.print(" =================================", "Cyan");
             char input = Console.ReadKey().KeyChar;
             switch (input)
             {
                 case '1':
                     Console.Clear();
-                    MoviesInterface(); 
+                    MoviesInterface();
                     break;
                 case '2':
                     Console.Clear();
@@ -39,7 +37,7 @@ static class AdminMenu
                     break;
                 case '4':
                     Console.Clear();
-                    SearchMovies();
+                    SearchMovies(ref loggedInUser);
                     break;
                 case '5':
                     Console.Clear();
@@ -50,16 +48,6 @@ static class AdminMenu
                     AdminLogic.DisplayAllReservations();
                     break;
                 case '7':
-                    Console.Clear();
-                    AdminLogic.ViewAllUsers();
-                    AdminLogic.RemoveUser();
-                    break;
-                case '8': 
-                    Console.Clear();
-                    AdminLogic.ViewAllUserData();
-                    AdminLogic.EditUserAccount();
-                    break;
-                case '9':
                     Console.Clear();
                     Console.WriteLine("Logging out...");
                     Console.WriteLine("You have been logged out.");
@@ -76,7 +64,7 @@ static class AdminMenu
         }
     }
 
-    private static void SearchMovies()
+    private static void SearchMovies(ref User loggedInUser)
     {
         bool exitRequested = false;
 
@@ -98,7 +86,7 @@ static class AdminMenu
             {
                 case '1':
                     Console.Clear();
-                    SearchLogic.SearchByFilm();
+                    SearchLogic.SearchByFilm(ref loggedInUser);
                     break;
                 case '2':
                     Console.Clear();
@@ -241,7 +229,7 @@ static class AdminMenu
         bool exitmenu = false;
         char cateringchoice = Console.ReadKey().KeyChar;
 
-        while(!exitmenu)
+        while (!exitmenu)
             switch (cateringchoice)
             {
                 case '1':
@@ -317,8 +305,6 @@ static class AdminMenu
 
     static private void EditMovieMenu()
     {
-        AdminLogic.ViewMovies();
-        Console.WriteLine();
         Console.WriteLine("Enter the title of the movie you want to edit:\n");
         string titleToEdit = Console.ReadLine();
 
