@@ -14,7 +14,7 @@
             Console.WriteLine($"Welcome {loggedInUser.Username}!");
             if (loggedInUser.Role == "admin")
             {
-                AdminMenu.Start();
+                AdminMenu.Start(ref loggedInUser);
             }
             else
             {

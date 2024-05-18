@@ -31,7 +31,7 @@
                 case '2':
                     Console.Clear();
                     bool status = UserLogic.DeleteAccount(loggedInUser.Username);
-                    if(status)
+                    if (status)
                     {
                         Console.WriteLine("Account deleted successfully");
                         Menu.Start();
@@ -51,7 +51,7 @@
                     break;
                 case '6':
                     Console.Clear();
-                    SearchMovies();
+                    SearchMovies(ref loggedInUser);
                     break;
                 case '7':
                     Console.Clear();
@@ -71,7 +71,7 @@
     }
 
 
-    private static void SearchMovies()
+    private static void SearchMovies(ref User loggedInUser)
     {
         bool exitRequested = false;
 
@@ -87,24 +87,24 @@
             CenterText.print(" ||                                           ||", "Cyan");
             CenterText.print(" ===============================================", "Cyan");
 
-            char searchOption= Console.ReadKey().KeyChar;
+            char searchOption = Console.ReadKey().KeyChar;
 
             switch (searchOption)
             {
                 case '1':
-                    Console.Clear();    
-                    SearchLogic.SearchByFilm();
+                    Console.Clear();
+                    SearchLogic.SearchByFilm(ref loggedInUser);
                     break;
                 case '2':
-                    Console.Clear(); 
+                    Console.Clear();
                     SearchLogic.SearchByYear();
                     break;
                 case '3':
-                    Console.Clear(); 
+                    Console.Clear();
                     SearchLogic.SearchByGenre();
                     break;
                 case '4':
-                    Console.Clear(); 
+                    Console.Clear();
                     exitRequested = true;
                     break;
                 default:
@@ -126,7 +126,7 @@
         CenterText.print(" || 4. Password                            ||", "Cyan");
         CenterText.print(" ||                                        ||", "Cyan");
         CenterText.print(" ============================================", "Cyan");
-        
+
         int choice;
         bool isValidChoice = false;
         do
