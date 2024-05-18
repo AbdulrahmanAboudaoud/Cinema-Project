@@ -223,6 +223,76 @@ public static class AdminLogic
         }
     }
 
+    public static void ViewAllUserData()
+    {
+        List<UserData> users = UserAccess.GetAllUserData();
+
+        Console.WriteLine("All Users:");
+        foreach (var user in users)
+        {
+            Console.WriteLine($"Username: {user.UserName}, Name: {user.Name}, Password: {user.Password}, Email: {user.Email}, Phone Number: {user.PhoneNumber}");
+        }
+    }
+
+
+    public static void EditUserAccount()
+    {
+        Console.WriteLine("Enter the username of the user you want to edit:");
+        string currentUsername = Console.ReadLine();
+
+        UserData selectedUser = UserAccess.GetAllUserData().FirstOrDefault(u => u.UserName == currentUsername);
+
+        if (selectedUser == null)
+        {
+            Console.WriteLine("User not found.");
+            return;
+        }
+
+        Console.WriteLine($"Selected User: Username: {selectedUser.UserName}, Name: {selectedUser.Name}, Email: {selectedUser.Email}, Phone Number: {selectedUser.PhoneNumber}");
+        Console.WriteLine("Which field do you want to edit?");
+        Console.WriteLine("1. Username");
+        Console.WriteLine("2. Password");
+        Console.WriteLine("3. Name");
+        Console.WriteLine("4. Email");
+        Console.WriteLine("5. Phone Number");
+
+        string choice = Console.ReadLine();
+        string newValue = string.Empty;
+
+        switch (choice)
+        {
+            case "1":
+                Console.WriteLine("Enter new username:");
+                newValue = Console.ReadLine();
+                UserAccess.UpdateUser(currentUsername, newValue, selectedUser.Password, selectedUser.Name, selectedUser.Email, selectedUser.PhoneNumber);
+                break;
+            case "2":
+                Console.WriteLine("Enter new password:");
+                newValue = Console.ReadLine();
+                UserAccess.UpdateUser(currentUsername, selectedUser.UserName, newValue, selectedUser.Name, selectedUser.Email, selectedUser.PhoneNumber);
+                break;
+            case "3":
+                Console.WriteLine("Enter new name:");
+                newValue = Console.ReadLine();
+                UserAccess.UpdateUser(currentUsername, selectedUser.UserName, selectedUser.Password, newValue, selectedUser.Email, selectedUser.PhoneNumber);
+                break;
+            case "4":
+                Console.WriteLine("Enter new email:");
+                newValue = Console.ReadLine();
+                UserAccess.UpdateUser(currentUsername, selectedUser.UserName, selectedUser.Password, selectedUser.Name, newValue, selectedUser.PhoneNumber);
+                break;
+            case "5":
+                Console.WriteLine("Enter new phone number:");
+                newValue = Console.ReadLine();
+                UserAccess.UpdateUser(currentUsername, selectedUser.UserName, selectedUser.Password, selectedUser.Name, selectedUser.Email, newValue);
+                break;
+            default:
+                Console.WriteLine("Invalid choice.");
+                break;
+        }
+
+        Console.WriteLine("User updated successfully.");
+    }
 
 
 }
