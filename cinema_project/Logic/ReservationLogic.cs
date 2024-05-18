@@ -60,6 +60,11 @@ public static class ReservationLogic
         return false;
     }
 
+    public static void MakeReservationFromSearch()
+    {
+
+    }
+
     public static void MakeReservation(string username)
     {
         MovieScheduleAccess.PrintMoviesWithAuditoriumAndDates();
