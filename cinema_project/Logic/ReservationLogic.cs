@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 public static class ReservationLogic
@@ -18,15 +17,13 @@ public static class ReservationLogic
         Console.WriteLine($"\nMovies for {date:yyyy-MM-dd}:");
         var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
 
-        int screeningNumber = 1;
         foreach (var movieInfo in movieSchedule)
         {
             if (DateTime.TryParseExact(movieInfo["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime))
             {
                 if (displayTime.Date == date.Date)
                 {
-                    Console.WriteLine($"{screeningNumber} - {movieInfo["movieTitle"]} at {displayTime:HH:mm} in {movieInfo["auditorium"]}");
-                    screeningNumber++;
+                    Console.WriteLine($"- {movieInfo["movieTitle"]} at {displayTime:HH:mm} in {movieInfo["auditorium"]}");
                 }
             }
             else
@@ -35,7 +32,6 @@ public static class ReservationLogic
             }
         }
     }
-
 
     private static bool IsSeatAvailable(JObject auditoriumData, string seatNumber)
     {
@@ -53,14 +49,28 @@ public static class ReservationLogic
         return false;
     }
 
-    public static void MakeReservationFromSearch(string username, Dictionary<string, string> selectedScreening)
+    public static void MakeReservationFromSearch()
     {
-        if (selectedScreening != null)
+
+    }
+
+    public static void MakeReservation(string username)
+    {
+        Console.Write("Enter date (yyyy-MM-dd): ");
+        if (DateTime.TryParse(Console.ReadLine(), out DateTime selectedDate))
         {
-            if (DateTime.TryParseExact(selectedScreening["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime selectedDate))
+            PrintMoviesForDay(selectedDate);
+
+            Console.Write("Enter the movie title you want to reserve: ");
+            string movieTitle = Console.ReadLine();
+
+            var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
+            var movieInfo = movieSchedule.FirstOrDefault(m => m["movieTitle"].ToString() == movieTitle);
+
+            if (movieInfo != null)
             {
-                string auditoriumFileName = selectedScreening["filename"].ToString();
-                DisplayAuditoriumFromFile(auditoriumFileName);
+                string auditoriumFileName = movieInfo["filename"].ToString();
+                DisplayAuditoriumFromFile(auditoriumFileName); 
 
                 var auditoriumData = AuditoriumsDataAccess.GetAuditoriumData(auditoriumFileName);
 
@@ -88,7 +98,7 @@ public static class ReservationLogic
                             foreach (string seatNumber in seatNumbers)
                             {
                                 AuditoriumsDataAccess.ReserveSeatAndUpdateFile(auditoriumData, seatNumber.Trim(), Path.Combine(AuditoriumsDataAccess.jsonFolderPath, auditoriumFileName));
-                                ReservationAccess.SaveReservationToCSV(username, selectedScreening["movieTitle"], selectedDate, selectedScreening["auditorium"].ToString(), seatNumber.Trim());
+                                ReservationAccess.SaveReservationToCSV(username, movieTitle, selectedDate, movieInfo["auditorium"].ToString(), seatNumber.Trim());
                             }
                             Console.WriteLine("Reservation successful!");
                             reservationSuccessful = true;
@@ -106,107 +116,7 @@ public static class ReservationLogic
             }
             else
             {
-                Console.WriteLine("Error parsing display time for movie.");
-            }
-        }
-        else
-        {
-            Console.WriteLine("Invalid selected screening.");
-        }
-    }
-
-
-
-    public static void MakeReservation(string username)
-    {
-        Console.Write("Enter date (yyyy-MM-dd): ");
-        if (DateTime.TryParse(Console.ReadLine(), out DateTime selectedDate))
-        {
-            Console.WriteLine($"\nMovies for {selectedDate:yyyy-MM-dd}:");
-            var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
-
-            int screeningIndex = 1;
-            foreach (var movieInfo in movieSchedule)
-            {
-                if (DateTime.TryParseExact(movieInfo["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime))
-                {
-                    if (displayTime.Date == selectedDate.Date)
-                    {
-                        Console.WriteLine($"{screeningIndex} - {movieInfo["movieTitle"]} at {displayTime:HH:mm} in {movieInfo["auditorium"]}");
-                        screeningIndex++;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"Error parsing display time for movie: {movieInfo["movieTitle"]}");
-                }
-            }
-
-            Console.Write("Enter the screening number you want to reserve: ");
-            if (int.TryParse(Console.ReadLine(), out int selectedScreeningIndex))
-            {
-                var selectedScreening = movieSchedule
-                    .Where(schedule => DateTime.TryParseExact(schedule["displayTime"].ToString(), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime) && displayTime.Date == selectedDate.Date)
-                    .ElementAtOrDefault(selectedScreeningIndex - 1);
-
-                if (selectedScreening != null)
-                {
-                    string movieTitle = selectedScreening["movieTitle"].ToString();
-                    string auditoriumFileName = selectedScreening["filename"].ToString();
-                    DateTime displayDateTime = DateTime.ParseExact(selectedScreening["displayTime"].ToString(), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
-
-                    DisplayAuditoriumFromFile(auditoriumFileName);
-
-                    var auditoriumData = AuditoriumsDataAccess.GetAuditoriumData(auditoriumFileName);
-
-                    if (auditoriumData != null)
-                    {
-                        bool reservationSuccessful = false;
-                        while (!reservationSuccessful)
-                        {
-                            Console.Write("Enter seat number(s) to reserve (separated by commas): ");
-                            string[] seatNumbers = Console.ReadLine().Split(',');
-
-                            bool allSeatsAvailable = true;
-                            foreach (string seatNumber in seatNumbers)
-                            {
-                                if (!IsSeatAvailable(auditoriumData, seatNumber.Trim()))
-                                {
-                                    Console.WriteLine($"Seat {seatNumber} is not available.");
-                                    allSeatsAvailable = false;
-                                    break;
-                                }
-                            }
-
-                            if (allSeatsAvailable)
-                            {
-                                foreach (string seatNumber in seatNumbers)
-                                {
-                                    AuditoriumsDataAccess.ReserveSeatAndUpdateFile(auditoriumData, seatNumber.Trim(), Path.Combine(AuditoriumsDataAccess.jsonFolderPath, auditoriumFileName));
-                                    ReservationAccess.SaveReservationToCSV(username, movieTitle, displayDateTime, selectedScreening["auditorium"].ToString(), seatNumber.Trim());
-                                }
-                                Console.WriteLine("Reservation successful!");
-                                reservationSuccessful = true;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Please choose different seat(s).");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error retrieving auditorium data.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid screening number or no screenings found for the selected date.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid screening number.");
+                Console.WriteLine("Movie not found in schedule.");
             }
         }
         else
@@ -215,11 +125,7 @@ public static class ReservationLogic
         }
     }
 
-
-
-
-
-
+    
 
     private static void DisplayAuditoriumFromFile(string fileName)
     {

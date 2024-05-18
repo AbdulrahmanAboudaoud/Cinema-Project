@@ -51,7 +51,7 @@
                     break;
                 case '6':
                     Console.Clear();
-                    SearchMovies(ref loggedInUser);
+                    SearchMovies();
                     break;
                 case '7':
                     Console.Clear();
@@ -71,7 +71,7 @@
     }
 
 
-    private static void SearchMovies(ref User loggedInUser)
+    private static void SearchMovies()
     {
         bool exitRequested = false;
 
@@ -93,7 +93,7 @@
             {
                 case '1':
                     Console.Clear();    
-                    SearchLogic.SearchByFilm(ref loggedInUser);
+                    SearchLogic.SearchByFilm();
                     break;
                 case '2':
                     Console.Clear(); 

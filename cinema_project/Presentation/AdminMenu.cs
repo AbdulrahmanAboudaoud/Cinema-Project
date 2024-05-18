@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 static class AdminMenu
 {
-    static public void Start(ref User loggedInUser)
+    static public void Start()
     {
         bool logoutRequested = false;
 
@@ -37,7 +37,7 @@ static class AdminMenu
                     break;
                 case '4':
                     Console.Clear();
-                    SearchMovies(ref loggedInUser);
+                    SearchMovies();
                     break;
                 case '5':
                     Console.Clear();
@@ -64,7 +64,7 @@ static class AdminMenu
         }
     }
 
-    private static void SearchMovies(ref User loggedInUser)
+    private static void SearchMovies()
     {
         bool exitRequested = false;
 
@@ -86,7 +86,7 @@ static class AdminMenu
             {
                 case '1':
                     Console.Clear();
-                    SearchLogic.SearchByFilm(ref loggedInUser);
+                    SearchLogic.SearchByFilm();
                     break;
                 case '2':
                     Console.Clear();
