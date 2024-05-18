@@ -49,6 +49,11 @@ public static class ReservationLogic
         return false;
     }
 
+    public static void MakeReservationFromSearch()
+    {
+
+    }
+
     public static void MakeReservation(string username)
     {
         Console.Write("Enter date (yyyy-MM-dd): ");
