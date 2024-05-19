@@ -248,7 +248,7 @@ public static class AdminLogic
             return;
         }
 
-        Console.WriteLine($"Selected User: Username: {selectedUser.UserName}, Name: {selectedUser.Name}, Email: {selectedUser.Email}, Phone Number: {selectedUser.PhoneNumber}");
+        Console.WriteLine($"Selected User: Username: {selectedUser.UserName}, Name: {selectedUser.Name}, Password: {selectedUser.Password} Email: {selectedUser.Email}, Phone Number: {selectedUser.PhoneNumber}");
         Console.WriteLine("Which field do you want to edit?");
         Console.WriteLine("1. Username");
         Console.WriteLine("2. Password");

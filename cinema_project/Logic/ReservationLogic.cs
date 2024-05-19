@@ -119,6 +119,7 @@ public static class ReservationLogic
 
     public static void MakeReservation(string username)
     {
+        MovieScheduleAccess.PrintMoviesWithAuditoriumAndDates();
         Console.Write("Enter date (yyyy-MM-dd): ");
         if (DateTime.TryParse(Console.ReadLine(), out DateTime selectedDate))
         {
@@ -276,6 +277,8 @@ public static class ReservationLogic
             {
                 Reservation reservationToEdit = userReservations[selection - 1];
                 ReservationAccess.RemoveReservationFromCSV(username, reservationToEdit);
+
+                ReservationAccess.DisplayAuditoriumForReservationEdit(reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium);
 
                 Console.Write("Enter new seat number: ");
                 string newSeatNumber = Console.ReadLine();
