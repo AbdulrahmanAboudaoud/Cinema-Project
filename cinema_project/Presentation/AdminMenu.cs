@@ -16,7 +16,7 @@ static class AdminMenu
             CenterText.print(" || 3. Rules                    ||", "Cyan");
             CenterText.print(" || 4. Search And Filter Movies ||", "Cyan");
             CenterText.print(" || 5. Edit Catering Menu       ||", "Cyan");
-            CenterText.print(" || 6. View all reservations    ||", "Cyan");
+            CenterText.print(" || 6. Reservations             ||", "Cyan");
             CenterText.print(" || 7. Logout                   ||", "Cyan");
             CenterText.print(" ||                             ||", "Cyan");
             CenterText.print(" =================================", "Cyan");
@@ -45,7 +45,7 @@ static class AdminMenu
                     break;
                 case '6':
                     Console.Clear();
-                    AdminLogic.DisplayAllReservations();
+                    Reservations();
                     break;
                 case '7':
                     Console.Clear();
@@ -58,6 +58,48 @@ static class AdminMenu
                     logoutRequested = true;
                     break; 
                 default:
+                    Console.WriteLine("Invalid input");
+                    break;
+            }
+        }
+    }
+
+    static private void Reservations()
+    {
+        bool exitRequested = false;
+
+        while (!exitRequested)
+        {
+            CenterText.print(" ==================================", "Cyan");
+            CenterText.print(" ||    Reservations Management   ||", "Cyan");
+            CenterText.print(" ||                              ||", "Cyan");
+            CenterText.print(" || 1. View reservations         ||", "Cyan");
+            CenterText.print(" || 2. Edit reservation          ||", "Cyan");
+            CenterText.print(" || 3. Remove reservation        ||", "Cyan");
+            CenterText.print(" || 4. Back to Main Menu         ||", "Cyan");
+            CenterText.print(" ||                              ||", "Cyan");
+            CenterText.print(" ==================================", "Cyan");
+            char choice = Console.ReadKey().KeyChar;
+            switch (choice)
+            {
+                case '1':
+                    Console.Clear();
+                    AdminLogic.DisplayAllReservations();
+                    break;
+                case '2':
+                    Console.Clear();
+                    AdminLogic.EditReservation();
+                    break;
+                case '3':
+                    Console.Clear();
+                    AdminLogic.CancelReservation();
+                    break;
+                case '4':
+                    Console.Clear();
+                    exitRequested = true;
+                    break;
+                default:
+                    Console.Clear();
                     Console.WriteLine("Invalid input");
                     break;
             }

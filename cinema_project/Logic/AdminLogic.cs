@@ -294,5 +294,80 @@ public static class AdminLogic
         Console.WriteLine("User updated successfully.");
     }
 
+    public static void EditReservation()
+    {
+        List<Reservation> allReservations = ReservationAccess.LoadAllReservations();
 
+        if (allReservations.Count > 0)
+        {
+            Console.WriteLine("Select a reservation to edit:");
+            for (int i = 0; i < allReservations.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {allReservations[i].Username} - {allReservations[i].MovieTitle} - {allReservations[i].Date} - {allReservations[i].Auditorium} - {allReservations[i].SeatNumber}");
+            }
+
+            Console.Write("Enter the number of the reservation to edit: ");
+            if (int.TryParse(Console.ReadLine(), out int selection) && selection > 0 && selection <= allReservations.Count)
+            {
+                Reservation reservationToEdit = allReservations[selection - 1];
+                string oldUsername = reservationToEdit.Username;
+                ReservationAccess.RemoveReservationFromCSV(oldUsername, reservationToEdit);
+
+                ReservationAccess.DisplayAuditoriumForReservationEdit(reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium);
+
+                Console.Write("Enter new seat number: ");
+                string newSeatNumber = Console.ReadLine();
+
+                string oldSeatNumber = reservationToEdit.SeatNumber;
+                reservationToEdit.SeatNumber = newSeatNumber;
+
+                ReservationAccess.SaveReservationToCSV(oldUsername, reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, reservationToEdit.SeatNumber);
+
+                AuditoriumsDataAccess.UpdateAuditoriumLayoutFile(reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, oldSeatNumber, reservationToEdit.SeatNumber, true);
+
+                Console.WriteLine("Reservation edited successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No reservations found.");
+        }
+    }
+
+    public static void CancelReservation()
+    {
+        List<Reservation> allReservations = ReservationAccess.LoadAllReservations();
+
+        if (allReservations.Count > 0)
+        {
+            Console.WriteLine("Select a reservation to cancel:");
+            for (int i = 0; i < allReservations.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {allReservations[i].Username} - {allReservations[i].MovieTitle} - {allReservations[i].Date} - {allReservations[i].Auditorium} - {allReservations[i].SeatNumber}");
+            }
+
+            Console.Write("Enter the number of the reservation to cancel: ");
+            if (int.TryParse(Console.ReadLine(), out int selection) && selection > 0 && selection <= allReservations.Count)
+            {
+                Reservation reservationToCancel = allReservations[selection - 1];
+                string username = reservationToCancel.Username;
+                ReservationAccess.RemoveReservationFromCSV(username, reservationToCancel);
+                AuditoriumsDataAccess.UpdateAuditoriumLayoutFile(reservationToCancel.MovieTitle, reservationToCancel.Date, reservationToCancel.Auditorium, reservationToCancel.SeatNumber, false);
+
+                Console.WriteLine("Reservation canceled successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No reservations found.");
+        }
+    }
 }
