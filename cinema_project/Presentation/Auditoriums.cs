@@ -32,6 +32,9 @@ public static class AuditoriumsPresentation
                             case "high":
                                 color = ConsoleColor.DarkMagenta;
                                 break;
+                            case "handicap":
+                                color = ConsoleColor.White;
+                                break;
                             default:
                                 color = ConsoleColor.White;
                                 break;
@@ -113,6 +116,9 @@ public static class AuditoriumsPresentation
                                 case "high":
                                     color = ConsoleColor.DarkMagenta;
                                     break;
+                                case "handicap":
+                                    color = ConsoleColor.White;
+                                    break;
                                 default:
                                     color = ConsoleColor.White;
                                     break;
@@ -171,7 +177,8 @@ public static class AuditoriumsPresentation
         {
             string filenameOnly = Path.GetFileName(fileName);
 
-            string json = File.ReadAllText("C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json");
+            //string json = File.ReadAllText("C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json");
+            string json = File.ReadAllText("C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json");
             var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(json);
 
             var movie = movieSchedule.FirstOrDefault(m => m.filename == filenameOnly);
@@ -185,6 +192,12 @@ public static class AuditoriumsPresentation
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.WriteLine($"[]: ${movie.HighPrice}");
                 Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"[]: ${movie.HandicapPrice} : ");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("Warning: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("[] is a handicap seat.");
+                Console.WriteLine("If you are not eligible and reserve this seat, a fine will be imposed.");
             }
             else
             {
