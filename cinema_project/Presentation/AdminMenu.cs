@@ -11,15 +11,13 @@ static class AdminMenu
             Console.WriteLine();
             CenterText.print(" =================================", "Cyan");
             CenterText.print(" ||                             ||", "Cyan");
-            CenterText.print(" || 1. Movies                   ||", "Cyan");
-            CenterText.print(" || 2. View All Users           ||", "Cyan");
+            CenterText.print(" || 1. Movie Management         ||", "Cyan");
+            CenterText.print(" || 2. User Accounts            ||", "Cyan");
             CenterText.print(" || 3. Rules                    ||", "Cyan");
             CenterText.print(" || 4. Search And Filter Movies ||", "Cyan");
             CenterText.print(" || 5. Edit Catering Menu       ||", "Cyan");
             CenterText.print(" || 6. View all reservations    ||", "Cyan");
-            CenterText.print(" || 7. Remove user              ||", "Cyan");
-            CenterText.print(" || 8. Edit user account        ||", "Cyan");
-            CenterText.print(" || 9. Logout                   ||", "Cyan");
+            CenterText.print(" || 7. Logout                   ||", "Cyan");
             CenterText.print(" ||                             ||", "Cyan");
             CenterText.print(" =================================", "Cyan");
             char input = Console.ReadKey().KeyChar;
@@ -31,7 +29,7 @@ static class AdminMenu
                     break;
                 case '2':
                     Console.Clear();
-                    AdminLogic.ViewAllUsers();
+                    Users();
                     break;
                 case '3':
                     Console.Clear();
@@ -51,16 +49,6 @@ static class AdminMenu
                     break;
                 case '7':
                     Console.Clear();
-                    AdminLogic.ViewAllUsers();
-                    AdminLogic.RemoveUser();
-                    break;
-                case '8':
-                    Console.Clear();
-                    AdminLogic.ViewAllUserData();
-                    AdminLogic.EditUserAccount();
-                    break;
-                case '9':
-                    Console.Clear();
                     Console.WriteLine("Logging out...");
                     Console.WriteLine("You have been logged out.");
                     Console.WriteLine("Press any key to continue..");
@@ -68,7 +56,7 @@ static class AdminMenu
                     Console.Clear();
                     Menu.Start();
                     logoutRequested = true;
-                    break;
+                    break; 
                 default:
                     Console.WriteLine("Invalid input");
                     break;
@@ -213,6 +201,50 @@ static class AdminMenu
                     AdminLogic.RemoveRule();
                     break;
                 case '5':
+                    Console.Clear();
+                    exitRequested = true;
+                    break;
+                default:
+                    Console.Clear();
+                    Console.WriteLine("Invalid input");
+                    break;
+            }
+        }
+    }
+
+    static private void Users()
+    {
+        bool exitRequested = false;
+
+        while (!exitRequested)
+        {
+            CenterText.print(" ==================================", "Cyan");
+            CenterText.print(" ||    User Account Management   ||", "Cyan");
+            CenterText.print(" ||                              ||", "Cyan");
+            CenterText.print(" || 1. View users                ||", "Cyan");
+            CenterText.print(" || 2. Edit user account         ||", "Cyan");
+            CenterText.print(" || 3. Remove user               ||", "Cyan");
+            CenterText.print(" || 4. Back to Main Menu         ||", "Cyan");
+            CenterText.print(" ||                              ||", "Cyan");
+            CenterText.print(" ==================================", "Cyan");
+            char choice = Console.ReadKey().KeyChar;
+            switch (choice)
+            {
+                case '1':
+                    Console.Clear();
+                    AdminLogic.ViewAllUsers();
+                    break;
+                case '2':
+                    Console.Clear();
+                    AdminLogic.ViewAllUserData();
+                    AdminLogic.EditUserAccount();
+                    break;
+                case '3':
+                    Console.Clear();
+                    AdminLogic.ViewAllUsers();
+                    AdminLogic.RemoveUser();
+                    break;
+                case '4':
                     Console.Clear();
                     exitRequested = true;
                     break;
