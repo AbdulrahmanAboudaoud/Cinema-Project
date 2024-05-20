@@ -9,7 +9,7 @@ public class Movie
     public decimal LowPrice { get; set; }
     public decimal MediumPrice { get; set; }
     public decimal HighPrice { get; set; }
-
+    public decimal HandicapPrice { get; set; }
     public Movie()
     {
     }

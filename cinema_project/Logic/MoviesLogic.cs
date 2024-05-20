@@ -96,13 +96,16 @@
             Console.WriteLine("Enter high seat price:");
             movie.HighPrice = decimal.Parse(Console.ReadLine());
 
+            Console.WriteLine("Enter handicap seat price:");
+            movie.HandicapPrice = decimal.Parse(Console.ReadLine());
+
             try
             {
                 MovieAccess.WriteMoviesToCSV(movies);
                 MovieAccess.CreateLayoutFile(movie.movieTitle, displayDate, auditorium);
 
                 string FileName = $"{movie.movieTitle}-{displayDate:yyyyMMdd-HHmm}-{auditorium}.json";
-                MovieScheduleAccess.WriteToMovieSchedule(FileName, movie.movieTitle, displayDate, auditorium, movie.LowPrice, movie.MediumPrice, movie.HighPrice);
+                MovieScheduleAccess.WriteToMovieSchedule(FileName, movie.movieTitle, displayDate, auditorium, movie.LowPrice, movie.MediumPrice, movie.HighPrice, movie.HandicapPrice);
 
                 Console.WriteLine("Time, date, auditorium, and seat prices added successfully for the movie.");
             }
