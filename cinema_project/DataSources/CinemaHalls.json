@@ -13,7 +13,8 @@
           },
           {
             "seat": "A2",
-            "reserved": "unavailable"
+            "reserved": false,
+            "PriceRange":  "handicap"
           },
           {
             "seat": "A3",
@@ -57,7 +58,8 @@
           },
           {
             "seat": "A11",
-            "reserved": "unavailable"
+            "reserved": false,
+            "PriceRange": "handicap"
           },
           {
             "seat": "A12",
@@ -875,7 +877,8 @@
           },
           {
             "seat": "A3",
-            "reserved": "unavailable"
+            "reserved": false,
+            "PriceRange": "handicap"
           },
           {
             "seat": "A4",
@@ -939,7 +942,8 @@
           },
           {
             "seat": "A16",
-            "reserved": "unavailable"
+            "reserved": false,
+            "PriceRange": "handicap"
           },
           {
             "seat": "A17",
@@ -2610,7 +2614,8 @@
           },
           {
             "seat": "A8",
-            "reserved": "unavailable"
+            "reserved": false,
+            "PriceRange": "handicap"
           },
           {
             "seat": "A9",
@@ -2684,7 +2689,8 @@
           },
           {
             "seat": "A23",
-            "reserved": "unavailable"
+            "reserved": false,
+            "PriceRange": "handicap"
           },
           {
             "seat": "A24",
