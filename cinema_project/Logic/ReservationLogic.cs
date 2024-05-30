@@ -281,7 +281,7 @@ public static class ReservationLogic
                 ReservationAccess.DisplayAuditoriumForReservationEdit(reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium);
 
                 Console.Write("Enter new seat number: ");
-                string newSeatNumber = Console.ReadLine();
+                string newSeatNumber = Console.ReadLine().ToUpper();
 
                 string oldSeatNumber = reservationToEdit.SeatNumber;
                 reservationToEdit.SeatNumber = newSeatNumber;
