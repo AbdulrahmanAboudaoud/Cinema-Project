@@ -4,17 +4,48 @@ using System.Text.RegularExpressions;
 
 public static class UserLogic
 {
+
     public static void Start()
     {
         Console.WriteLine("Create an Account");
-        Console.WriteLine("Enter username:");
-        string newUsername = Console.ReadLine();
 
-        Console.WriteLine("Enter password:");
-        string newPassword = Console.ReadLine();
+        string newUsername;
+        do
+        {
+            Console.WriteLine("Enter username:");
+            newUsername = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(newUsername))
+            {
+                Console.WriteLine("Username cannot be empty. Please enter a valid username.");
+            }
+            else if (UserAccess.UsernameExists(newUsername))
+            {
+                Console.WriteLine("Username already exists. Please enter a different username.");
+                newUsername = string.Empty;
+            }
+        } while (string.IsNullOrWhiteSpace(newUsername));
 
-        Console.WriteLine("Enter name:");
-        string name = Console.ReadLine();
+        string newPassword;
+        do
+        {
+            Console.WriteLine("Enter password:");
+            newPassword = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(newPassword))
+            {
+                Console.WriteLine("Password cannot be empty. Please enter a valid password.");
+            }
+        } while (string.IsNullOrWhiteSpace(newPassword));
+
+        string name;
+        do
+        {
+            Console.WriteLine("Enter name:");
+            name = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("Name cannot be empty. Please enter a valid name.");
+            }
+        } while (string.IsNullOrWhiteSpace(name));
 
         string email;
         do
@@ -25,7 +56,12 @@ public static class UserLogic
             {
                 Console.WriteLine("Invalid email format. Please enter a valid email address.");
             }
-        } while (!IsValidEmail(email));
+            else if (UserAccess.EmailExists(email))
+            {
+                Console.WriteLine("Email already exists. Please enter a different email.");
+                email = string.Empty;
+            }
+        } while (string.IsNullOrWhiteSpace(email) || !IsValidEmail(email));
 
         string phoneNumber;
         do
@@ -36,23 +72,28 @@ public static class UserLogic
             {
                 Console.WriteLine("Invalid phone number format. Please enter a valid phone number.");
             }
-        } while (!IsValidPhoneNumber(phoneNumber));
+            else if (UserAccess.PhoneNumberExists(phoneNumber))
+            {
+                Console.WriteLine("Phone number already exists. Please enter a different phone number.");
+                phoneNumber = string.Empty;
+            }
+        } while (string.IsNullOrWhiteSpace(phoneNumber) || !IsValidPhoneNumber(phoneNumber));
 
         bool creationResult = UserAccess.CreateUser(newUsername, newPassword, name, email, phoneNumber);
 
         if (creationResult)
         {
             Console.WriteLine("Account created successfully!");
-            // Navigate to log in menu.
             UserLogin.Start();
         }
         else
         {
             Console.WriteLine("Failed to create account.");
-            // Start again.
             Start();
         }
     }
+
+
 
     public static User Login(string username, string password)
     {
