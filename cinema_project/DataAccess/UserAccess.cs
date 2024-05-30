@@ -244,5 +244,51 @@ public static class UserAccess
         }
     }
 
+    public static bool UsernameExists(string username)
+    {
+        using (SqlConnection connection = OpenConnection())
+        {
+            string query = "SELECT COUNT(*) FROM users WHERE user_name = @username";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@username", username);
+                int count = (int)command.ExecuteScalar();
+                return count > 0;
+            }
+        }
+    }
+
+    public static bool EmailExists(string email)
+    {
+        using (SqlConnection connection = OpenConnection())
+        {
+            string query = "SELECT COUNT(*) FROM users WHERE email = @Email";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Email", email);
+                int count = (int)command.ExecuteScalar();
+                return count > 0;
+            }
+        }
+    }
+
+    public static bool PhoneNumberExists(string phoneNumber)
+    {
+        using (SqlConnection connection = OpenConnection())
+        {
+            string query = "SELECT COUNT(*) FROM users WHERE phone_number = @phoneNumber";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                int count = (int)command.ExecuteScalar();
+                return count > 0;
+            }
+        }
+    }
+
+
 
 }

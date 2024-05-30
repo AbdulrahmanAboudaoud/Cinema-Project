@@ -34,6 +34,7 @@
         }
         else if (input == '2')
         {
+            Console.WriteLine();
             UserLogic.Start();
         }
         else if (input == '3')
