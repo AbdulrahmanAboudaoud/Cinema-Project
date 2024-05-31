@@ -106,27 +106,56 @@ static class SearchLogic
         }
     }
 
+
     public static void SearchByGenre()
     {
-        Console.WriteLine("Enter the genre:");
-        string genre = Console.ReadLine();
-
-
         List<Movie> movies = MovieAccess.GetAllMovies();
+        List<string> uniqueGenres = MovieAccess.GetUniqueGenres(movies);
 
-        var filteredMovies = movies.Where(movie => movie.Genre.Equals(genre, StringComparison.OrdinalIgnoreCase)).ToList();
-
-        if (filteredMovies.Count > 0)
+        if (uniqueGenres.Count > 0)
         {
-            Console.WriteLine("\nSearch Results:");
-            foreach (var movie in filteredMovies)
+            Console.WriteLine("\nAvailable Genres:");
+            for (int i = 0; i < uniqueGenres.Count; i++)
             {
-                Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
+                Console.WriteLine($"{i + 1}. {uniqueGenres[i]}");
+            }
+
+            int genreChoice;
+            bool isValidChoice = false;
+            do
+            {
+                Console.WriteLine("Enter the number corresponding to the genre you want to filter by:");
+                string choiceInput = Console.ReadLine();
+                if (!int.TryParse(choiceInput, out genreChoice) || genreChoice < 1 || genreChoice > uniqueGenres.Count)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                }
+                else
+                {
+                    isValidChoice = true;
+                }
+            } while (!isValidChoice);
+
+            string selectedGenre = uniqueGenres[genreChoice - 1];
+
+            var filteredMovies = movies.Where(movie => movie.Genre.Equals(selectedGenre, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (filteredMovies.Count > 0)
+            {
+                Console.WriteLine("\nSearch Results:");
+                foreach (var movie in filteredMovies)
+                {
+                    Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No movies found for the selected genre.");
             }
         }
         else
         {
-            Console.WriteLine("No movies found for the given genre.");
+            Console.WriteLine("No genres found in the movie list.");
         }
     }
 }

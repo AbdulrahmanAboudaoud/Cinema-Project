@@ -6,9 +6,12 @@ using System.Linq;
 
 public static class MovieAccess
 {
-    private const string MoviesFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
+    /*private const string MoviesFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
     private const string CinemaHallsFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
-    private const string DataSourcesFolder = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources";
+    public const string DataSourcesFolder = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources";*/
+    private const string MoviesFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
+    private const string CinemaHallsFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
+    public const string DataSourcesFolder = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources";
 
 
     public static List<Movie> GetAllMovies()
@@ -38,6 +41,11 @@ public static class MovieAccess
         }
 
         return movies;
+    }
+
+    public static List<string> GetUniqueGenres(List<Movie> movies)
+    {
+        return movies.Select(m => m.Genre).Distinct().ToList();
     }
 
     public static void WriteMoviesToCSV(List<Movie> movies)
