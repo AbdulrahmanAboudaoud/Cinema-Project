@@ -80,10 +80,7 @@ public static class UserAccess
                 command.Parameters.AddWithValue("@UserName", userName);
 
                 int rowsAffected = command.ExecuteNonQuery();
-                if (rowsAffected > 0)
-                    return true;
-                else
-                    return false;
+                return rowsAffected > 0;
             }
         }
     }
@@ -124,7 +121,6 @@ public static class UserAccess
                         string username = reader.GetString(0);
                         string role = reader.GetString(1);
 
-                        // Create user object and add it to the list
                         users.Add(new User(username, "", role));
                     }
                 }
@@ -152,12 +148,10 @@ public static class UserAccess
                         reader.Read();
                         string role = reader.GetString(0);
 
-                        // Login successful.
                         return new User(username, password, role);
                     }
                     else
                     {
-                        // Login failed.
                         return null;
                     }
                 }
@@ -215,6 +209,36 @@ public static class UserAccess
                     return false;
             }
         }
+    }
+
+    public static UserData GetUserData(string username)
+    {
+        using (SqlConnection connection = OpenConnection())
+        {
+            string query = "SELECT user_name, password, name, email, phone_number FROM users WHERE user_name = @username";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@username", username);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new UserData
+                        {
+                            UserName = reader["user_name"].ToString(),
+                            Password = reader["password"].ToString(),
+                            Name = reader["name"].ToString(),
+                            Email = reader["email"].ToString(),
+                            PhoneNumber = reader["phone_number"].ToString()
+                        };
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     public static void UpdateUser(string currentUsername, string newUsername, string newPassword, string newName, string newEmail, string newPhoneNumber)
