@@ -42,68 +42,6 @@ public static class AdminLogic
     }
 
 
-   /* public static void EditMovie()
-    {
-        ViewMovies();
-        Console.WriteLine();
-
-        Console.WriteLine("Enter the title of the movie you want to edit:");
-        string titleToEdit = Console.ReadLine();
-
-        List<Movie> movies = MovieAccess.GetAllMovies();
-        var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(titleToEdit, StringComparison.OrdinalIgnoreCase));
-
-        if (movieToEdit != null)
-        {
-            Console.WriteLine("What aspect of the movie would you like to edit?");
-            Console.WriteLine("1. Title");
-            Console.WriteLine("2. Year");
-            Console.WriteLine("3. Genre");
-
-            if (int.TryParse(Console.ReadLine(), out int choice))
-            {
-                switch (choice)
-                {
-                    case 1:
-                        Console.WriteLine("Enter the new title of the movie:");
-                        string newTitle = Console.ReadLine();
-                        movieToEdit.movieTitle = newTitle;
-                        break;
-                    case 2:
-                        Console.WriteLine("Enter the new year of release:");
-                        if (int.TryParse(Console.ReadLine(), out int newYear))
-                        {
-                            movieToEdit.Year = newYear;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid year format. Please enter a valid year.");
-                            return;
-                        }
-                        break;
-                    case 3:
-                        Console.WriteLine("Enter the new genre of the movie:");
-                        string newGenre = Console.ReadLine();
-                        movieToEdit.Genre = newGenre;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice.");
-                        return;
-                }
-
-                MovieAccess.WriteMoviesToCSV(movies);
-                Console.WriteLine("Movie edited successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Invalid choice.");
-            }
-        }
-        else
-        {
-            Console.WriteLine("Movie not found.");
-        }
-    }*/
 
 
     public static void AddMovie()
