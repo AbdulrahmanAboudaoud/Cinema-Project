@@ -26,7 +26,8 @@
             {
                 case '1':
                     Console.Clear();
-                    UpdateAccount(loggedInUser);
+                    DisplayCurrentUserInfo(loggedInUser);
+                    UserLogic.UpdateAccount(loggedInUser);
                     break;
                 case '2':
                     Console.Clear();
@@ -116,10 +117,18 @@
         }
     }
 
-
-    private static void UpdateAccount(User loggedInUser)
+    public static void DisplayCurrentUserInfo(User loggedInUser)
     {
+        UserData userData = UserLogic.GetUserData(loggedInUser.Username);
+
         Console.Clear();
+        Console.WriteLine("Your current information:");
+        Console.WriteLine($"Username: {userData.UserName}");
+        Console.WriteLine($"Password: {userData.Password}");
+        Console.WriteLine($"Name: {userData.Name}");
+        Console.WriteLine($"Email: {userData.Email}");
+        Console.WriteLine($"Phone Number: {userData.PhoneNumber}");
+
         CenterText.print(" ============================================", "Cyan");
         CenterText.print(" ||                                        ||", "Cyan");
         CenterText.print(" ||  Which info would you like to change?  ||", "Cyan");
@@ -129,40 +138,10 @@
         CenterText.print(" || 4. Password                            ||", "Cyan");
         CenterText.print(" ||                                        ||", "Cyan");
         CenterText.print(" ============================================", "Cyan");
-
-        int choice;
-        bool isValidChoice = false;
-        do
-        {
-            Console.WriteLine("Enter your choice (1-4):");
-            string choiceInput = Console.ReadLine();
-            if (!int.TryParse(choiceInput, out choice) || choice < 1 || choice > 4)
-            {
-                Console.WriteLine("Invalid input. Please enter a number between 1 and 4.");
-            }
-            else
-            {
-                isValidChoice = true;
-            }
-        } while (!isValidChoice);
-
-        Console.WriteLine("Enter the new information:");
-        string newInfo = Console.ReadLine();
-
-        bool result = UserLogic.ChangeAccount(newInfo, choice, loggedInUser.Username);
-        if (result)
-        {
-            Console.WriteLine($"Your information has been updated successfully.\n");
-            Console.WriteLine();
-            Console.WriteLine("Press any key to contitnue..");
-            Console.ReadKey();
-            Console.Clear();
-        }
-        else
-        {
-            Console.WriteLine($"Failed to update information.\n");
-        }
     }
+
+
+   
 
     public static void ViewMovies()
     {

@@ -93,6 +93,11 @@ public static class UserLogic
         }
     }
 
+    public static UserData GetUserData(string username)
+    {
+        return UserAccess.GetUserData(username);
+    }
+
 
 
     public static User Login(string username, string password)
@@ -110,17 +115,113 @@ public static class UserLogic
         return UserAccess.DeleteAccount(username);
     }
 
-    // Method to validate email format.
     public static bool IsValidEmail(string email)
     {
         string pattern = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
         return Regex.IsMatch(email, pattern);
     }
 
-    // Method to validate phone number.
     public static bool IsValidPhoneNumber(string phoneNumber)
     {
         string pattern = @"^\d{10}$";
         return Regex.IsMatch(phoneNumber, pattern);
+    }
+
+    public static bool UsernameExists(string username)
+    {
+        return UserAccess.UsernameExists(username);
+    }
+
+    public static bool EmailExists(string email)
+    {
+        return UserAccess.EmailExists(email);
+    }
+
+    public static bool PhoneNumberExists(string phoneNumber)
+    {
+        return UserAccess.PhoneNumberExists(phoneNumber);
+    }
+
+    public static void UpdateAccount(User loggedInUser)
+    {
+
+        UserMenu.DisplayCurrentUserInfo(loggedInUser);
+
+        int choice;
+        bool isValidChoice = false;
+        do
+        {
+            Console.WriteLine("Enter your choice (1-4):");
+            string choiceInput = Console.ReadLine();
+            if (!int.TryParse(choiceInput, out choice) || choice < 1 || choice > 4)
+            {
+                Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+            }
+            else
+            {
+                isValidChoice = true;
+            }
+        } while (!isValidChoice);
+
+        Console.WriteLine("Enter the new information:");
+        string newInfo = Console.ReadLine();
+
+        if (string.IsNullOrEmpty(newInfo))
+        {
+            Console.WriteLine("Input cannot be empty. Please enter valid information.");
+            return;
+        }
+
+        if (choice == 1)
+        {
+            if (!IsValidEmail(newInfo))
+            {
+                Console.WriteLine("Invalid email format. Please enter a valid email address.");
+            }
+            else if (EmailExists(newInfo))
+            {
+                Console.WriteLine("This email is already in use. Please enter a different email.");
+            }
+            else
+            {
+                UpdateAccountInfo(newInfo, choice, loggedInUser.Username);
+            }
+        }
+        else if (choice == 2)
+        {
+            if (!IsValidPhoneNumber(newInfo))
+            {
+                Console.WriteLine("Invalid phone number format. Please enter a valid phone number.");
+            }
+            else if (PhoneNumberExists(newInfo))
+            {
+                Console.WriteLine("This phone number is already in use. Please enter a different phone number.");
+            }
+            else
+            {
+                UpdateAccountInfo(newInfo, choice, loggedInUser.Username);
+            }
+        }
+        else
+        {
+            UpdateAccountInfo(newInfo, choice, loggedInUser.Username);
+        }
+    }
+
+    public static void UpdateAccountInfo(string newInfo, int choice, string userName)
+    {
+        bool result = ChangeAccount(newInfo, choice, userName);
+        if (result)
+        {
+            Console.WriteLine($"Your information has been updated successfully.\n");
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue..");
+            Console.ReadKey();
+            Console.Clear();
+        }
+        else
+        {
+            Console.WriteLine($"Failed to update information.\n");
+        }
     }
 }
