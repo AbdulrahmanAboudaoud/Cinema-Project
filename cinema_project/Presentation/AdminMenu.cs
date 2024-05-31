@@ -112,6 +112,8 @@ static class AdminMenu
 
         while (!exitRequested)
         {
+            UserMenu.ViewMovies();
+            Console.WriteLine();
             CenterText.print(" ==================================", "Cyan");
             CenterText.print(" ||    Choose search criteria:   ||", "Cyan");
             CenterText.print(" ||                              ||", "Cyan");
@@ -127,15 +129,15 @@ static class AdminMenu
             switch (searchOption)
             {
                 case '1':
-                    Console.Clear();
+                    Console.WriteLine();
                     SearchLogic.SearchByFilm(ref loggedInUser);
                     break;
                 case '2':
-                    Console.Clear();
+                    Console.WriteLine();
                     SearchLogic.SearchByYear();
                     break;
                 case '3':
-                    Console.Clear();
+                    Console.WriteLine();
                     SearchLogic.SearchByGenre();
                     break;
                 case '4':
