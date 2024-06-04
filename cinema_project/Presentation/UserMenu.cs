@@ -7,6 +7,7 @@
         while (!exitRequested)
         {
             Console.WriteLine();
+            CenterText.print($"Welcome to the Cinema Application, {loggedInUser.Username}", "Cyan");
             CenterText.printart(TextArt.welcomescreen());
             CenterText.print("=================================", "Cyan");
             CenterText.print("||                             ||", "Cyan");

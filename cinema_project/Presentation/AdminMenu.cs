@@ -5,9 +5,12 @@ static class AdminMenu
     static public void Start(ref User loggedInUser)
     {
         bool logoutRequested = false;
+        Console.Clear();
 
         while (!logoutRequested)
         {
+            Console.WriteLine();
+            CenterText.print($"Welcome to the Cinema Application, {loggedInUser.Username}", "Cyan");
             Console.WriteLine();
             CenterText.print(" =================================", "Cyan");
             CenterText.print(" ||                             ||", "Cyan");
