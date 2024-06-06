@@ -79,7 +79,8 @@ static class AdminMenu
             CenterText.print(" || 1. View reservations         ||", "Cyan");
             CenterText.print(" || 2. Edit reservation          ||", "Cyan");
             CenterText.print(" || 3. Remove reservation        ||", "Cyan");
-            CenterText.print(" || 4. Back to Main Menu         ||", "Cyan");
+            CenterText.print(" || 4. Update Movie Schedule     ||", "Cyan");
+            CenterText.print(" || 5. Back to Main Menu         ||", "Cyan");
             CenterText.print(" ||                              ||", "Cyan");
             CenterText.print(" ==================================", "Cyan");
             char choice = Console.ReadKey().KeyChar;
@@ -98,6 +99,10 @@ static class AdminMenu
                     AdminLogic.CancelReservation();
                     break;
                 case '4':
+                    Console.Clear();
+                    MovieScheduleAccess.CheckOutdatingMovieScreenings();
+                    break;
+                case '5':
                     Console.Clear();
                     exitRequested = true;
                     break;

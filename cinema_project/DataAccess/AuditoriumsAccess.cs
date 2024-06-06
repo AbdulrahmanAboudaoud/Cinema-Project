@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 public static class AuditoriumsDataAccess
 {
     public static string jsonFolderPath = @"C:\Users\Gebruiker\OneDrive - Hogeschool Rotterdam\Github\Cinema-Project\cinema_project\DataSources";
+    private const string CinemaHallsFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
     public static CinemaHalls GetAllAuditoriums()
     {
         string json = File.ReadAllText(Path.Combine(jsonFolderPath, "CinemaHalls.json"));
@@ -113,6 +114,60 @@ public static class AuditoriumsDataAccess
                     return;
                 }
             }
+        }
+    }
+
+    public static void CreateLayoutFile(string movieName, DateTime displayDate, string auditoriumName)
+    {
+        string fileName = Path.Combine(jsonFolderPath, $"{movieName}-{displayDate:yyyyMMdd-HHmm}-{auditoriumName}.json");
+
+        if (!File.Exists(fileName))
+        {
+            using (FileStream fs = File.Create(fileName)) { }
+        }
+
+        string cinemaHallsJson = File.ReadAllText(CinemaHallsFilePath);
+        CinemaHalls cinemaHalls = JsonConvert.DeserializeObject<CinemaHalls>(cinemaHallsJson);
+
+        var auditorium = cinemaHalls.auditoriums.FirstOrDefault(a => a.name.Equals(auditoriumName, StringComparison.OrdinalIgnoreCase));
+        if (auditorium != null)
+        {
+            CinemaHalls selectedAuditorium = new CinemaHalls
+            {
+                auditoriums = new[] { auditorium }
+            };
+
+            string selectedAuditoriumJson = JsonConvert.SerializeObject(selectedAuditorium, Formatting.Indented);
+
+            File.WriteAllText(fileName, selectedAuditoriumJson);
+
+            //Console.WriteLine($"Layout for {auditoriumName} copied successfully to {fileName}.");
+        }
+        else
+        {
+            Console.WriteLine("Auditorium not found.");
+        }
+    }
+
+    public static void RemoveLayoutFile(string movieName, DateTime displayDate, string auditoriumName)
+    {
+        string fileName = Path.Combine(jsonFolderPath, $"{movieName}-{displayDate:yyyyMMdd-HHmm}-{auditoriumName}.json");
+
+        if (File.Exists(fileName))
+        {
+            try
+            {
+                File.Delete(fileName);
+                Console.WriteLine($"Layout file {fileName} removed successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing layout file {fileName}: " + ex.Message);
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Layout file {fileName} does not exist.");
         }
     }
 }

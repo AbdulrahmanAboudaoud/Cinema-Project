@@ -2,13 +2,14 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 public static class MovieScheduleAccess
 {
-    // static public string MovieScheduleFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
+    static public string MovieScheduleFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
     //static public string MovieScheduleFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
-    static public string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
+    //static public string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
 
     public static void PrintMoviesWithAuditoriumAndDates()
     {
@@ -80,4 +81,46 @@ public static class MovieScheduleAccess
             Console.WriteLine("Error writing to movie schedule: " + ex.Message);
         }
     }
+
+    public static void CheckOutdatingMovieScreenings()
+    {
+        var movieschedule = GetMovieSchedule();
+        bool isUpdated = false;
+
+        for (int i = movieschedule.Count - 1; i >= 0; i--)
+        {
+            var movieScreening = movieschedule[i];
+            if (DateTime.TryParseExact(movieScreening["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime))
+            {
+                if (displayTime < DateTime.Now)
+                {
+                    string movieTitle = movieScreening["movieTitle"];
+                    string auditorium = movieScreening["auditorium"];
+                    AuditoriumsDataAccess.RemoveLayoutFile(movieTitle, displayTime, auditorium);
+
+                    movieschedule.RemoveAt(i);
+                    isUpdated = true;
+                }
+            }
+        }
+
+        if (isUpdated)
+        {
+            try
+            {
+                string updatedJson = JsonConvert.SerializeObject(movieschedule, Formatting.Indented);
+                File.WriteAllText(MovieScheduleFilePath, updatedJson);
+                Console.WriteLine("Outdated movie screenings removed and schedule updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating movie schedule: " + ex.Message);
+            }
+        }
+        else
+        {
+            Console.WriteLine("No outdated movie screenings found.");
+        }
+    }
+
 }
