@@ -173,40 +173,28 @@ public static class AuditoriumsPresentation
 
     public static void PrintSeatPrices(string fileName)
     {
-        try
+        var movie = AuditoriumsDataAccess.GetMovieSeatPrices(fileName);
+
+        if (movie != null)
         {
-            string filenameOnly = Path.GetFileName(fileName);
-
-            //string json = File.ReadAllText("C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json");
-            string json = File.ReadAllText("C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json");
-            var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(json);
-
-            var movie = movieSchedule.FirstOrDefault(m => m.filename == filenameOnly);
-            if (movie != null)
-            {
-                Console.WriteLine($"Seat Prices for {movie.movieTitle} in {movie.auditorium}:");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"[]: ${movie.LowPrice}");
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine($"[]: ${movie.MediumPrice}");
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Console.WriteLine($"[]: ${movie.HighPrice}");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine($"[]: ${movie.HandicapPrice} : ");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write("Warning: ");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("[] is a handicap seat.");
-                Console.WriteLine("If you are not eligible and reserve this seat, a fine will be imposed.");
-            }
-            else
-            {
-                Console.WriteLine("No entry found for the specified filename.");
-            }
+            Console.WriteLine($"Seat Prices for {movie.movieTitle} in {movie.auditorium}:");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"[]: ${movie.LowPrice}");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"[]: ${movie.MediumPrice}");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine($"[]: ${movie.HighPrice}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"[]: ${movie.HandicapPrice} : ");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("Warning: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("[] is a handicap seat.");
+            Console.WriteLine("If you are not eligible and reserve this seat, a fine will be imposed.");
         }
-        catch (Exception ex)
+        else
         {
-            Console.WriteLine("Error reading MovieSchedule.json file: " + ex.Message);
+            Console.WriteLine("No entry found for the specified filename.");
         }
     }
 }

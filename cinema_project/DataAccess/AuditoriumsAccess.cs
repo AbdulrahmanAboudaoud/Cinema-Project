@@ -3,11 +3,12 @@ using Newtonsoft.Json.Linq;
 
 public static class AuditoriumsDataAccess
 {
-    public static string jsonFolderPath = @"C:\Users\Gebruiker\OneDrive - Hogeschool Rotterdam\Github\Cinema-Project\cinema_project\DataSources";
-    private const string CinemaHallsFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
+    public static string jsonFolderPath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
+    private const string CinemaHallsFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
+    private const string MovieScheduleFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
     public static CinemaHalls GetAllAuditoriums()
     {
-        string json = File.ReadAllText(Path.Combine(jsonFolderPath, "CinemaHalls.json"));
+        string json = File.ReadAllText(MovieScheduleFilePath);
         return JsonConvert.DeserializeObject<CinemaHalls>(json);
     }
 
@@ -86,6 +87,23 @@ public static class AuditoriumsDataAccess
         catch (Exception ex)
         {
             Console.WriteLine($"Error updating auditorium layout file: {ex.Message}");
+        }
+    }
+
+    public static Movie GetMovieSeatPrices(string fileName)
+    {
+        try
+        {
+            string filenameOnly = Path.GetFileName(fileName);
+            string json = File.ReadAllText(Path.Combine(jsonFolderPath, "MovieSchedule.json"));
+            var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(json);
+
+            return movieSchedule.FirstOrDefault(m => m.filename == filenameOnly);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error reading MovieSchedule.json file: " + ex.Message);
+            return null;
         }
     }
 

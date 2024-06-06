@@ -102,7 +102,7 @@
             try
             {
                 MovieAccess.WriteMoviesToCSV(movies);
-                MovieAccess.CreateLayoutFile(movie.movieTitle, displayDate, auditorium);
+                AuditoriumsDataAccess.CreateLayoutFile(movie.movieTitle, displayDate, auditorium);
 
                 string FileName = $"{movie.movieTitle}-{displayDate:yyyyMMdd-HHmm}-{auditorium}.json";
                 MovieScheduleAccess.WriteToMovieSchedule(FileName, movie.movieTitle, displayDate, auditorium, movie.LowPrice, movie.MediumPrice, movie.HighPrice, movie.HandicapPrice);
