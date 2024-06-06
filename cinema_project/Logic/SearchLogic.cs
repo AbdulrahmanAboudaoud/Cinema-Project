@@ -76,6 +76,55 @@ static class SearchLogic
         }
     }
 
+    public static void SearchByFilmForAdmin()
+    {
+        Console.WriteLine("Enter the title of the movie:");
+        string title = Console.ReadLine();
+
+        List<Movie> movies = MovieAccess.GetAllMovies();
+        var movieSchedule = MovieScheduleAccess.GetMovieSchedule();
+
+        var filteredMovies = movies.Where(movie => movie.movieTitle.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+
+        if (filteredMovies.Count > 0)
+        {
+            Console.WriteLine("\nSearch Results:");
+            foreach (var movie in filteredMovies)
+            {
+                Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
+            }
+
+            Console.WriteLine("\nAvailable screenings for this movie:");
+            int ScreeningNumber = 1;
+            bool screeningsFound = false;
+            foreach (var screening in movieSchedule)
+            {
+                if (screening["movieTitle"] == title)
+                {
+                    screeningsFound = true;
+                    if (DateTime.TryParseExact(screening["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime))
+                    {
+                        Console.WriteLine($"{ScreeningNumber} - {screening["movieTitle"]} at {displayTime:yyyy-MM-dd HH:mm} in {screening["auditorium"]}");
+                        ScreeningNumber++;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error parsing display time for movie: {screening["movieTitle"]}");
+                    }
+                }
+            }
+            if (!screeningsFound)
+            {
+                Console.WriteLine("No screenings found for this movie.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No movies found with the given title.");
+        }
+    }
+
+
 
 
     public static void SearchByYear()

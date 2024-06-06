@@ -138,7 +138,7 @@ static class AdminMenu
             {
                 case '1':
                     Console.WriteLine();
-                    SearchLogic.SearchByFilm(ref loggedInUser);
+                    SearchLogic.SearchByFilmForAdmin();
                     break;
                 case '2':
                     Console.WriteLine();
