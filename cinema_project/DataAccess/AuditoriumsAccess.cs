@@ -3,12 +3,13 @@ using Newtonsoft.Json.Linq;
 
 public static class AuditoriumsDataAccess
 {
-    public static string jsonFolderPath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
-    private const string CinemaHallsFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
-    private const string MovieScheduleFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
+    public static string jsonFolderPath = @"C:\Users\abdul\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
+    public const string CinemaHallsFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
+    private const string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
+
     public static CinemaHalls GetAllAuditoriums()
     {
-        string json = File.ReadAllText(MovieScheduleFilePath);
+        string json = File.ReadAllText(CinemaHallsFilePath);
         return JsonConvert.DeserializeObject<CinemaHalls>(json);
     }
 

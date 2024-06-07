@@ -110,6 +110,7 @@
                 case '4':
                     Console.Clear();
                     exitRequested = true;
+                    Start(ref loggedInUser);
                     break;
                 default:
                     Console.WriteLine("Invalid option.");

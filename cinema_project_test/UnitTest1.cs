@@ -2,6 +2,7 @@ using System.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace cinema_project_test;
 
@@ -12,6 +13,8 @@ public class UnitTest1
     private const string ConnectionString = "Data Source=ABDULRAHMAN;Initial Catalog=cinema_project;User ID=sa;Password=q1w2e3r4t5;";
     private const string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
     private const string MoviesFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
+    string reservationHistoryPath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\ReservationHistory.csv";
+    string cateringMenuPath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
 
     private SqlConnection OpenConnection()
     {
@@ -254,5 +257,199 @@ public class UnitTest1
             //Restore the original contents excluding the test movie
             File.WriteAllLines(MoviesFilePath, originalLines.Where(line => !line.Contains("Test Movie,2024,Action,")));
         }
+    }
+
+    // Testing save reservation to csv file.
+    [TestMethod]
+    public void SaveReservationToCSV_ShouldAppendReservationDetails()
+    {
+        string username = "testuser";
+        string movieTitle = "Test Movie";
+        DateTime date = DateTime.Now;
+        string auditoriumName = "Auditorium 1";
+        string seatNumber = "A1";
+
+        var originalLines = File.Exists(reservationHistoryPath) ? File.ReadAllLines(reservationHistoryPath).ToList() : new List<string>();
+
+        try
+        {
+            ReservationAccess.SaveReservationToCSV(username, movieTitle, date, auditoriumName, seatNumber);
+
+            string[] lines = File.ReadAllLines(reservationHistoryPath);
+            string lastLine = lines.Last();
+
+            string expectedLine = $"{username},{movieTitle},{date:yyyy-MM-dd HH:mm},{auditoriumName},{seatNumber}";
+            Assert.AreEqual(expectedLine, lastLine);
+        }
+        finally
+        {
+            // Clean up by restoring original content
+            File.WriteAllLines(reservationHistoryPath, originalLines);
+        }
+    }
+
+    // Testing remove reservation from csv file.
+    [TestMethod]
+    public void RemoveReservationFromCSV_ShouldRemoveReservationDetails_WhenReservationExists()
+    {
+        string username = "testuser";
+        string movieTitle = "Test Movie";
+        DateTime date = DateTime.Now;
+        string auditoriumName = "Auditorium 1";
+        string seatNumber = "A1";
+
+
+        var originalLines = File.Exists(reservationHistoryPath) ? File.ReadAllLines(reservationHistoryPath).ToList() : new List<string>();
+
+        string reservationDetails = $"{username},{movieTitle},{date:yyyy-MM-dd HH:mm},{auditoriumName},{seatNumber}";
+
+        // Add the reservation to be removed
+        File.AppendAllText(reservationHistoryPath, reservationDetails + Environment.NewLine);
+
+        // Assuming the Reservation class has a constructor that matches these parameters
+        var reservationToRemove = new Reservation(username, movieTitle, date, auditoriumName, seatNumber);
+
+        try
+        {
+            ReservationAccess.RemoveReservationFromCSV(username, reservationToRemove);
+
+            string[] lines = File.ReadAllLines(reservationHistoryPath);
+            Assert.IsFalse(lines.Contains(reservationDetails));
+        }
+        finally
+        {
+            // Clean up by restoring original content
+            File.WriteAllLines(reservationHistoryPath, originalLines);
+        }
+    }
+
+    // Testing save catering menu to json file.
+    [TestMethod]
+    public void SaveMenuToJson_ShouldAppendMenuToJsonFile_WhenDataIsValid()
+    {
+        // Step 1: Read and store the original content
+        var originalContent = File.Exists(cateringMenuPath) ? File.ReadAllText(cateringMenuPath) : string.Empty;
+
+        var newMenuItems = new List<Dictionary<string, object>>
+    {
+        new Dictionary<string, object>
+        {
+            { "Product", "Ice Cream" },
+            { "Category", "Dessert" },
+            { "Size", "Medium" },
+            { "Price", 3.50 }
+        },
+        new Dictionary<string, object>
+        {
+            { "Product", "Nachos" },
+            { "Category", "Snack" },
+            { "Size", "Large" },
+            { "Price", 4.00 }
+        }
+    };
+
+        try
+        {
+            // Step 2: Append new items to the existing menu
+            var existingMenu = File.Exists(cateringMenuPath) ? JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(originalContent) : new List<Dictionary<string, object>>();
+            existingMenu.AddRange(newMenuItems);
+
+            CateringAccess.SaveMenuToJson(existingMenu, cateringMenuPath);
+
+            // Step 3: Verify the new items have been added correctly
+            string updatedContent = File.ReadAllText(cateringMenuPath);
+            var deserializedMenu = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(updatedContent);
+
+            Assert.IsNotNull(deserializedMenu);
+            Assert.IsTrue(deserializedMenu.Count >= newMenuItems.Count);
+
+            foreach (var newItem in newMenuItems)
+            {
+                Assert.IsTrue(deserializedMenu.Any(item =>
+                    item.ContainsKey("Product") && item["Product"].Equals(newItem["Product"]) &&
+                    item.ContainsKey("Category") && item["Category"].Equals(newItem["Category"]) &&
+                    item.ContainsKey("Size") && item["Size"].Equals(newItem["Size"]) &&
+                    item.ContainsKey("Price") && item["Price"].Equals(newItem["Price"])));
+            }
+        }
+        finally
+        {
+            // Step 4: Restore the original content
+            if (!string.IsNullOrEmpty(originalContent))
+            {
+                File.WriteAllText(cateringMenuPath, originalContent);
+            }
+            else
+            {
+                File.Delete(cateringMenuPath);
+            }
+        }
+    }
+
+    // Testing create auditorium layout file.
+    [TestMethod]
+    public void TestCreateLayoutFile()
+    {
+        var movieName = "TestMovie";
+        var displayDate = new DateTime(2023, 6, 7);
+        var auditoriumName = "Auditorium 1";
+        var fileName = Path.Combine(AuditoriumsDataAccess.jsonFolderPath, $"{movieName}-{displayDate:yyyyMMdd-HHmm}-{auditoriumName}.json");
+        var cinemaHallsJson = JsonConvert.SerializeObject(new CinemaHalls
+        {
+            auditoriums = new[]
+            {
+                    new Auditorium
+                    {
+                        name = auditoriumName,
+                        layout = new Seat[][]
+                        {
+                            new Seat[]
+                            {
+                                new Seat { seat = "A1", reserved = "false", PriceRange = "Low" }
+                            }
+                        }
+                    }
+                }
+        });
+
+        var backupFilePath = AuditoriumsDataAccess.CinemaHallsFilePath + ".bak";
+        File.Copy(AuditoriumsDataAccess.CinemaHallsFilePath, backupFilePath, true);
+
+        try
+        {
+            File.WriteAllText(AuditoriumsDataAccess.CinemaHallsFilePath, cinemaHallsJson);
+
+            AuditoriumsDataAccess.CreateLayoutFile(movieName, displayDate, auditoriumName);
+
+            Assert.IsTrue(File.Exists(fileName));
+            var createdFileContent = File.ReadAllText(fileName);
+            var createdCinemaHalls = JsonConvert.DeserializeObject<CinemaHalls>(createdFileContent);
+            Assert.IsNotNull(createdCinemaHalls);
+            Assert.AreEqual(1, createdCinemaHalls.auditoriums.Length);
+            Assert.AreEqual(auditoriumName, createdCinemaHalls.auditoriums[0].name);
+        }
+        finally
+        {
+            // Clean up
+            File.Delete(fileName);
+            File.Copy(backupFilePath, AuditoriumsDataAccess.CinemaHallsFilePath, true);
+            File.Delete(backupFilePath);
+        }
+    }
+
+    // Testing remove auditorium layout file.
+    [TestMethod]
+    public void TestRemoveLayoutFile()
+    {
+        var movieName = "TestMovie";
+        var displayDate = new DateTime(2023, 6, 7);
+        var auditoriumName = "Auditorium 1";
+        var fileName = Path.Combine(AuditoriumsDataAccess.jsonFolderPath, $"{movieName}-{displayDate:yyyyMMdd-HHmm}-{auditoriumName}.json");
+
+        File.WriteAllText(fileName, "Temporary file content");
+
+        AuditoriumsDataAccess.RemoveLayoutFile(movieName, displayDate, auditoriumName);
+
+        Assert.IsFalse(File.Exists(fileName));
     }
 }
