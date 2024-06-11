@@ -18,12 +18,12 @@
 
     public static void EditTitleMovie(string oldTitle, string newTitle)
     {
-        List<Movie> movies = MovieAccess.GetAllMovies();
+        Movie[] movies = MovieAccess.GetAllMovies().ToArray();
         var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(oldTitle, StringComparison.OrdinalIgnoreCase));
         if (movieToEdit != null)
         {
             movieToEdit.movieTitle = newTitle;
-            MovieAccess.WriteMoviesToCSV(movies);
+            MovieAccess.WriteMoviesToCSV(movies.ToList());
             Console.WriteLine("Title edited successfully.");
         }
         else
@@ -34,12 +34,12 @@
 
     public static void EditYearMovie(string title, int newYear)
     {
-        List<Movie> movies = MovieAccess.GetAllMovies();
+        Movie[] movies = MovieAccess.GetAllMovies().ToArray();
         var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(title, StringComparison.OrdinalIgnoreCase));
         if (movieToEdit != null)
         {
             movieToEdit.Year = newYear;
-            MovieAccess.WriteMoviesToCSV(movies);
+            MovieAccess.WriteMoviesToCSV(movies.ToList());
             Console.WriteLine("Year edited successfully.");
         }
         else
@@ -50,12 +50,12 @@
 
     public static void EditGenreMovie(string title, string newGenre)
     {
-        List<Movie> movies = MovieAccess.GetAllMovies();
+        Movie[] movies = MovieAccess.GetAllMovies().ToArray();
         var movieToEdit = movies.FirstOrDefault(m => m.movieTitle.Equals(title, StringComparison.OrdinalIgnoreCase));
         if (movieToEdit != null)
         {
             movieToEdit.Genre = newGenre;
-            MovieAccess.WriteMoviesToCSV(movies);
+            MovieAccess.WriteMoviesToCSV(movies.ToList());
             Console.WriteLine("Genre edited successfully.");
         }
         else
