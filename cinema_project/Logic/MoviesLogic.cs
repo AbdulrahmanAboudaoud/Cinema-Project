@@ -114,18 +114,10 @@
             movie.auditorium = auditorium;
             movie.movieTitle = movieTitle;
 
-            // Ask admin for seat prices
-            Console.WriteLine("Enter low seat price:");
-            movie.LowPrice = decimal.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter medium seat price:");
-            movie.MediumPrice = decimal.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter high seat price:");
-            movie.HighPrice = decimal.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter handicap seat price:");
-            movie.HandicapPrice = decimal.Parse(Console.ReadLine());
+            movie.LowPrice = GetValidDecimalInput("Enter low seat price:");
+            movie.MediumPrice = GetValidDecimalInput("Enter medium seat price:");
+            movie.HighPrice = GetValidDecimalInput("Enter high seat price:");
+            movie.HandicapPrice = GetValidDecimalInput("Enter handicap seat price:");
 
             try
             {
@@ -145,6 +137,24 @@
         else
         {
             Console.WriteLine("Movie not found.");
+        }
+    }
+
+    private static decimal GetValidDecimalInput(string prompt)
+    {
+        decimal value;
+        while (true)
+        {
+            Console.WriteLine(prompt);
+            string input = Console.ReadLine();
+            if (decimal.TryParse(input, out value))
+            {
+                return value;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a valid decimal number.");
+            }
         }
     }
 }

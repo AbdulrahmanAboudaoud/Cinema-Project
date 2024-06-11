@@ -161,8 +161,20 @@ public static class AdminLogic
             break;
         }
 
-        Console.WriteLine("Enter auditorium:");
-        string auditorium = Console.ReadLine();
+        Console.WriteLine("Enter auditorium (input has to be Auditorium 1 or Auditorium 2 or Auditorium 3):");
+        string auditorium;
+        while (true)
+        {
+            auditorium = Console.ReadLine();
+            if (auditorium == "Auditorium 1" || auditorium == "Auditorium 2" || auditorium == "Auditorium 3")
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid auditorium. Please enter one of the following: Auditorium 1, Auditorium 2, or Auditorium 3.");
+            }
+        }
 
         MoviesLogic.AddTimeAndAuditorium(title, displayDate, auditorium);
     }
