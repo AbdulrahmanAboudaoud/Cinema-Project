@@ -4,17 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace cinema_project_test;
+
+
+
 
 
 [TestClass]
 public class UnitTest1
 {
+
+    public static (string MovieScheduleFilePath, string MoviesFilePath, string reservationHistoryPath, string cateringMenuPath) FilePathTuple =
+    ("C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json",
+     "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv",
+     "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\ReservationHistory.csv",
+     "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json");
+
     private const string ConnectionString = "Data Source=ABDULRAHMAN;Initial Catalog=cinema_project;User ID=sa;Password=q1w2e3r4t5;";
-    private const string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
-    private const string MoviesFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
-    string reservationHistoryPath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\ReservationHistory.csv";
-    string cateringMenuPath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cateringmenu.json";
 
     private SqlConnection OpenConnection()
     {
@@ -27,8 +32,7 @@ public class UnitTest1
     {
         {
             bool connectionEstablished = false;
-            string connectionString = UserAccess.connectionString;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 try
                 {
@@ -38,7 +42,7 @@ public class UnitTest1
                         connectionEstablished = true;
                         Assert.IsTrue(connectionEstablished);
                     }
-                else
+                    else
                     {
                         Assert.Fail();
                     }
@@ -58,7 +62,7 @@ public class UnitTest1
         string username = "customer";
         string password = "customer";
 
-        User result  = UserAccess.Login(username, password);
+        User result = UserAccess.Login(username, password);
 
         Assert.IsNotNull(result);
         Assert.AreEqual(username, result.Username);
@@ -198,7 +202,7 @@ public class UnitTest1
         {
             MovieScheduleAccess.WriteToMovieSchedule(filename, movieTitle, displayTime, auditorium, lowPrice, mediumPrice, highPrice, handiPrice);
 
-            string json = File.ReadAllText(MovieScheduleFilePath);
+            string json = File.ReadAllText(FilePathTuple.MovieScheduleFilePath);
             var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(json);
 
             Assert.IsNotNull(movieSchedule);
@@ -214,14 +218,14 @@ public class UnitTest1
         finally
         {
             // Remove the movie entry added by the test.
-            var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(File.ReadAllText(MovieScheduleFilePath));
+            var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(File.ReadAllText(FilePathTuple.MovieScheduleFilePath));
 
             if (movieSchedule != null)
             {
                 movieSchedule.RemoveAll(m => m.movieTitle == movieTitle && m.auditorium == auditorium && m.displayTime == displayTime);
 
                 string updatedJson = JsonConvert.SerializeObject(movieSchedule, Formatting.Indented);
-                File.WriteAllText(MovieScheduleFilePath, updatedJson);
+                File.WriteAllText(FilePathTuple.MovieScheduleFilePath, updatedJson);
             }
         }
     }
@@ -241,13 +245,13 @@ public class UnitTest1
                 }
             };
 
-        var originalLines = File.ReadAllLines(MoviesFilePath).ToList();
+        var originalLines = File.ReadAllLines(FilePathTuple.MoviesFilePath).ToList();
 
         try
         {
             MovieAccess.WriteMoviesToCSV(movies);
 
-            string[] lines = File.ReadAllLines(MoviesFilePath);
+            string[] lines = File.ReadAllLines(FilePathTuple.MoviesFilePath);
             string lastLine = lines.Last();
 
             Assert.AreEqual("Test Movie,2024,Action," + movies[0].displayTime.ToString("yyyy-MM-dd HH:mm") + ",Auditorium 1", lastLine);
@@ -255,7 +259,7 @@ public class UnitTest1
         finally
         {
             //Restore the original contents excluding the test movie
-            File.WriteAllLines(MoviesFilePath, originalLines.Where(line => !line.Contains("Test Movie,2024,Action,")));
+            File.WriteAllLines(FilePathTuple.MoviesFilePath, originalLines.Where(line => !line.Contains("Test Movie,2024,Action,")));
         }
     }
 
@@ -269,13 +273,13 @@ public class UnitTest1
         string auditoriumName = "Auditorium 1";
         string seatNumber = "A1";
 
-        var originalLines = File.Exists(reservationHistoryPath) ? File.ReadAllLines(reservationHistoryPath).ToList() : new List<string>();
+        var originalLines = File.Exists(FilePathTuple.reservationHistoryPath) ? File.ReadAllLines(FilePathTuple.reservationHistoryPath).ToList() : new List<string>();
 
         try
         {
             ReservationAccess.SaveReservationToCSV(username, movieTitle, date, auditoriumName, seatNumber);
 
-            string[] lines = File.ReadAllLines(reservationHistoryPath);
+            string[] lines = File.ReadAllLines(FilePathTuple.reservationHistoryPath);
             string lastLine = lines.Last();
 
             string expectedLine = $"{username},{movieTitle},{date:yyyy-MM-dd HH:mm},{auditoriumName},{seatNumber}";
@@ -284,7 +288,7 @@ public class UnitTest1
         finally
         {
             // Clean up by restoring original content
-            File.WriteAllLines(reservationHistoryPath, originalLines);
+            File.WriteAllLines(FilePathTuple.reservationHistoryPath, originalLines);
         }
     }
 
@@ -299,12 +303,12 @@ public class UnitTest1
         string seatNumber = "A1";
 
 
-        var originalLines = File.Exists(reservationHistoryPath) ? File.ReadAllLines(reservationHistoryPath).ToList() : new List<string>();
+        var originalLines = File.Exists(FilePathTuple.reservationHistoryPath) ? File.ReadAllLines(FilePathTuple.reservationHistoryPath).ToList() : new List<string>();
 
         string reservationDetails = $"{username},{movieTitle},{date:yyyy-MM-dd HH:mm},{auditoriumName},{seatNumber}";
 
         // Add the reservation to be removed
-        File.AppendAllText(reservationHistoryPath, reservationDetails + Environment.NewLine);
+        File.AppendAllText(FilePathTuple.reservationHistoryPath, reservationDetails + Environment.NewLine);
 
         // Assuming the Reservation class has a constructor that matches these parameters
         var reservationToRemove = new Reservation(username, movieTitle, date, auditoriumName, seatNumber);
@@ -313,13 +317,13 @@ public class UnitTest1
         {
             ReservationAccess.RemoveReservationFromCSV(username, reservationToRemove);
 
-            string[] lines = File.ReadAllLines(reservationHistoryPath);
+            string[] lines = File.ReadAllLines(FilePathTuple.reservationHistoryPath);
             Assert.IsFalse(lines.Contains(reservationDetails));
         }
         finally
         {
             // Clean up by restoring original content
-            File.WriteAllLines(reservationHistoryPath, originalLines);
+            File.WriteAllLines(FilePathTuple.reservationHistoryPath, originalLines);
         }
     }
 
@@ -328,7 +332,7 @@ public class UnitTest1
     public void SaveMenuToJson_ShouldAppendMenuToJsonFile_WhenDataIsValid()
     {
         // Step 1: Read and store the original content
-        var originalContent = File.Exists(cateringMenuPath) ? File.ReadAllText(cateringMenuPath) : string.Empty;
+        var originalContent = File.Exists(FilePathTuple.cateringMenuPath) ? File.ReadAllText(FilePathTuple.cateringMenuPath) : string.Empty;
 
         var newMenuItems = new List<Dictionary<string, object>>
     {
@@ -351,13 +355,13 @@ public class UnitTest1
         try
         {
             // Step 2: Append new items to the existing menu
-            var existingMenu = File.Exists(cateringMenuPath) ? JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(originalContent) : new List<Dictionary<string, object>>();
+            var existingMenu = File.Exists(FilePathTuple.cateringMenuPath) ? JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(originalContent) : new List<Dictionary<string, object>>();
             existingMenu.AddRange(newMenuItems);
 
-            CateringAccess.SaveMenuToJson(existingMenu, cateringMenuPath);
+            CateringAccess.SaveMenuToJson(existingMenu, FilePathTuple.cateringMenuPath);
 
             // Step 3: Verify the new items have been added correctly
-            string updatedContent = File.ReadAllText(cateringMenuPath);
+            string updatedContent = File.ReadAllText(FilePathTuple.cateringMenuPath);
             var deserializedMenu = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(updatedContent);
 
             Assert.IsNotNull(deserializedMenu);
@@ -377,11 +381,11 @@ public class UnitTest1
             // Step 4: Restore the original content
             if (!string.IsNullOrEmpty(originalContent))
             {
-                File.WriteAllText(cateringMenuPath, originalContent);
+                File.WriteAllText(FilePathTuple.cateringMenuPath, originalContent);
             }
             else
             {
-                File.Delete(cateringMenuPath);
+                File.Delete(FilePathTuple.cateringMenuPath);
             }
         }
     }
