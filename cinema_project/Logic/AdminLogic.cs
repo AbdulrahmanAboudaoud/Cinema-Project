@@ -3,6 +3,7 @@
 public static class AdminLogic
 {
     static private MoviesLogic movieManager = new MoviesLogic();
+    static private RulesLogic rulesManager = new RulesLogic();
 
     public static void DisplayAllReservations()
     {
@@ -60,7 +61,7 @@ public static class AdminLogic
         string genre = Console.ReadLine();
 
         Movie newMovie = new Movie(title, year, genre);
-        movieManager.AddMovie(newMovie);
+        movieManager.AddItem(newMovie);
         Console.WriteLine("Movie added successfully.");
     }
 
@@ -81,7 +82,7 @@ public static class AdminLogic
     {
         Console.WriteLine("Enter new rule:");
         string NewRule = Console.ReadLine();
-        RulesLogic.AddRule(NewRule);
+        rulesManager.AddItem<string>(NewRule);
     }
 
     public static void RemoveRule()

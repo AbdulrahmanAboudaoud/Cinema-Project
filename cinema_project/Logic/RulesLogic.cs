@@ -1,4 +1,4 @@
-﻿public class RulesLogic
+﻿public class RulesLogic : IAdd
 {
     public static void ViewAllRules()
     {
@@ -38,12 +38,19 @@
         RulesAccess.WriteRulesToCSV(Rules, RulesAccess.RulesCSVFile);
     }
 
-    public static void AddRule(string NewRule)
+    public void AddItem<T>(T item)
     {
-        List<string> Rules = RulesAccess.ReadRulesFromCSV(RulesAccess.RulesCSVFile);
-        Rules.Add(NewRule);
-        RulesAccess.WriteRulesToCSV(Rules, RulesAccess.RulesCSVFile);
-        Console.WriteLine("Rule successfully added.");
+        if (item is string NewRule)
+        {
+            List<string> Rules = RulesAccess.ReadRulesFromCSV(RulesAccess.RulesCSVFile);
+            Rules.Add(NewRule);
+            RulesAccess.WriteRulesToCSV(Rules, RulesAccess.RulesCSVFile);
+            Console.WriteLine("Rule successfully added.");
+        }
+        else
+        {
+            Console.WriteLine("Invalid type for AddItem in RulesLogic. Expected type is string.");
+        }
     }
 
     public static void RemoveRule(int RuleNumber)

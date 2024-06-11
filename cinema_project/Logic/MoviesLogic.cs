@@ -1,12 +1,19 @@
-﻿public class MoviesLogic
+﻿public class MoviesLogic : IAdd
 {
 
-    public void AddMovie(Movie movie)
+    public void AddItem<T>(T item)
     {
-        List<Movie> movies = MovieAccess.GetAllMovies();
-        movies.Add(movie);
-        MovieAccess.WriteMoviesToCSV(movies);
-        Console.WriteLine("Movie added successfully.");
+        if (item is Movie movie)
+        {
+            List<Movie> movies = MovieAccess.GetAllMovies();
+            movies.Add(movie);
+            MovieAccess.WriteMoviesToCSV(movies);
+            Console.WriteLine("Movie added successfully.");
+        }
+        else
+        {
+            throw new ArgumentException("Item must be of type Movie.");
+        }
     }
 
     public static void EditTitleMovie(string oldTitle, string newTitle)
