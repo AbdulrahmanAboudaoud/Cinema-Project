@@ -23,7 +23,7 @@
         if (movieToEdit != null)
         {
             movieToEdit.movieTitle = newTitle;
-            MovieAccess.WriteMoviesToCSV(movies.ToList());
+            MovieAccess.WriteMoviesToCSV(movies);
             Console.WriteLine("Title edited successfully.");
         }
         else
@@ -39,7 +39,7 @@
         if (movieToEdit != null)
         {
             movieToEdit.Year = newYear;
-            MovieAccess.WriteMoviesToCSV(movies.ToList());
+            MovieAccess.WriteMoviesToCSV(movies);
             Console.WriteLine("Year edited successfully.");
         }
         else
@@ -55,7 +55,7 @@
         if (movieToEdit != null)
         {
             movieToEdit.Genre = newGenre;
-            MovieAccess.WriteMoviesToCSV(movies.ToList());
+            MovieAccess.WriteMoviesToCSV(movies);
             Console.WriteLine("Genre edited successfully.");
         }
         else
