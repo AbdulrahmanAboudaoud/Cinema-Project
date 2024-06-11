@@ -1,4 +1,4 @@
-﻿public class RulesLogic : IAdd
+﻿public class RulesLogic : IItem
 {
     public static void ViewAllRules()
     {
@@ -53,12 +53,27 @@
         }
     }
 
-    public static void RemoveRule(int RuleNumber)
+    public bool RemoveItem<T>(T item)
     {
-        List<string> Rules = RulesAccess.ReadRulesFromCSV(RulesAccess.RulesCSVFile);
-        string RuleToRemove = Rules[RuleNumber - 1];
-        Rules.Remove(RuleToRemove);
-        RulesAccess.WriteRulesToCSV(Rules, RulesAccess.RulesCSVFile);
-        Console.WriteLine("Rule successfully removed.");
+        if (item is string rule)
+        {
+            List<string> Rules = RulesAccess.ReadRulesFromCSV(RulesAccess.RulesCSVFile);
+            if (Rules.Remove(rule))
+            {
+                RulesAccess.WriteRulesToCSV(Rules, RulesAccess.RulesCSVFile);
+                Console.WriteLine("Rule successfully removed.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Rule not found.");
+                return false;
+            }
+        }
+        else
+        {
+            throw new ArgumentException("Item must be of type string.");
+        }
     }
+
 }

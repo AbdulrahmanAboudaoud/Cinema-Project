@@ -1,4 +1,4 @@
-﻿public class MoviesLogic : IAdd
+﻿public class MoviesLogic : IItem
 {
 
     public void AddItem<T>(T item)
@@ -64,22 +64,43 @@
         }
     }
 
-    public bool RemoveMovie(string TitleToRemove)
+    public bool RemoveItem<T>(T item)
     {
-        List<Movie> movies = MovieAccess.GetAllMovies();
-
-        var movieToRemove = movies.FirstOrDefault(m => m.movieTitle.Equals(TitleToRemove, StringComparison.OrdinalIgnoreCase));
-        if (movieToRemove != null)
+        if (item is Movie movie)
         {
-            movies.Remove(movieToRemove);
-            MovieAccess.WriteMoviesToCSV(movies);
-            Console.WriteLine("Movie removed successfully");
-            return true;
+            List<Movie> movies = MovieAccess.GetAllMovies();
+            if (movies.Remove(movie))
+            {
+                MovieAccess.WriteMoviesToCSV(movies);
+                Console.WriteLine("Movie successfully removed.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Movie not found.");
+                return false;
+            }
+        }
+        else if (item is string title)
+        {
+            List<Movie> movies = MovieAccess.GetAllMovies();
+            var movieToRemove = movies.FirstOrDefault(m => m.movieTitle.Equals(title, StringComparison.OrdinalIgnoreCase));
+            if (movieToRemove != null)
+            {
+                movies.Remove(movieToRemove);
+                MovieAccess.WriteMoviesToCSV(movies);
+                Console.WriteLine("Movie successfully removed.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Movie not found.");
+                return false;
+            }
         }
         else
         {
-            Console.WriteLine("Movie not found.");
-            return false;
+            throw new ArgumentException("Item must be of type Movie or string.");
         }
     }
 

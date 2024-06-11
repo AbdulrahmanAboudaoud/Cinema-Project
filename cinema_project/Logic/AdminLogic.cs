@@ -19,7 +19,7 @@ public static class AdminLogic
         Console.WriteLine("Enter the title of the movie you want to remove:");
         string titleToRemove = Console.ReadLine();
 
-        bool removed = movieManager.RemoveMovie(titleToRemove);
+        bool removed = movieManager.RemoveItem<string>(titleToRemove);
         if (removed)
         {
             Console.WriteLine($"Movie '{titleToRemove}' removed successfully.");
@@ -90,13 +90,34 @@ public static class AdminLogic
         RulesLogic.ViewAllRules();
         Console.WriteLine();
         Console.WriteLine("Which rule would you like to remove? (Insert rule number)");
+
         if (!int.TryParse(Console.ReadLine(), out int RuleNumber))
         {
             Console.WriteLine("Invalid input for rule number. Please enter a valid integer.");
             return;
         }
-        RulesLogic.RemoveRule(RuleNumber);
+
+        List<string> Rules = RulesAccess.ReadRulesFromCSV(RulesAccess.RulesCSVFile);
+
+        if (RuleNumber < 1 || RuleNumber > Rules.Count)
+        {
+            Console.WriteLine("Invalid rule number. Please enter a number within the range of the rules list.");
+            return;
+        }
+
+        string RuleToRemove = Rules[RuleNumber - 1];
+        RulesLogic rulesManager = new RulesLogic();
+
+        if (rulesManager.RemoveItem(RuleToRemove))
+        {
+            Console.WriteLine("Rule removed successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Failed to remove the rule.");
+        }
     }
+
 
 
 
