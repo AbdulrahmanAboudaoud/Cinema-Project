@@ -1,32 +1,33 @@
-﻿static class UserLogin
+﻿public static class UserLogin
 {
-    public static User Start()
+    public static void Start()
     {
-        Console.Clear();
-        Console.WriteLine("Welcome to the login page");
-        Console.WriteLine("Please enter your username");
+        Console.WriteLine("Login");
+
+        Console.WriteLine("Enter username:");
         string username = Console.ReadLine();
-        Console.WriteLine("Please enter your password");
+
+        Console.WriteLine("Enter password:");
         string password = Console.ReadLine();
-        User loggedInUser = UserLogic.Login(username, password);
-        if (loggedInUser != null)
+
+        User user = UserLogic.Login(username, password);
+
+        if (user == null)
         {
-            Console.WriteLine($"Welcome {loggedInUser.Username}!");
-            if (loggedInUser.Role == "admin")
-            {
-                AdminMenu.Start(ref loggedInUser);
-            }
-            else
-            {
-                UserMenu.Start(ref loggedInUser);
-            }
-            return loggedInUser; // Return the logged-in user
+            Console.WriteLine("Invalid username or password.");
+            Start();
         }
         else
         {
-            Console.WriteLine("Login failed. Invalid username or password.");
-            return null; // Return null if login failed
+            Console.WriteLine($"Welcome, {user.Username}!");
+            if (user is Admin)
+            {
+                AdminMenu.Start(ref user);
+            }
+            else if (user is Customer)
+            {
+                UserMenu.Start(ref user);
+            }
         }
-
     }
 }

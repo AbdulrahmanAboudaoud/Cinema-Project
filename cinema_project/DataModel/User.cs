@@ -1,10 +1,10 @@
-﻿public class User
+﻿public abstract class User
 {
-    public string Username;
-    public string Password;
-    public string Role;
+    public string Username { get; }
+    public string Password { get; }
+    public string Role { get; }
 
-    public User(string username, string password, string role)
+    protected User(string username, string password, string role)
     {
         Username = username;
         Password = password;

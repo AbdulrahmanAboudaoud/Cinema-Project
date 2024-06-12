@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 public static class UserAccess
 {
-    private static string connectionString = "Data Source=localhost;Initial Catalog=cinema_db;User ID=sa;Password=123456;";
+    public static string connectionString = "Data Source=ABDULRAHMAN;Initial Catalog=cinema_project;User ID=sa;Password=q1w2e3r4t5;";
 
     public static SqlConnection OpenConnection()
     {
@@ -121,7 +121,14 @@ public static class UserAccess
                         string username = reader.GetString(0);
                         string role = reader.GetString(1);
 
-                        users.Add(new User(username, "", role));
+                        if (role == "admin")
+                        {
+                            users.Add(new Admin(username, ""));
+                        }
+                        else if (role == "customer")
+                        {
+                            users.Add(new Customer(username, ""));
+                        }
                     }
                 }
             }
@@ -129,6 +136,7 @@ public static class UserAccess
 
         return users;
     }
+
 
     public static User Login(string username, string password)
     {
@@ -147,8 +155,14 @@ public static class UserAccess
                     {
                         reader.Read();
                         string role = reader.GetString(0);
-
-                        return new User(username, password, role);
+                        if (role == "admin")
+                        {
+                            return new Admin(username, password);
+                        }
+                        else
+                        {
+                            return new Customer(username, password);
+                        }
                     }
                     else
                     {
@@ -273,7 +287,6 @@ public static class UserAccess
         using (SqlConnection connection = OpenConnection())
         {
             string query = "SELECT COUNT(*) FROM users WHERE user_name = @username";
-
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@username", username);
@@ -288,7 +301,6 @@ public static class UserAccess
         using (SqlConnection connection = OpenConnection())
         {
             string query = "SELECT COUNT(*) FROM users WHERE email = @Email";
-
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@Email", email);
@@ -303,7 +315,6 @@ public static class UserAccess
         using (SqlConnection connection = OpenConnection())
         {
             string query = "SELECT COUNT(*) FROM users WHERE phone_number = @phoneNumber";
-
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
@@ -312,7 +323,5 @@ public static class UserAccess
             }
         }
     }
-
-
-
 }
+
