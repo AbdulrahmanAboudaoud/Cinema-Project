@@ -7,9 +7,9 @@ using System.IO;
 
 public static class MovieScheduleAccess
 {
-    //static public string MovieScheduleFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
+    static public string MovieScheduleFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
     //static public string MovieScheduleFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
-    static public string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
+    //static public string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
 
     public static void PrintMoviesWithAuditoriumAndDates()
     {
@@ -130,6 +130,27 @@ public static class MovieScheduleAccess
         {
             Console.WriteLine("No outdated movie screenings found.");
         }
+    }
+
+    public static bool HasConflict(string movieTitle, DateTime displayTime, string auditorium)
+    {
+        List<Dictionary<string, string>> movieSchedule = GetMovieSchedule();
+
+        foreach (var movieScreening in movieSchedule)
+        {
+            string existingTitle = movieScreening["movieTitle"];
+            DateTime existingDisplayTime = DateTime.ParseExact(movieScreening["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
+            string existingAuditorium = movieScreening["auditorium"];
+
+            if (existingTitle.Equals(movieTitle, StringComparison.OrdinalIgnoreCase) &&
+                existingAuditorium.Equals(auditorium, StringComparison.OrdinalIgnoreCase) &&
+                Math.Abs((existingDisplayTime - displayTime).TotalHours) < 4)
+            {
+                return true; // Conflict found
+            }
+        }
+
+        return false; // No conflict
     }
 
 }

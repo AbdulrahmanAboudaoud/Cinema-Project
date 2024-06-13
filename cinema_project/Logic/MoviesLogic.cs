@@ -106,6 +106,12 @@
 
     public static void AddTimeAndAuditorium(string movieTitle, DateTime displayDate, string auditorium)
     {
+        if (MovieScheduleAccess.HasConflict(movieTitle, displayDate, auditorium))
+        {
+            Console.WriteLine("Conflict: Another movie screening exists in the same auditorium within 4 hours of this time.");
+            return;
+        }
+
         List<Movie> movies = MovieAccess.GetAllMovies();
         var movie = movies.FirstOrDefault(m => m.movieTitle.Equals(movieTitle, StringComparison.OrdinalIgnoreCase));
         if (movie != null)
