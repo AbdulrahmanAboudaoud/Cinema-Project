@@ -4,10 +4,11 @@
     {
         bool exitRequested = false;
         Console.Clear();
+
         while (!exitRequested)
         {
             Console.WriteLine();
-            CenterText.print($"Welcome to the Cinema Application, {loggedInUser.Username}", "Cyan");
+            CenterText.print($"Welcome to the Cinema Application, {loggedInUser?.Username}", "Cyan");
             CenterText.printart(TextArt.welcomescreen());
             CenterText.print("=================================", "Cyan");
             CenterText.print("||                             ||", "Cyan");
@@ -42,10 +43,6 @@
                 case '3':
                     Console.Clear();
                     ViewMovies();
-                    Console.WriteLine("\nPress any key to continu....");
-                    Console.ReadKey();
-                    Console.Clear();
-                    Start(ref loggedInUser);
                     break;
                 case '4':
                     Console.Clear();
@@ -65,9 +62,8 @@
                     break;
                 case '8':
                     Console.Clear();
-                    exitRequested = true;
                     Logout(ref loggedInUser);
-                    //exitRequested = true;
+                    exitRequested = true; // Set exitRequested after logout
                     break;
                 default:
                     Console.WriteLine("Invalid option. Please select again.");
@@ -75,6 +71,7 @@
             }
         }
     }
+
 
 
     private static void SearchMovies(ref User loggedInUser)
@@ -114,7 +111,6 @@
                 case '4':
                     Console.Clear();
                     exitRequested = true;
-                    Start(ref loggedInUser);
                     break;
                 default:
                     Console.WriteLine("Invalid option.");
