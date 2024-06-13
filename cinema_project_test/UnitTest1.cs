@@ -62,12 +62,12 @@ public class UnitTest1
         string username = "customer";
         string password = "customer";
 
-        User result = UserAccess.Login(username, password);
+        var result = UserAccess.Login(username, password);
 
         Assert.IsNotNull(result);
         Assert.AreEqual(username, result.Username);
         Assert.AreEqual(password, result.Password);
-        Assert.AreEqual("user", result.Role);
+        Assert.IsTrue(result is Customer);
     }
 
     // Testing Login with wrong Credentials.
@@ -77,7 +77,7 @@ public class UnitTest1
         string username = "wrongUsername";
         string password = "wrongPassword";
 
-        User result = UserAccess.Login(username, password);
+        var result = UserAccess.Login(username, password);
 
         Assert.IsNull(result);
     }

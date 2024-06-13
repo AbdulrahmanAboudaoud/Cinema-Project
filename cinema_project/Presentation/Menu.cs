@@ -15,6 +15,7 @@
         char input = Console.ReadKey().KeyChar;
         if (input == '1')
         {
+            Console.WriteLine();
             User loggedInUser = UserLogin.Start();
             if (loggedInUser != null)
             {

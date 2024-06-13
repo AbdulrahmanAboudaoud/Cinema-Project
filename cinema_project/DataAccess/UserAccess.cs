@@ -125,7 +125,7 @@ public static class UserAccess
                         {
                             users.Add(new Admin(username, ""));
                         }
-                        else if (role == "customer")
+                        else if (role == "user")
                         {
                             users.Add(new Customer(username, ""));
                         }

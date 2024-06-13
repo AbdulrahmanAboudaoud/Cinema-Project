@@ -1,6 +1,6 @@
 ﻿public static class UserLogin
 {
-    public static void Start()
+    public static User Start()
     {
         Console.WriteLine("Login");
 
@@ -14,8 +14,9 @@
 
         if (user == null)
         {
+            Console.Clear();
             Console.WriteLine("Invalid username or password.");
-            Start();
+            return null;
         }
         else
         {
@@ -28,6 +29,7 @@
             {
                 UserMenu.Start(ref user);
             }
+            return user; 
         }
     }
 }
