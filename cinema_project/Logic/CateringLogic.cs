@@ -50,6 +50,18 @@
         int num = 0;
         List<Dictionary<string, object>> items = CateringAccess.LoadMenuFromJson(filePath);
         SortItems();
+
+        Console.WriteLine(new string('=', 70));
+
+        if (choice != "all")
+        {
+            Console.WriteLine("Category: {0}", choice);
+            Console.WriteLine(new string('=', 70));
+        }
+
+        Console.WriteLine("{0,-5} | {1,-20} | {2,-10} | {3,-10}", "No.", "Product", "Size", "Price");
+        Console.WriteLine(new string('=', 70));
+
         foreach (var item in items)
         {
             SortItems();
@@ -59,18 +71,20 @@
             CateringItem.Size = (string)item["size"];
             CateringItem.Price = Convert.ToDouble(item["price"]);
 
-            if (CateringItem.Category == choice)
+            if (CateringItem.Category == choice || choice == "all")
             {
                 num++;
-                Console.WriteLine($"{num}. Product: {CateringItem.Product} Size: {CateringItem.Size} Price: {CateringItem.Price} euro's");
-            }
-            else if (choice == "all")
-            {
-                num++;
-                Console.WriteLine($"{num}. Product: {CateringItem.Product} Product ID: {CateringItem.Food_ID}, Size: {CateringItem.Size} Price: {CateringItem.Price} euro's");
+                Console.WriteLine("{0,-5} | {1,-20} | {2,-10} | {3,-10} euro",
+                    num,
+                    CateringItem.Product,
+                    CateringItem.Size,
+                    CateringItem.Price);
+                Console.WriteLine(new string('-', 70));
             }
         }
-        Console.WriteLine("");
+
+        Console.WriteLine(new string('=', 70));
+        Console.WriteLine();
     }
 
     public static void AddCateringItem()

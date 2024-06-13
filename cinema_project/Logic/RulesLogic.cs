@@ -2,23 +2,30 @@
 {
     public static void ViewAllRules()
     {
-        List<string> Rules = new List<string>();
-        Rules = RulesAccess.ReadRulesFromCSV(RulesAccess.RulesCSVFile);
-        int RuleNumber = 1;
-        foreach (string Rule in Rules)
+        List<string> Rules = RulesAccess.ReadRulesFromCSV(RulesAccess.RulesCSVFile);
+
+        if (Rules.Count > 0)
         {
-            if (RuleNumber == 1)
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine(new string(' ', 28 )+"List of Rules:");
+            Console.WriteLine(new string('=', 70));
+            Console.WriteLine();
+
+            for (int i = 0; i < Rules.Count; i++)
             {
-                Console.WriteLine("\n");
+                Console.WriteLine($"Rule {i + 1}: {Rules[i]}");
+                Console.WriteLine(new string('-', 70));
             }
-            Console.WriteLine($"Rule {RuleNumber}: {Rule}");
-            RuleNumber++;
-            if (RuleNumber > Rules.Count)
-            {
-                Console.WriteLine("\n");
-            }
+            Console.WriteLine();
+            Console.WriteLine(new string('=', 70));
+        }
+        else
+        {
+            Console.WriteLine("No rules found.");
         }
     }
+
 
     public static void EditRules(int RuleNumber)
     {

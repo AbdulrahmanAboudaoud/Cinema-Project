@@ -234,11 +234,15 @@ public static class ReservationLogic
         if (userReservations.Count > 0)
         {
             Console.WriteLine("Select a reservation to cancel:");
+            Console.WriteLine();
+            Console.WriteLine("{0,-4} {1,-40} {2,-25} {3,-20} {4,-15}", "No.", "Movie Title", "Date", "Auditorium", "Seat");
+            Console.WriteLine(new string('-', 100));
             for (int i = 0; i < userReservations.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {userReservations[i].MovieTitle} - {userReservations[i].Date} - {userReservations[i].Auditorium} - {userReservations[i].SeatNumber}");
+                Console.WriteLine($"{i + 1,-4} {userReservations[i].MovieTitle,-40} {userReservations[i].Date,-25} {userReservations[i].Auditorium,-20} {userReservations[i].SeatNumber,-15}");
+                Console.WriteLine(new string('-', 100));
             }
-
+            Console.WriteLine();
             Console.Write("Enter the number of the reservation to cancel: ");
             if (int.TryParse(Console.ReadLine(), out int selection) && selection > 0 && selection <= userReservations.Count)
             {
@@ -259,7 +263,6 @@ public static class ReservationLogic
         }
     }
 
-
     public static void EditReservation(string username)
     {
         List<Reservation> userReservations = ReservationAccess.LoadReservationHistory(username);
@@ -267,11 +270,15 @@ public static class ReservationLogic
         if (userReservations.Count > 0)
         {
             Console.WriteLine("Select a reservation to edit:");
+            Console.WriteLine();
+            Console.WriteLine("{0,-4} {1,-40} {2,-25} {3,-20} {4,-15}", "No.", "Movie Title", "Date", "Auditorium", "Seat");
+            Console.WriteLine(new string('-', 100));
             for (int i = 0; i < userReservations.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {userReservations[i].MovieTitle} - {userReservations[i].Date} - {userReservations[i].Auditorium} - {userReservations[i].SeatNumber}");
+                Console.WriteLine($"{i + 1,-4} {userReservations[i].MovieTitle,-40} {userReservations[i].Date,-25} {userReservations[i].Auditorium,-20} {userReservations[i].SeatNumber,-15}");
+                Console.WriteLine(new string('-', 100));
             }
-
+            Console.WriteLine();
             Console.Write("Enter the number of the reservation to edit: ");
             if (int.TryParse(Console.ReadLine(), out int selection) && selection > 0 && selection <= userReservations.Count)
             {
@@ -302,6 +309,4 @@ public static class ReservationLogic
             Console.WriteLine("No reservations found for this user.");
         }
     }
-
-    
 }

@@ -125,11 +125,16 @@
 
         Console.Clear();
         Console.WriteLine("Your current information:");
-        Console.WriteLine($"Username: {userData.UserName}");
-        Console.WriteLine($"Password: {userData.Password}");
-        Console.WriteLine($"Name: {userData.Name}");
-        Console.WriteLine($"Email: {userData.Email}");
-        Console.WriteLine($"Phone Number: {userData.PhoneNumber}");
+        Console.WriteLine(new string('-', 50));
+        Console.WriteLine("{0,-20} | {1,-30}", "Field", "Value");
+        Console.WriteLine(new string('-', 50));
+        Console.WriteLine("{0,-20} | {1,-30}", "Username", userData.UserName);
+        Console.WriteLine("{0,-20} | {1,-30}", "Password", userData.Password);
+        Console.WriteLine("{0,-20} | {1,-30}", "Name", userData.Name);
+        Console.WriteLine("{0,-20} | {1,-30}", "Email", userData.Email);
+        Console.WriteLine("{0,-20} | {1,-30}", "Phone Number", userData.PhoneNumber);
+        Console.WriteLine(new string('-', 50));
+        Console.WriteLine();
 
         CenterText.print(" ============================================", "Cyan");
         CenterText.print(" ||                                        ||", "Cyan");
@@ -143,22 +148,25 @@
     }
 
 
-   
+
 
     public static void ViewMovies()
     {
         List<Movie> movies = MovieAccess.GetAllMovies();
 
-        Console.WriteLine("\nAvailable Movies:");
+        Console.WriteLine(new string(' ', 40) +"Available Movies:");
+        Console.WriteLine(" " + new string('-', 98)); // Top border
+
+        Console.WriteLine("| {0,-60} | {1,-10} | {2,-20} |", "Title", "Year", "Genre"); // Table headers
+        Console.WriteLine("|{0}|{1}|{2}|", new string('-', 62), new string('-', 12), new string('-', 22)); // Header separator
         foreach (var movie in movies)
         {
-            Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
+            Console.WriteLine("| {0,-60} | {1,-10} | {2,-20} |", movie.movieTitle, movie.Year, movie.Genre); // Movie details
         }
+        Console.WriteLine(" " + new string('-', 98)); // Bottom border
         Console.WriteLine();
-        /*Console.WriteLine("Press any key to continue..");
-        Console.ReadKey();
-        Console.Clear();*/
     }
+
 
     private static void Logout(ref User loggedInUser)
     {

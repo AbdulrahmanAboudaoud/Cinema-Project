@@ -1,5 +1,4 @@
-﻿
-public static class ReservationHistory
+﻿public static class ReservationHistory
 {
     public static void DisplayReservationHistory(string username, List<Reservation> reservations)
     {
@@ -9,9 +8,16 @@ public static class ReservationHistory
             {
                 Console.WriteLine($"Reservation History for {username}:");
             }
+
+            Console.WriteLine();
+            Console.WriteLine(new string('-', 100));
+            Console.WriteLine("{0,-30} {1,-30} {2,-20} {3,-20}", "Movie", "Date", "Auditorium", "Seat");
+            Console.WriteLine(new string('-', 100));
+
             foreach (var reservation in reservations)
             {
-                Console.WriteLine($"Movie: {reservation.MovieTitle}, Date: {reservation.Date}, Auditorium: {reservation.Auditorium}, Seat: {reservation.SeatNumber}");
+                Console.WriteLine("{0,-30} {1,-30} {2,-20} {3,-20}", reservation.MovieTitle, reservation.Date, reservation.Auditorium, reservation.SeatNumber);
+                Console.WriteLine(new string('-', 100));
             }
         }
         else

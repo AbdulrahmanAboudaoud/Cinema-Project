@@ -13,11 +13,15 @@ public static class MovieScheduleAccess
 
     public static void PrintMoviesWithAuditoriumAndDates()
     {
-
         string jsonData = File.ReadAllText(MovieScheduleFilePath);
         JArray movieSchedule = JArray.Parse(jsonData);
 
         Console.WriteLine("Available Movies with Auditorium and Dates:");
+        Console.WriteLine();
+
+        Console.WriteLine(new string('-', 90));
+        Console.WriteLine("{0,-40} | {1,-25} | {2,-25}", "Movie Title", "Date", "Auditorium");
+        Console.WriteLine(new string('-', 90));
 
         foreach (JObject movie in movieSchedule)
         {
@@ -25,9 +29,14 @@ public static class MovieScheduleAccess
             string displayDate = DateTime.Parse(movie["displayTime"].ToString()).ToString("yyyy-MM-dd HH:mm");
             string auditorium = movie["auditorium"].ToString();
 
-            Console.WriteLine($"Movie: {movieTitle}, Date: {displayDate}, Auditorium: {auditorium}");
+            Console.WriteLine("{0,-40} | {1,-25} | {2,-25}", movieTitle, displayDate, auditorium);
         }
+
+        Console.WriteLine(new string('-', 90));
+        Console.WriteLine();
     }
+
+
 
     public static List<Dictionary<string, string>> GetMovieSchedule()
     {

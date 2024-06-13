@@ -15,12 +15,19 @@ static class SearchLogic
         if (filteredMovies.Count > 0)
         {
             Console.WriteLine("\nSearch Results:");
+            Console.WriteLine(new string('-', 90));
+            Console.WriteLine("{0,-40} | {1,-10} | {2,-20}", "Title", "Year", "Genre");
+            Console.WriteLine(new string('-', 90));
             foreach (var movie in filteredMovies)
             {
-                Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
+                Console.WriteLine("{0,-40} | {1,-10} | {2,-20}", movie.movieTitle, movie.Year, movie.Genre);
+                Console.WriteLine(new string('-', 90));
             }
 
             Console.WriteLine("\nAvailable screenings for this movie:");
+            Console.WriteLine(new string('-', 90));
+            Console.WriteLine("{0,-5} | {1,-40} | {2,-20} | {3,-20}", "No.", "Title", "Time", "Auditorium");
+            Console.WriteLine(new string('-', 90));
             int ScreeningNumber = 1;
             foreach (var screening in movieSchedule)
             {
@@ -28,7 +35,8 @@ static class SearchLogic
                 {
                     if (DateTime.TryParseExact(screening["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime))
                     {
-                        Console.WriteLine($"{ScreeningNumber} - {screening["movieTitle"]} at {displayTime:yyyy-MM-dd HH:mm} in {screening["auditorium"]}");
+                        Console.WriteLine("{0,-5} | {1,-40} | {2,-20} | {3,-20}", ScreeningNumber, screening["movieTitle"], displayTime.ToString("yyyy-MM-dd HH:mm"), screening["auditorium"]);
+                        Console.WriteLine(new string('-', 90));
                         ScreeningNumber++;
                     }
                     else
@@ -36,12 +44,8 @@ static class SearchLogic
                         Console.WriteLine($"Error parsing display time for movie: {screening["movieTitle"]}");
                     }
                 }
-                else
-                {
-                    Console.WriteLine("No screenings found for this movie.");
-                }
             }
-            Console.WriteLine("\nWould like to make a reservation? (Y/N)");
+            Console.WriteLine("\nWould you like to make a reservation? (Y/N)");
             string choice = Console.ReadLine();
             if (choice == "Y" || choice == "y")
             {
@@ -89,22 +93,30 @@ static class SearchLogic
         if (filteredMovies.Count > 0)
         {
             Console.WriteLine("\nSearch Results:");
+            Console.WriteLine(new string('-', 90));
+            Console.WriteLine("{0,-40} | {1,-10} | {2,-20}", "Title", "Year", "Genre");
+            Console.WriteLine(new string('-', 90));
             foreach (var movie in filteredMovies)
             {
-                Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
+                Console.WriteLine("{0,-40} | {1,-10} | {2,-20}", movie.movieTitle, movie.Year, movie.Genre);
+                Console.WriteLine(new string('-', 90));
             }
 
             Console.WriteLine("\nAvailable screenings for this movie:");
+            Console.WriteLine(new string('-', 90));
+            Console.WriteLine("{0,-5} | {1,-40} | {2,-20} | {3,-20}", "No.", "Title", "Time", "Auditorium");
+            Console.WriteLine(new string('-', 90));
             int ScreeningNumber = 1;
             bool screeningsFound = false;
             foreach (var screening in movieSchedule)
             {
-                if (screening["movieTitle"] == title)
+                if (screening["movieTitle"].ToString().Equals(title, StringComparison.OrdinalIgnoreCase))
                 {
                     screeningsFound = true;
-                    if (DateTime.TryParseExact(screening["displayTime"], "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime))
+                    if (DateTime.TryParseExact(screening["displayTime"].ToString(), "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime displayTime))
                     {
-                        Console.WriteLine($"{ScreeningNumber} - {screening["movieTitle"]} at {displayTime:yyyy-MM-dd HH:mm} in {screening["auditorium"]}");
+                        Console.WriteLine("{0,-5} | {1,-40} | {2,-20} | {3,-20}", ScreeningNumber, screening["movieTitle"], displayTime.ToString("yyyy-MM-dd HH:mm"), screening["auditorium"]);
+                        Console.WriteLine(new string('-', 90));
                         ScreeningNumber++;
                     }
                     else
@@ -124,9 +136,6 @@ static class SearchLogic
         }
     }
 
-
-
-
     public static void SearchByYear()
     {
         Console.WriteLine("Enter the year:");
@@ -139,9 +148,13 @@ static class SearchLogic
             if (filteredMovies.Count > 0)
             {
                 Console.WriteLine("\nSearch Results:");
+                Console.WriteLine(new string('-', 90));
+                Console.WriteLine("{0,-40} | {1,-10} | {2,-20}", "Title", "Year", "Genre");
+                Console.WriteLine(new string('-', 90));
                 foreach (var movie in filteredMovies)
                 {
-                    Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
+                    Console.WriteLine("{0,-40} | {1,-10} | {2,-20}", movie.movieTitle, movie.Year, movie.Genre);
+                    Console.WriteLine(new string('-', 90));
                 }
             }
             else
@@ -154,7 +167,6 @@ static class SearchLogic
             Console.WriteLine("Invalid input for year.");
         }
     }
-
 
     public static void SearchByGenre()
     {
@@ -192,9 +204,13 @@ static class SearchLogic
             if (filteredMovies.Count > 0)
             {
                 Console.WriteLine("\nSearch Results:");
+                Console.WriteLine(new string('-', 90));
+                Console.WriteLine("{0,-40} | {1,-10} | {2,-20}", "Title", "Year", "Genre");
+                Console.WriteLine(new string('-', 90));
                 foreach (var movie in filteredMovies)
                 {
-                    Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
+                    Console.WriteLine("{0,-40} | {1,-10} | {2,-20}", movie.movieTitle, movie.Year, movie.Genre);
+                    Console.WriteLine(new string('-', 90));
                 }
             }
             else

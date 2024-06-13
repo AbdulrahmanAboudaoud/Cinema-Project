@@ -33,12 +33,17 @@ public static class AdminLogic
     public static void ViewMovies()
     {
         List<Movie> movies = MovieAccess.GetAllMovies();
+        Console.WriteLine();
+        Console.WriteLine(new string(' ', 40) + "Available Movies:");
+        Console.WriteLine(" " + new string('-', 98)); // Top border
 
-        Console.WriteLine("\nAvailable Movies:");
+        Console.WriteLine("| {0,-60} | {1,-10} | {2,-20} |", "Title", "Year", "Genre"); // Table headers
+        Console.WriteLine("|{0}|{1}|{2}|", new string('-', 62), new string('-', 12), new string('-', 22)); // Header separator
         foreach (var movie in movies)
         {
-            Console.WriteLine($"Title: {movie.movieTitle}, Year: {movie.Year}, Genre: {movie.Genre}");
+            Console.WriteLine("| {0,-60} | {1,-10} | {2,-20} |", movie.movieTitle, movie.Year, movie.Genre); // Movie details
         }
+        Console.WriteLine(" " + new string('-', 98)); // Bottom border
         Console.WriteLine();
     }
 
@@ -126,12 +131,20 @@ public static class AdminLogic
         List<User> users = UserAccess.GetAllUsers();
 
         Console.WriteLine("\nAll Users:");
+        Console.WriteLine();
+        Console.WriteLine(new string('-', 50));
+        Console.WriteLine("{0,-30} | {1,-15}", "Username", "Role");
+        Console.WriteLine(new string('-', 50));
+
         foreach (var user in users)
         {
-            Console.WriteLine($"Username: {user.Username}, Role: {user.Role}");
+            Console.WriteLine("{0,-30} | {1,-15}", user.Username, user.Role);
+            Console.WriteLine(new string('-', 50));
         }
+
         Console.WriteLine();
     }
+
 
     public static void AddTimeAndAuditoriumToMovie()
     {
@@ -200,12 +213,18 @@ public static class AdminLogic
         List<UserData> users = UserAccess.GetAllUserData();
 
         Console.WriteLine("All Users:");
+        Console.WriteLine();
+        Console.WriteLine(new string('-', 120));
+        Console.WriteLine("{0,-20} | {1,-20} | {2,-20} | {3,-30} | {4,-20}", "Username", "Name", "Password", "Email", "Phone Number");
+        Console.WriteLine(new string('-', 120));
+
         foreach (var user in users)
         {
-            Console.WriteLine($"Username: {user.UserName}, Name: {user.Name}, Password: {user.Password}, Email: {user.Email}, Phone Number: {user.PhoneNumber}");
+            Console.WriteLine("{0,-20} | {1,-20} | {2,-20} | {3,-30} | {4,-20}", user.UserName, user.Name, user.Password, user.Email, user.PhoneNumber);
         }
-    }
 
+        Console.WriteLine(new string('-', 120));
+    }
 
     public static void EditUserAccount()
     {
@@ -220,7 +239,9 @@ public static class AdminLogic
             return;
         }
 
-        Console.WriteLine($"Selected User: Username: {selectedUser.UserName}, Name: {selectedUser.Name}, Password: {selectedUser.Password} Email: {selectedUser.Email}, Phone Number: {selectedUser.PhoneNumber}");
+        Console.WriteLine($"Selected User:");
+        Console.WriteLine($"{selectedUser.UserName} | Name: {selectedUser.Name} |  Password: {selectedUser.Password} | Email: {selectedUser.Email} | Phone Number: {selectedUser.PhoneNumber}");
+        Console.WriteLine();
         Console.WriteLine("Which field do you want to edit?");
         Console.WriteLine("1. Username");
         Console.WriteLine("2. Password");
