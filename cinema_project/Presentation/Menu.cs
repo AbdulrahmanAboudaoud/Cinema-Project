@@ -19,7 +19,7 @@
             User loggedInUser = UserLogin.Start();
             if (loggedInUser != null)
             {
-                if (loggedInUser.Role == "admin")
+                if (loggedInUser is Admin) // if (user is Admin)
                 {
                     AdminMenu.Start(ref loggedInUser);
                 }
