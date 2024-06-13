@@ -186,6 +186,10 @@ static class AdminMenu
                 case '1':
                     Console.Clear();
                     AdminLogic.ViewMovies();
+                    Console.WriteLine("\nPress any key to continu....");
+                    Console.ReadKey();
+                    Console.Clear();
+                    MoviesInterface();
                     break;
                 case '2':
                     Console.Clear();

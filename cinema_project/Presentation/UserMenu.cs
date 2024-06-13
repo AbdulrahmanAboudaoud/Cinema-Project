@@ -42,6 +42,10 @@
                 case '3':
                     Console.Clear();
                     ViewMovies();
+                    Console.WriteLine("\nPress any key to continu....");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Start(ref loggedInUser);
                     break;
                 case '4':
                     Console.Clear();
@@ -165,6 +169,8 @@
         }
         Console.WriteLine(" " + new string('-', 98)); // Bottom border
         Console.WriteLine();
+
+        
     }
 
 
