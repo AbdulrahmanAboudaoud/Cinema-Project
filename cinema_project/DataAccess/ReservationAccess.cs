@@ -4,11 +4,8 @@ using System.IO;
 
 public static class ReservationAccess
 {
-    /*private const string reservationFilePath = @"C:\Users\Gebruiker\OneDrive - Hogeschool Rotterdam\Github\Cinema-Project\cinema_project\DataSources\ReservationHistory.csv";
-    private static string jsonFolderPath = @"C:\Users\Gebruiker\OneDrive - Hogeschool Rotterdam\Github\Cinema-Project\cinema_project\DataSources";*/
-
-    private const string reservationFilePath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\ReservationHistory.csv";
-    private static string jsonFolderPath = @"C:\Users\Joseph\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
+    private const string reservationFilePath = @"C:\Users\abdul\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\DataSources\ReservationHistory.csv";
+    private static string jsonFolderPath = @"C:\Users\abdul\OneDrive\Documents\GitHub\Cinema-Project\cinema_project\DataSources\";
 
     public static List<Reservation> LoadReservationHistory(string username)
     {

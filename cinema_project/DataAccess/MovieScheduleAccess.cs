@@ -7,9 +7,7 @@ using System.IO;
 
 public static class MovieScheduleAccess
 {
-    static public string MovieScheduleFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
-    //static public string MovieScheduleFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
-    //static public string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
+    static public string MovieScheduleFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\MovieSchedule.json";
 
     public static void PrintMoviesWithAuditoriumAndDates()
     {
@@ -63,11 +61,9 @@ public static class MovieScheduleAccess
     {
         try
         {
-            // Read the existing data
             string json = File.ReadAllText(MovieScheduleFilePath);
             var movieSchedule = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
 
-            // Add the new movie entry
             movieSchedule.Add(new Movie(movieTitle)
             {
                 filename = filename,
@@ -79,7 +75,6 @@ public static class MovieScheduleAccess
                 HandicapPrice = handiPrice
             });
 
-            // Write back to the file
             string updatedJson = JsonConvert.SerializeObject(movieSchedule, Formatting.Indented);
             File.WriteAllText(MovieScheduleFilePath, updatedJson);
 
@@ -146,11 +141,11 @@ public static class MovieScheduleAccess
                 existingAuditorium.Equals(auditorium, StringComparison.OrdinalIgnoreCase) &&
                 Math.Abs((existingDisplayTime - displayTime).TotalHours) < 4)
             {
-                return true; // Conflict found
+                return true;
             }
         }
 
-        return false; // No conflict
+        return false;
     }
 
 }

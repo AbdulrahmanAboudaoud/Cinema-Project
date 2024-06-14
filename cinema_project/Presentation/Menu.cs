@@ -30,7 +30,7 @@
             }
             else
             {
-                Start(); // Restart the menu if login failed
+                Start();
             }
         }
         else if (input == '2')
@@ -40,7 +40,6 @@
         }
         else if (input == '3')
         {
-            //Rules method call
             RulesLogic.ViewAllRules();
         }
         else if (input == '4')

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using System.Data.SqlClient;
+using System.Text.RegularExpressions;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text.RegularExpressions;
 
 public static class UserAccess
 {
-    public static string connectionString = "Data Source=ABDULRAHMAN;Initial Catalog=cinema_project;User ID=sa;Password=q1w2e3r4t5;";
+    public static string connectionString = "Data Source=localhost;Initial Catalog=cinema_db;User ID=sa;Password=123456;";
 
     public static SqlConnection OpenConnection()
     {

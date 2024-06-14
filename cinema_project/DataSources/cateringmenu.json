@@ -145,12 +145,5 @@
     "size": "Medium",
     "price": 40.0,
     "id": 21
-  },
-  {
-    "id": 22,
-    "product": "wiktor",
-    "category": "Food",
-    "size": "Large",
-    "price": 30.0
   }
 ]

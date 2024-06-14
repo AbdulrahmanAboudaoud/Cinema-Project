@@ -1,6 +1,6 @@
 ﻿public static class RulesAccess
 {
-    public const string RulesCSVFile = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cinemarules.csv";
+    public const string RulesCSVFile = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\cinemarules.csv";
     public static List<string> ReadRulesFromCSV(string RulesCSVFile)
     {
         List<string> rules = new List<string>();
@@ -40,6 +40,4 @@
             Console.WriteLine($"Error writing to CSV file: {ex.Message}");
         }
     }
-
-
 }

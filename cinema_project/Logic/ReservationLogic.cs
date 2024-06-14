@@ -293,7 +293,7 @@ public static class ReservationLogic
                 string oldSeatNumber = reservationToEdit.SeatNumber;
                 reservationToEdit.SeatNumber = newSeatNumber;
 
-                ReservationAccess.SaveReservationToCSV(username, reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, reservationToEdit.SeatNumber); // Provide the reservation date
+                ReservationAccess.SaveReservationToCSV(username, reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, reservationToEdit.SeatNumber);
 
                 AuditoriumsDataAccess.UpdateAuditoriumLayoutFile(reservationToEdit.MovieTitle, reservationToEdit.Date, reservationToEdit.Auditorium, oldSeatNumber, reservationToEdit.SeatNumber, true);
 

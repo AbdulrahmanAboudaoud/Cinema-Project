@@ -6,13 +6,9 @@ using System.Linq;
 
 public static class MovieAccess
 {
-    /*private const string MoviesFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
+    private const string MoviesFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
     private const string CinemaHallsFilePath = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\CinemaHalls.json";
     public const string DataSourcesFolder = "C:\\Users\\abdul\\OneDrive\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources";
-    /*private const string MoviesFilePath = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
-    public const string DataSourcesFolder = "C:\\Users\\Gebruiker\\OneDrive - Hogeschool Rotterdam\\Github\\Cinema-Project\\cinema_project\\DataSources";*/
-    private const string MoviesFilePath = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources\\movies.csv";
-    public const string DataSourcesFolder = "C:\\Users\\Joseph\\Documents\\GitHub\\Cinema-Project\\cinema_project\\DataSources";
 
     public static List<Movie> GetAllMovies()
     {
@@ -48,26 +44,6 @@ public static class MovieAccess
         return movies.Select(m => m.Genre).Distinct().ToList();
     }
 
-    /*public static void WriteMoviesToCSV(List<Movie> movies)
-    {
-        try
-        {
-            using (var writer = new StreamWriter(MoviesFilePath, false))
-            {
-                foreach (var movie in movies)
-                {
-                    string displayDate = movie.displayTime != default(DateTime) ? movie.displayTime.ToString("yyyy-MM-dd HH:mm") : "";
-
-                    writer.WriteLine($"{movie.movieTitle},{movie.Year},{movie.Genre},{displayDate},{movie.auditorium}");
-                }
-            }
-            //Console.WriteLine("Movies written to file successfully.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error writing movies to file: " + ex.Message);
-        }
-    }*/
     public static void WriteItemsToCSV<T>(IEnumerable<T> items, string filePath, Action<StreamWriter, T> writeAction)
     {
         try

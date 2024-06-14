@@ -35,15 +35,15 @@ public static class AdminLogic
         List<Movie> movies = MovieAccess.GetAllMovies();
         Console.WriteLine();
         Console.WriteLine(new string(' ', 40) + "Available Movies:");
-        Console.WriteLine(" " + new string('-', 98)); // Top border
+        Console.WriteLine(" " + new string('-', 98));
 
-        Console.WriteLine("| {0,-60} | {1,-10} | {2,-20} |", "Title", "Year", "Genre"); // Table headers
-        Console.WriteLine("|{0}|{1}|{2}|", new string('-', 62), new string('-', 12), new string('-', 22)); // Header separator
+        Console.WriteLine("| {0,-60} | {1,-10} | {2,-20} |", "Title", "Year", "Genre");
+        Console.WriteLine("|{0}|{1}|{2}|", new string('-', 62), new string('-', 12), new string('-', 22));
         foreach (var movie in movies)
         {
-            Console.WriteLine("| {0,-60} | {1,-10} | {2,-20} |", movie.movieTitle, movie.Year, movie.Genre); // Movie details
+            Console.WriteLine("| {0,-60} | {1,-10} | {2,-20} |", movie.movieTitle, movie.Year, movie.Genre);
         }
-        Console.WriteLine(" " + new string('-', 98)); // Bottom border
+        Console.WriteLine(" " + new string('-', 98));
         Console.WriteLine();
     }
 
